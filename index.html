@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeremy José Live González | Ingeniero de Software</title>
+    
+    <!-- Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@4.5.15/index.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/fira-code@4.5.12/index.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#64ffda',
+                        secondary: '#8892b0',
+                        dark: '#0a192f',
+                        light: '#ccd6f6',
+                        surface: '#112240',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a192f;
+            color: #8892b0;
+            overflow-x: hidden;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(to right, #64ffda, #57cbff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 255, 218, 0.4);
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background: #233554;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a192f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #233554;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64ffda;
+        }
+
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skill-tag {
+            transition: all 0.3s ease;
+        }
+        .skill-tag:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-dark">
+
+    <!-- Three.js Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-dark/80 border-b border-white/5" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-primary font-mono text-2xl font-bold tracking-tighter">&lt;Jeremy /&gt;</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="hover:text-primary transition-colors duration-300 font-mono text-sm">01. Sobre Mí</a>
+                        <a href="#experience" class="hover:text-primary transition-colors duration-300 font-mono text-sm">02. Experiencia</a>
+                        <a href="#education" class="hover:text-primary transition-colors duration-300 font-mono text-sm">03. Educación</a>
+                        <a href="#skills" class="hover:text-primary transition-colors duration-300 font-mono text-sm">04. Habilidades</a>
+                        <a href="#projects" class="hover:text-primary transition-colors duration-300 font-mono text-sm">05. Proyectos</a>
+                        <a href="#contact" class="px-4 py-2 border border-primary text-primary rounded hover:bg-primary/10 transition-all duration-300 font-mono text-sm">Contacto</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-surface absolute w-full border-b border-white/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">01. Sobre Mí</a>
+                <a href="#experience" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">02. Experiencia</a>
+                <a href="#education" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">03. Educación</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">04. Habilidades</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">05. Proyectos</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-white/5">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center pt-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="reveal active">
+                <p class="font-mono text-primary mb-5">Hola, mi nombre es</p>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-light mb-4">Jeremy José Live González<span class="text-primary">.</span></h1>
+                <h2 class="text-3xl md:text-5xl font-bold text-secondary mb-8">Ingeniero de Software Senior & Arquitecto de Soluciones</h2>
+                <p class="max-w-2xl text-lg mb-10 leading-relaxed">
+                    Especializado en desarrollo backend, arquitectura de microservicios, inteligencia artificial y soluciones cloud. 
+                    Con experiencia en Python, .NET, Node.js y tecnologías emergentes de IA generativa.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#projects" class="px-8 py-4 border border-primary text-primary rounded font-mono hover:bg-primary/10 transition-all">Ver Proyectos</a>
+                    <a href="#contact" class="px-8 py-4 bg-primary text-dark rounded font-mono hover:bg-primary/90 transition-all">Contáctame</a>
+                    <a href="#" class="px-8 py-4 border border-secondary text-secondary rounded font-mono hover:border-primary hover:text-primary transition-all"><i class="fab fa-linkedin mr-2"></i>LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-primary text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-dark/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal">
+                <div class="flex items-center mb-12">
+                    <span class="font-mono text-primary text-xl mr-2">01.</span>
+                    <h2 class="text-3xl font-bold text-light">Sobre Mí</h2>
+                    <div class="h-px bg-gray-700 flex-grow ml-6"></div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-12 items-center">
+                    <div class="md:col-span-2 space-y-6 text-lg">
+                        <p>
+                            ¡Hola! Soy Jeremy, Ingeniero de Software con sede en San José, Costa Rica. Mi pasión por la tecnología comenzó durante mis años universitarios y se ha convertido en una carrera dedicada a construir soluciones innovadoras y escalables.
+                        </p>
+                        <p>
+                            A lo largo de mi carrera, he tenido el privilegio de trabajar en diversos sectores incluyendo <span class="text-primary">salud</span>, <span class="text-primary">finanzas</span>, <span class="text-primary">telecomunicaciones</span> y <span class="text-primary">logística</span>. 
+                            Actualmente me enfoco en desarrollo de agentes de IA, arquitecturas multi-agente y soluciones cloud nativas.
+                        </p>
+                        <p>He liderado iniciativas de alfabetización digital en PANTEC (TEC, 2017-2019), fomentando la inclusión tecnológica en comunidades desatendidas.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div class="glass-card p-4 rounded-lg">
+                                <div class="text-primary text-3xl mb-2"><i class="fas fa-code"></i></div>
+                                <h4 class="text-light font-bold">8+ Años</h4>
+                                <p class="text-sm">Experiencia Profesional</p>
+                            </div>
+                            <div class="glass-card p-4 rounded-lg">
+                                <div class="text-primary text-3xl mb-2"><i class="fas fa-project-diagram"></i></div>
+                                <h4 class="text-light font-bold">50+</h4>
+                                <p class="text-sm">Proyectos Completados</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative group mx-auto md:mx-0">
+                        <div class="absolute inset-0 bg-primary rounded-lg transform translate-x-3 translate-y-3 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        <div class="relative bg-surface rounded-lg overflow-hidden border border-white/10 aspect-square flex items-center justify-center">
+                            <svg class="w-3/4 h-3/4" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="200" height="200" fill="#112240"/>
+                                <circle cx="100" cy="70" r="40" fill="#64ffda" opacity="0.8"/>
+                                <path d="M50 170 Q100 120 150 170" stroke="#64ffda" stroke-width="8" fill="none" opacity="0.8"/>
+                                <rect x="80" y="60" width="40" height="20" rx="10" fill="#0a192f"/>
+                                <circle cx="90" cy="70" r="5" fill="#0a192f"/>
+                                <circle cx="110" cy="70" r="5" fill="#0a192f"/>
+                                <text x="100" y="140" text-anchor="middle" fill="#64ffda" font-family="Fira Code" font-size="14" opacity="0.8">&lt;Dev/&gt;</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal">
+                <div class="flex items-center mb-12">
+                    <span class="font-mono text-primary text-xl mr-2">02.</span>
+                    <h2 class="text-3xl font-bold text-light">Experiencia Profesional</h2>
+                    <div class="h-px bg-gray-700 flex-grow ml-6"></div>
+                </div>
+
+                <div class="relative timeline-line pl-8 space-y-10">
+                    <!-- EtherOI -->
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
+                        <div class="glass-card p-6 rounded-lg">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                                <h3 class="text-xl font-bold text-light">Python GenAI Software Engineer & Deep Agents Integration</h3>
+                                <span class="font-mono text-sm text-primary mt-1 md:mt-0">Jun 2025 - Ene 2026</span>
+                            </div>
+                            <h4 class="text-lg text-secondary mb-2">EtherOI | Costa Rica</h4>
+                            <p class="text-sm mb-3">Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li class="bg-surface px-2 py-1 rounded">Python</li>
+                                <li class="bg-surface px-2 py-1 rounded">LangChain</li>
+                                <li class="bg-surface px-2 py-1 rounded">RAG</li>
+                                <li class="bg-surface px-2 py-1 rounded">TensorFlow</li>
+                                <li class="bg-surface px-2 py-1 rounded">PyTorch</li>
+                                <li class="bg-surface px-2 py-1 rounded">React/TypeScript</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Cobros CR -->
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
+                        <div class="glass-card p-6 rounded-lg">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                                <h3 class="text-xl font-bold text-light">Python Senior Software Engineer & Voice Agent Integration</h3>
+                                <span class="font-mono text-sm text-primary mt-1 md:mt-0">Ago 2024 - Ene 2026</span>
+                            </div>
+                            <h4 class="text-lg text-secondary mb-2">Cobros CR | Costa Rica</h4>
+                            <p class="text-sm mb-3">Desarrollo de 3 aplicaciones para el sector financiero. Integración de IA con Gemini y Voice Agent para comunicación con base de datos D1 Cloudflare.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li class="bg-surface px-2 py-1 rounded">Python</li>
+                                <li class="bg-surface px-2 py-1 rounded">Laravel</li>
+                                <li class="bg-surface px-2 py-1 rounded">MySQL</li>
+                                <li class="bg-surface px-2 py-1 rounded">Docker</li>
+                                <li class="bg-surface px-2 py-1 rounded">Gemini AI</li>
+                                <li class="bg-surface px-2 py-1 rounded">Voice Agents</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Ollin CR -->
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
+                        <div class="glass-card p-6 rounded-lg">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                                <h3 class="text-xl font-bold text-light">Python Senior Cloud Engineer</h3>
+                                <span class="font-mono text-sm text-primary mt-1 md:mt-0">Ago 2024 - Jun 2025</span>
+                            </div>
+                            <h4 class="text-lg text-secondary mb-2">Ollin CR | Costa Rica</h4>
+                            <p class="text-sm mb-3">Aplicación web administrativa en React/TypeScript para plataforma de logística con Firebase. Integración de Google Maps, autenticación por roles y tracking en tiempo real.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li class="bg-surface px-2 py-1 rounded">GCP</li>
+                                <li class="bg-surface px-2 py-1 rounded">Firebase</li>
+                                <li class="bg-surface px-2 py-1 rounded">React</li>
+                                <li class="bg-surface px-2 py-1 rounded">TypeScript</li>
+                                <li class="bg-surface px-2 py-1 rounded">Flask</li>
+                                <li class="bg-surface px-2 py-1 rounded">Google Maps API</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Lievant -->
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
+                        <div class="glass-card p-6 rounded-lg">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                                <h3 class="text-xl font-bold text-light">.Net Technical Lead & Software Architect</h3>
+                                <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Ene 2024 - Jul 2024</span>
+                            </div>
+                            <h4 class="text-lg text-secondary mb-2">Lievant | Costa Rica</h4>
+                            <p class="text-sm mb-3">Desarrollo de servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros usando C#/.NET 8/ASP.NET Core.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li class="bg-surface px-2 py-1 rounded">.NET 8</li>
+                                <li class="bg-surface px-2 py-1 rounded">C#</li>
+                                <li class="bg-surface px-2 py-1 rounded">ASP.NET Core</li>
+                                <li class="bg-surface px-2 py-1 rounded">SQL Server</li>
+                                <li class="bg-surface px-2 py-1 rounded">Microservicios</li>
+                                <li class="bg-surface px-2 py-1 rounded">PHP</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- People Connection Technology -->
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
+                        <div class="glass-card p-6 rounded-lg">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                                <h3 class="text-xl font-bold text-light">Node.js Mid. Full Stack & AWS Mid. Backend Developer</h3>
+                                <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Jul 2022 - Dic 2023</span>
+                            </div>
+                            <h4 class="text-lg text-secondary mb-2">People Connection Technology | Costa Rica</h4>
+                            <p class="text-sm mb-3">Aplicación SaaS en AWS con TypeScript, Redis y Stripe API. Dashboards de analytics predictivos con Google Analytics API. Microservicios Java en Docker.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li class="bg-surface px-2 py-1 rounded">Node.js</li>
+                                <li class="bg-surface px-2 py-1 rounded">TypeScript</li>
+                                <li class="bg-surface px-2 py-1 rounded">AWS</li>
+                                <li class="bg-surface px-2 py-1 rounded">React/Redux</li>
+                                <li class="bg-surface px-2 py-1 rounded">Docker</li>
+                                <li class="bg-surface px-2 py-1 rounded">Kubernetes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Grupo823 -->
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
+                        <div class="glass-card p-6 rounded-lg">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                                <h3 class="text-xl font-bold text-light">Microsoft ETL Data Engineer & Data Analyst</h3>
+                                <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Feb 2022 - Jun 2022</span>
+                            </div>
+                            <h4 class="text-lg text-secondary mb-2">Grupo823 | Costa Rica</h4>
+                            <p class="text-sm mb-3">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C#. Optimización de rendimiento de base de datos con transacciones y stored procedures complejos.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li class="bg-surface px-2 py-1 rounded">SQL Server</li>
+                                <li class="bg-surface px-2 py-1 rounded">SSIS</li>
+                                <li class="bg-surface px-2 py-1 rounded">C#</li>
+                                <li class="bg-surface px-2 py-1 rounded">PowerShell</li>
+                                <li class="bg-surface px-2 py-1 rounded">ETL</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-24 bg-dark/50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal">
+                <div class="flex items-center mb-12">
+                    <span class="font-mono text-primary text-xl mr-2">03.</span>
+                    <h2 class="text-3xl font-bold text-light">Educación</h2>
+                    <div class="h-px bg-gray-700 flex-grow ml-6"></div>
+                </div>
+
+                <div class="relative timeline-line pl-8 space-y-8">
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
+                        <div class="glass-card p-6 rounded-lg">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                                <h3 class="text-xl font-bold text-light">Licenciatura en Ingeniería en Computación</h3>
+                                <span class="font-mono text-sm text-primary mt-1 md:mt-0">Feb 2015 - Sep 2022</span>
+                            </div>
+                            <h4 class="text-lg text-secondary mb-4">Instituto Tecnológico de Costa Rica (TEC) | Cartago</h4>
+                            <p class="text-sm">Enfoque en: Análisis de Algoritmos, Ciencias de la Computación, Inteligencia Artificial, Machine Learning y Matemáticas.</p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-mono">ICPC 2015-2017</span>
+                                <span class="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-mono">PANTEC 2017-2019</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal">
+                <div class="flex items-center mb-12">
+                    <span class="font-mono text-primary text-xl mr-2">04.</span>
+                    <h2 class="text-3xl font-bold text-light">Habilidades Técnicas</h2>
+                    <div class="h-px bg-gray-700 flex-grow ml-6"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Languages -->
+                    <div class="glass-card p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-code text-primary text-2xl mr-3"></i>
+                            <h3 class="text-xl font-bold text-light">Lenguajes</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Python</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">C#</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">JavaScript</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">TypeScript</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PHP</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Java</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">SQL</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Dart</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PowerShell</span>
+                        </div>
+                    </div>
+
+                    <!-- Backend -->
+                    <div class="glass-card p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-server text-primary text-2xl mr-3"></i>
+                            <h3 class="text-xl font-bold text-light">Backend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">.NET 8</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">ASP.NET Core</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Node.js</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Express.js</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Flask</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Laravel</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Spring Framework</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Microservicios</span>
+                        </div>
+                    </div>
+
+                    <!-- Frontend -->
+                    <div class="glass-card p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-desktop text-primary text-2xl mr-3"></i>
+                            <h3 class="text-xl font-bold text-light">Frontend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">React</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Vue.js</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Angular</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">TypeScript</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Tailwind CSS</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Redux</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">NgRx</span>
+                        </div>
+                    </div>
+
+                    <!-- Cloud & DevOps -->
+                    <div class="glass-card p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-cloud text-primary text-2xl mr-3"></i>
+                            <h3 class="text-xl font-bold text-light">Cloud & DevOps</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">AWS</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">GCP</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Firebase</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Cloudflare</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Docker</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Kubernetes</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">CI/CD</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Linux</span>
+                        </div>
+                    </div>
+
+                    <!-- Databases -->
+                    <div class="glass-card p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-database text-primary text-2xl mr-3"></i>
+                            <h3 class="text-xl font-bold text-light">Bases de Datos</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MySQL</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PostgreSQL</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MongoDB</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">SQL Server</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MariaDB</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Redis</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Firestore</span>
+                        </div>
+                    </div>
+
+                    <!-- AI & ML -->
+                    <div class="glass-card p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-brain text-primary text-2xl mr-3"></i>
+                            <h3 class="text-xl font-bold text-light">IA & Machine Learning</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">TensorFlow</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PyTorch</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">LangChain</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">RAG</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MCP</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Gemini AI</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Azure AI</span>
+                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">AWS Bedrock</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-dark/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal">
+                <div class="flex items-center mb-12">
+                    <span class="font-mono text-primary text-xl mr-2">05.</span>
+                    <h2 class="text-3xl font-bold text-light">Proyectos Destacados</h2>
+                    <div class="h-px bg-gray-700 flex-grow ml-6"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Project 1 -->
+                    <div class="glass-card rounded-lg overflow-hidden group">
+                        <div class="h-48 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all"></div>
+                            <i class="fas fa-robot text-6xl text-secondary group-hover:text-primary transition-colors"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <i class="far fa-folder text-4xl text-primary"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://chat.etheroi.com" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://github.com" target="_blank" class="hover:text-primary"><i class="fab fa-github text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">DeepMCPAgent WebUI</h3>
+                            <p class="text-sm mb-4">Interfaz no-code open-source para agentes LangChain/LangGraph independientes del modelo, potenciados por herramientas MCP.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li>Python</li>
+                                <li>LangChain</li>
+                                <li>MCP</li>
+                                <li>React</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="glass-card rounded-lg overflow-hidden group">
+                        <div class="h-48 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all"></div>
+                            <i class="fas fa-comments text-6xl text-secondary group-hover:text-primary transition-colors"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <i class="far fa-folder text-4xl text-primary"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://payment.etheroi.com" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">Voice Agent con IA</h3>
+                            <p class="text-sm mb-4">Sistema de agente de voz con integración de Gemini AI para comunicación con base de datos D1 Cloudflare y generación de gráficos en el chat.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li>Python</li>
+                                <li>Gemini AI</li>
+                                <li>Voice Agents</li>
+                                <li>Cloudflare D1</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="glass-card rounded-lg overflow-hidden group">
+                        <div class="h-48 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all"></div>
+                            <i class="fas fa-truck text-6xl text-secondary group-hover:text-primary transition-colors"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <i class="far fa-folder text-4xl text-primary"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://portal.ollincr.com" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">Plataforma de Logística</h3>
+                            <p class="text-sm mb-4">Aplicación web administrativa con tracking en tiempo real, optimización de rutas y autenticación por roles usando Firebase y Google Maps.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li>React</li>
+                                <li>TypeScript</li>
+                                <li>Firebase</li>
+                                <li>Google Maps API</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="glass-card rounded-lg overflow-hidden group">
+                        <div class="h-48 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all"></div>
+                            <i class="fas fa-heartbeat text-6xl text-secondary group-hover:text-primary transition-colors"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <i class="far fa-folder text-4xl text-primary"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://lievant.com" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">Sistema de Salud</h3>
+                            <p class="text-sm mb-4">Servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li>.NET 8</li>
+                                <li>C#</li>
+                                <li>ASP.NET Core</li>
+                                <li>SQL Server</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 5 -->
+                    <div class="glass-card rounded-lg overflow-hidden group">
+                        <div class="h-48 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all"></div>
+                            <i class="fas fa-chart-line text-6xl text-secondary group-hover:text-primary transition-colors"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <i class="far fa-folder text-4xl text-primary"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://pconnectionca.com" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">SaaS con Analytics</h3>
+                            <p class="text-sm mb-4">Aplicación SaaS en AWS con sistema de pagos Stripe y dashboards de analytics predictivos usando Google Analytics API.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li>Node.js</li>
+                                <li>TypeScript</li>
+                                <li>AWS</li>
+                                <li>Stripe API</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 6 -->
+                    <div class="glass-card rounded-lg overflow-hidden group">
+                        <div class="h-48 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all"></div>
+                            <i class="fas fa-database text-6xl text-secondary group-hover:text-primary transition-colors"></i>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <i class="far fa-folder text-4xl text-primary"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://grupo823.com" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">Pipelines ETL</h3>
+                            <p class="text-sm mb-4">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C# para optimización de flujos de datos empresariales.</p>
+                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
+                                <li>SQL Server</li>
+                                <li>SSIS</li>
+                                <li>C#</li>
+                                <li>ETL</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+            <p class="font-mono text-primary mb-4">¿Qué sigue?</p>
+            <h2 class="text-4xl md:text-5xl font-bold text-light mb-6">Ponte en Contacto</h2>
+            <p class="text-lg mb-12">
+                Estoy siempre abierto a nuevas oportunidades y colaboraciones. Ya sea que tengas una pregunta o simplemente quieras saludar, ¡haré todo lo posible por responderte!
+            </p>
+            
+            <div class="glass-card p-8 rounded-lg text-left mb-12">
+                <form onsubmit="event.preventDefault(); alert('¡Mensaje enviado (demo)!');">
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-mono text-secondary mb-2">Nombre</label>
+                            <input type="text" class="w-full bg-surface border border-gray-700 rounded p-3 text-light focus:outline-none focus:border-primary transition-colors" placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-mono text-secondary mb-2">Email</label>
+                            <input type="email" class="w-full bg-surface border border-gray-700 rounded p-3 text-light focus:outline-none focus:border-primary transition-colors" placeholder="tu@email.com">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-mono text-secondary mb-2">Mensaje</label>
+                        <textarea rows="4" class="w-full bg-surface border border-gray-700 rounded p-3 text-light focus:outline-none focus:border-primary transition-colors" placeholder="Tu mensaje..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-4 border border-primary text-primary rounded font-mono hover:bg-primary/10 transition-all">
+                        Enviar Mensaje
+                    </button>
+                </form>
+            </div>
+
+            <div class="flex justify-center gap-8 mb-12">
+                <a href="mailto:jeremylive@live.com" class="text-secondary hover:text-primary hover:-translate-y-1 transition-all text-2xl" title="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://linkedin.com/in/jeremylive" target="_blank" class="text-secondary hover:text-primary hover:-translate-y-1 transition-all text-2xl" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/jeremylive" target="_blank" class="text-secondary hover:text-primary hover:-translate-y-1 transition-all text-2xl" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="tel:+50683953467" class="text-secondary hover:text-primary hover:-translate-y-1 transition-all text-2xl" title="Teléfono"><i class="fas fa-phone"></i></a>
+            </div>
+
+            <div class="text-sm font-mono text-secondary space-y-2">
+                <p><i class="fas fa-map-marker-alt text-primary mr-2"></i>San José, Costa Rica</p>
+                <p><i class="fas fa-envelope text-primary mr-2"></i>jeremylive@live.com</p>
+                <p><i class="fas fa-phone text-primary mr-2"></i>+506 8395 3467</p>
+                <p><i class="fas fa-language text-primary mr-2"></i>Español (Nativo) | Inglés (C1/Fluido)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-sm font-mono text-secondary border-t border-white/5">
+        <p>Diseñado & Desarrollado por Jeremy José Live González</p>
+        <p class="mt-2 text-xs opacity-50">Construido con HTML, Tailwind CSS & Three.js</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Reveal on Scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Initial check
+
+        // Three.js Background Animation
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            // Create Particles
+            const geometry = new THREE.BufferGeometry();
+            const count = 600;
+            const positions = new Float32Array(count * 3);
+            
+            for(let i = 0; i < count * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 20;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const material = new THREE.PointsMaterial({
+                size: 0.04,
+                color: 0x64ffda,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            camera.position.z = 4;
+
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                
+                particles.rotation.y += 0.0008;
+                particles.rotation.x += 0.0005;
+
+                particles.rotation.x += mouseY * 0.03;
+                particles.rotation.y += mouseX * 0.03;
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        initThreeJS();
+    </script>
+</body>
+</html>
