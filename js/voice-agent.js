@@ -8,7 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
         isOpen: false,
         isListening: false,
         isSpeaking: false,
-        messages: [],
+        isHistoryOpen: false, // New
+        currentChatId: null, // New
+        chats: JSON.parse(localStorage.getItem('gemini_chats') || '[]'), // Array of {id, title, messages, timestamp}
+        // messages: [], // Deprecated in favor of currentChatId -> chats
         config: {
             apiKey: localStorage.getItem('gemini_api_key') || '',
             model: localStorage.getItem('gemini_model') || 'custom',
@@ -34,6 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
         micBtn: document.getElementById('mic-btn'),
         indicator: document.getElementById('voice-listening-indicator'),
         
+        // History UI
+        historyToggleBtn: document.getElementById('history-toggle-btn'),
+        historySidebar: document.getElementById('history-sidebar'),
+        historyList: document.getElementById('history-list'),
+        newChatBtn: document.getElementById('new-chat-btn'),
+        clearAllChatsBtn: document.getElementById('clear-all-chats-btn'),
+
         // Settings Inputs
         apiKeyInput: document.getElementById('api-key-input'),
         modelSelect: document.getElementById('model-select'),
@@ -54,38 +64,219 @@ document.addEventListener('DOMContentLoaded', () => {
         currentVoiceName: document.getElementById('current-voice-name')
     };
 
+    // --- Chat Management ---
+
+    function createNewChat() {
+        const chatId = Date.now().toString();
+        const newChat = {
+            id: chatId,
+            title: 'Nuevo Chat',
+            messages: [],
+            timestamp: Date.now()
+        };
+        STATE.chats.unshift(newChat);
+        STATE.currentChatId = chatId;
+        saveChats();
+        renderChatHistory();
+        loadChat(chatId);
+        
+        // Clear input
+        UI.input.value = '';
+        UI.input.focus();
+        
+        // Close sidebar on mobile/desktop
+        if (STATE.isHistoryOpen) toggleHistory();
+    }
+
+    function loadChat(chatId) {
+        const chat = STATE.chats.find(c => c.id === chatId);
+        if (!chat) return;
+
+        STATE.currentChatId = chatId;
+        
+        // Clear UI
+        UI.chatContainer.innerHTML = '';
+        
+        // Add welcome message always
+        addMessage('bot', 'Hola, soy el asistente virtual de Jeremy. ¿En qué puedo ayudarte hoy?', false);
+
+        // Render messages
+        chat.messages.forEach(msg => {
+            // Don't save to history again when loading
+            const div = document.createElement('div');
+            div.className = `flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`;
+            const bubble = document.createElement('div');
+            bubble.className = msg.role === 'user' 
+                ? 'bg-primary text-dark rounded-2xl rounded-tr-none px-4 py-3 max-w-[85%] text-sm shadow-md'
+                : 'bg-white/10 text-light rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] text-sm shadow-md';
+            bubble.innerHTML = formatText(msg.content);
+            div.appendChild(bubble);
+            UI.chatContainer.appendChild(div);
+        });
+        
+        // Scroll to bottom
+        scrollToBottom();
+        
+        // Update active state in sidebar
+        renderChatHistory();
+    }
+
+    function saveChats() {
+        localStorage.setItem('gemini_chats', JSON.stringify(STATE.chats));
+    }
+
+    function updateChatTitle(chatId, firstMessage) {
+        const chat = STATE.chats.find(c => c.id === chatId);
+        if (chat && chat.title === 'Nuevo Chat') {
+            // Generate simple title from first message
+            let title = firstMessage.substring(0, 30);
+            if (firstMessage.length > 30) title += '...';
+            chat.title = title;
+            saveChats();
+            renderChatHistory();
+        }
+    }
+
+    function deleteChat(chatId, event) {
+        if (event) event.stopPropagation();
+        if (confirm('¿Borrar este chat?')) {
+            STATE.chats = STATE.chats.filter(c => c.id !== chatId);
+            saveChats();
+            renderChatHistory();
+            
+            // If deleted active chat, create new or load first
+            if (STATE.currentChatId === chatId) {
+                if (STATE.chats.length > 0) {
+                    loadChat(STATE.chats[0].id);
+                } else {
+                    createNewChat();
+                }
+            }
+        }
+    }
+
+    function clearAllChats() {
+        if (confirm('¿Estás seguro de borrar TODO el historial?')) {
+            STATE.chats = [];
+            saveChats();
+            createNewChat();
+        }
+    }
+
+    function renderChatHistory() {
+        UI.historyList.innerHTML = '';
+        
+        if (STATE.chats.length === 0) {
+            UI.historyList.innerHTML = '<div class="text-center text-secondary text-xs mt-4">No hay historial</div>';
+            return;
+        }
+
+        STATE.chats.forEach(chat => {
+            const item = document.createElement('div');
+            const isActive = chat.id === STATE.currentChatId;
+            item.className = `p-3 rounded cursor-pointer group flex justify-between items-center transition-colors ${isActive ? 'bg-primary/20 border border-primary/30' : 'hover:bg-white/5 border border-transparent'}`;
+            
+            const date = new Date(chat.timestamp).toLocaleDateString();
+            
+            item.innerHTML = `
+                <div class="flex-1 min-w-0 pr-2">
+                    <h5 class="text-sm font-mono ${isActive ? 'text-primary' : 'text-light'} truncate">${chat.title}</h5>
+                    <p class="text-[10px] text-secondary truncate">${date}</p>
+                </div>
+                <button class="text-secondary hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity p-1" onclick="deleteChat('${chat.id}', event)">
+                    <i class="fas fa-trash-alt text-xs"></i>
+                </button>
+            `;
+            
+            item.addEventListener('click', () => {
+                loadChat(chat.id);
+                if (window.innerWidth < 640) toggleHistory(); // Close on mobile
+            });
+            
+            UI.historyList.appendChild(item);
+        });
+    }
+
+    function toggleHistory() {
+        STATE.isHistoryOpen = !STATE.isHistoryOpen;
+        if (STATE.isHistoryOpen) {
+            UI.historySidebar.classList.remove('-translate-x-full');
+        } else {
+            UI.historySidebar.classList.add('-translate-x-full');
+        }
+    }
+
+    // Adapter for existing handleUserMessage
+    function saveMessageToHistory(role, text) {
+        if (!STATE.currentChatId) return;
+        const chat = STATE.chats.find(c => c.id === STATE.currentChatId);
+        if (chat) {
+            chat.messages.push({ role, content: text, timestamp: Date.now() });
+            saveChats();
+            if (role === 'user' && chat.messages.filter(m => m.role === 'user').length === 1) {
+                updateChatTitle(chat.id, text);
+            }
+        }
+    }
+    
+    // Expose for onclick events in HTML string
+    window.deleteChat = deleteChat;
+
     // --- Initialization ---
-    initSettings();
-    loadHistory();
 
-    // --- Event Listeners ---
-    UI.btn.addEventListener('click', togglePanel);
-    UI.closeBtn.addEventListener('click', togglePanel);
-    UI.settingsBtn.addEventListener('click', () => toggleSettings(true));
-    UI.closeSettingsBtn.addEventListener('click', () => toggleSettings(false));
-    
-    UI.sendBtn.addEventListener('click', handleUserMessage);
-    UI.input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleUserMessage();
-    });
+    function init() {
+        initSettings();
+        
+        // Initialize Chats
+        if (STATE.chats.length === 0) {
+            createNewChat();
+        } else {
+            // Load most recent
+            loadChat(STATE.chats[0].id);
+            renderChatHistory();
+        }
 
-    UI.micBtn.addEventListener('click', toggleVoiceRecognition);
-    
-    // Settings Events
-    UI.refreshModelsBtn.addEventListener('click', fetchAvailableModels);
-    UI.apiKeyInput.addEventListener('change', (e) => {
-        updateConfig('apiKey', e.target.value);
-        if (e.target.value) fetchAvailableModels(); // Auto fetch when key added
-    });
-    UI.modelSelect.addEventListener('change', (e) => {
-        updateConfig('model', e.target.value);
-        toggleCustomModelInput(e.target.value === 'custom');
-    });
-    UI.customModelInput.addEventListener('change', (e) => updateConfig('customModel', e.target.value));
-    UI.thinkingToggle.addEventListener('change', (e) => updateConfig('useThinking', e.target.checked));
-    UI.ttsToggle.addEventListener('change', (e) => updateConfig('useTTS', e.target.checked));
-    UI.langSelect.addEventListener('change', (e) => updateConfig('lang', e.target.value));
-    UI.clearHistoryBtn.addEventListener('click', clearHistory);
+        // Event Listeners
+        UI.btn.addEventListener('click', togglePanel);
+        UI.closeBtn.addEventListener('click', togglePanel);
+        UI.settingsBtn.addEventListener('click', () => toggleSettings(true));
+        UI.closeSettingsBtn.addEventListener('click', () => toggleSettings(false));
+        
+        UI.sendBtn.addEventListener('click', handleUserMessage);
+        UI.input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleUserMessage();
+        });
+
+        UI.micBtn.addEventListener('click', toggleVoiceRecognition);
+        
+        // History Listeners
+        UI.historyToggleBtn.addEventListener('click', toggleHistory);
+        UI.newChatBtn.addEventListener('click', createNewChat);
+        UI.clearAllChatsBtn.addEventListener('click', clearAllChats);
+        
+        // Settings Events
+        UI.refreshModelsBtn.addEventListener('click', fetchAvailableModels);
+        UI.apiKeyInput.addEventListener('change', (e) => {
+            updateConfig('apiKey', e.target.value);
+            if (e.target.value) fetchAvailableModels();
+        });
+        UI.modelSelect.addEventListener('change', (e) => {
+            updateConfig('model', e.target.value);
+            toggleCustomModelInput(e.target.value === 'custom');
+        });
+        UI.customModelInput.addEventListener('change', (e) => updateConfig('customModel', e.target.value));
+        UI.thinkingToggle.addEventListener('change', (e) => updateConfig('useThinking', e.target.checked));
+        UI.ttsToggle.addEventListener('change', (e) => updateConfig('useTTS', e.target.checked));
+        UI.langSelect.addEventListener('change', (e) => updateConfig('lang', e.target.value));
+        UI.clearHistoryBtn.addEventListener('click', clearAllChats);
+        
+        // Auto-fetch models if key exists
+        if (STATE.config.apiKey) {
+            fetchAvailableModels();
+        }
+    }
+
+    init();
 
     // --- Core Functions ---
 
