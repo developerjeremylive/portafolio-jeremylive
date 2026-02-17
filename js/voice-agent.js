@@ -175,6 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Chat Management ---
 
     function createNewChat(isUserInitiated = false) {
+        // Stop any playing audio when creating a new chat
+        if (synthesis.speaking) {
+            synthesis.cancel();
+            STATE.isSpeaking = false;
+            showPlayer(false);
+        }
+
         // Check if current chat is empty, ONLY if user initiated
         // If we are in empty state (currentChatId is null), we allow creation
         if (isUserInitiated && STATE.currentChatId) {
@@ -214,6 +221,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadChat(chatId) {
+        // Stop any playing audio when switching chats
+        if (synthesis.speaking) {
+            synthesis.cancel();
+            STATE.isSpeaking = false;
+            showPlayer(false);
+        }
+
         const chat = STATE.chats.find(c => c.id === chatId);
         if (!chat) return;
 
@@ -956,11 +970,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Player Controls Logic
     UI.playerStopBtn.addEventListener('click', () => {
-        if (synthesis.speaking) {
-            synthesis.cancel();
-            STATE.isSpeaking = false;
-            showPlayer(false);
-        }
+        // Always stop and hide, regardless of speaking state
+        synthesis.cancel();
+        STATE.isSpeaking = false;
+        showPlayer(false);
     });
 
     UI.playerPlayPauseBtn.addEventListener('click', () => {
