@@ -977,8 +977,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (STATE.isListening) {
-            recognition.stop();
+            if (recognition) recognition.stop();
             return;
+        }
+
+        // --- Connectivity & Context Checks ---
+        if (!navigator.onLine) {
+            showNotification('No tienes conexión a internet.', 'error');
+            return;
+        }
+
+        // Web Speech API requires HTTPS (except localhost)
+        // window.isSecureContext is true for HTTPS and localhost
+        if (!window.isSecureContext) {
+            showNotification('El reconocimiento de voz requiere HTTPS o Localhost.', 'error');
+            return;
+        }
+
+        // Cleanup previous instance if any to prevent conflicts
+        if (recognition) {
+            try {
+                recognition.abort();
+            } catch (e) { /* ignore */ }
+            recognition = null;
         }
 
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
