@@ -139,15 +139,21 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#about" class="hover:text-primary transition-colors duration-300 font-mono text-sm">01. Sobre Mí</a>
-                        <a href="#experience" class="hover:text-primary transition-colors duration-300 font-mono text-sm">02. Experiencia</a>
-                        <a href="#education" class="hover:text-primary transition-colors duration-300 font-mono text-sm">03. Educación</a>
-                        <a href="#skills" class="hover:text-primary transition-colors duration-300 font-mono text-sm">04. Habilidades</a>
-                        <a href="#projects" class="hover:text-primary transition-colors duration-300 font-mono text-sm">05. Proyectos</a>
-                        <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="px-4 py-2 border border-primary text-primary rounded hover:bg-primary/10 transition-all duration-300 font-mono text-sm">Contacto</a>
+                        <a href="#about" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.about">01. Sobre Mí</a>
+                        <a href="#experience" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.experience">02. Experiencia</a>
+                        <a href="#education" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.education">03. Educación</a>
+                        <a href="#skills" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.skills">04. Habilidades</a>
+                        <a href="#projects" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.projects">05. Proyectos</a>
+                        <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="px-4 py-2 border border-primary text-primary rounded hover:bg-primary/10 transition-all duration-300 font-mono text-sm" data-i18n="nav.contact">Contacto</a>
+                        <button id="language-toggle" class="hover:text-primary transition-colors duration-300 font-mono text-sm ml-4 border border-secondary px-2 py-1 rounded">
+                            <span id="lang-text">EN</span>
+                        </button>
                     </div>
                 </div>
-                <div class="-mr-2 flex md:hidden">
+                <div class="-mr-2 flex md:hidden items-center">
+                    <button id="mobile-lang-toggle" class="mr-2 inline-flex items-center justify-center px-3 py-1 rounded-md text-gray-400 hover:text-white border border-gray-600 focus:outline-none font-mono text-sm">
+                        <span id="mobile-lang-text">EN</span>
+                    </button>
                     <button type="button" id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
@@ -156,12 +162,12 @@
         </div>
         <div class="md:hidden hidden bg-surface absolute w-full border-b border-white/10" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">01. Sobre Mí</a>
-                <a href="#experience" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">02. Experiencia</a>
-                <a href="#education" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">03. Educación</a>
-                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">04. Habilidades</a>
-                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5">05. Proyectos</a>
-                <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-white/5">Contacto</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5" data-i18n="nav.about">01. Sobre Mí</a>
+                <a href="#experience" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5" data-i18n="nav.experience">02. Experiencia</a>
+                <a href="#education" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5" data-i18n="nav.education">03. Educación</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5" data-i18n="nav.skills">04. Habilidades</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5" data-i18n="nav.projects">05. Proyectos</a>
+                <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-white/5" data-i18n="nav.contact">Contacto</a>
             </div>
         </div>
     </nav>
@@ -170,17 +176,17 @@
     <section class="min-h-screen flex items-center justify-center pt-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="reveal active">
-                <p class="font-mono text-primary mb-5">Hola, mi nombre es</p>
+                <p class="font-mono text-primary mb-5" data-i18n="hero.greeting">Hola, mi nombre es</p>
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-light mb-4">Jeremy José Live González<span class="text-primary">.</span></h1>
-                <h2 class="text-3xl md:text-5xl font-bold text-secondary mb-8">Ingeniero de Software Senior & Arquitecto de Soluciones</h2>
-                <p class="max-w-2xl text-lg mb-10 leading-relaxed">
+                <h2 class="text-3xl md:text-5xl font-bold text-secondary mb-8" data-i18n="hero.role">Ingeniero de Software Senior & Arquitecto de Soluciones</h2>
+                <p class="max-w-2xl text-lg mb-10 leading-relaxed" data-i18n="hero.description">
                     Especializado en desarrollo backend, arquitectura de microservicios, inteligencia artificial y soluciones cloud. 
                     Con experiencia en Python, .NET, Node.js y tecnologías emergentes de IA generativa.
                 </p>
                 <div class="flex flex-wrap gap-4">
-                    <a href="#projects" class="px-8 py-4 border border-primary text-primary rounded font-mono hover:bg-primary/10 transition-all">Ver Proyectos</a>
-                    <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="px-8 py-4 bg-primary text-dark rounded font-mono hover:bg-primary/90 transition-all">Contáctame</a>
-                    <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" class="px-8 py-4 border border-secondary text-secondary rounded font-mono hover:border-primary hover:text-primary transition-all"><i class="fab fa-linkedin mr-2"></i>LinkedIn</a>
+                    <a href="#projects" class="px-8 py-4 border border-primary text-primary rounded font-mono hover:bg-primary/10 transition-all" data-i18n="hero.cta_projects">Ver Proyectos</a>
+                    <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="px-8 py-4 bg-primary text-dark rounded font-mono hover:bg-primary/90 transition-all" data-i18n="hero.cta_contact">Contáctame</a>
+                    <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" class="px-8 py-4 border border-secondary text-secondary rounded font-mono hover:border-primary hover:text-primary transition-all"><i class="fab fa-linkedin mr-2"></i><span data-i18n="hero.cta_linkedin">LinkedIn</span></a>
                 </div>
             </div>
         </div>
@@ -195,31 +201,31 @@
             <div class="reveal">
                 <div class="flex items-center mb-12">
                     <span class="font-mono text-primary text-xl mr-2">01.</span>
-                    <h2 class="text-3xl font-bold text-light">Sobre Mí</h2>
+                    <h2 class="text-3xl font-bold text-light" data-i18n="about.title">Sobre Mí</h2>
                     <div class="h-px bg-gray-700 flex-grow ml-6"></div>
                 </div>
                 
                 <div class="grid md:grid-cols-3 gap-12 items-center">
                     <div class="md:col-span-2 space-y-6 text-lg">
-                        <p>
+                        <p data-i18n="about.p1">
                             ¡Hola! Soy Jeremy, Ingeniero de Software con sede en San José, Costa Rica. Mi pasión por la tecnología comenzó durante mis años universitarios y se ha convertido en una carrera dedicada a construir soluciones innovadoras y escalables.
                         </p>
-                        <p>
+                        <p data-i18n="about.p2">
                             A lo largo de mi carrera, he tenido el privilegio de trabajar en diversos sectores incluyendo <span class="text-primary">salud</span>, <span class="text-primary">finanzas</span>, <span class="text-primary">telecomunicaciones</span> y <span class="text-primary">logística</span>. 
                             Actualmente me enfoco en desarrollo de agentes de IA, arquitecturas multi-agente y soluciones cloud nativas.
                         </p>
-                        <p>He liderado iniciativas de alfabetización digital en PANTEC (TEC, 2017-2019), fomentando la inclusión tecnológica en comunidades desatendidas.</p>
+                        <p data-i18n="about.p3">He liderado iniciativas de alfabetización digital en PANTEC (TEC, 2017-2019), fomentando la inclusión tecnológica en comunidades desatendidas.</p>
                         
                         <div class="grid grid-cols-2 gap-4 mt-6">
                             <div class="glass-card p-4 rounded-lg">
                                 <div class="text-primary text-3xl mb-2"><i class="fas fa-code"></i></div>
                                 <h4 class="text-light font-bold">8+ Años</h4>
-                                <p class="text-sm">Experiencia Profesional</p>
+                                <p class="text-sm" data-i18n="about.experience_years">Experiencia Profesional</p>
                             </div>
                             <div class="glass-card p-4 rounded-lg">
                                 <div class="text-primary text-3xl mb-2"><i class="fas fa-project-diagram"></i></div>
                                 <h4 class="text-light font-bold">50+</h4>
-                                <p class="text-sm">Proyectos Completados</p>
+                                <p class="text-sm" data-i18n="about.projects_completed">Proyectos Completados</p>
                             </div>
                         </div>
                     </div>
@@ -282,7 +288,7 @@
             <div class="reveal">
                 <div class="flex items-center mb-12">
                     <span class="font-mono text-primary text-xl mr-2">02.</span>
-                    <h2 class="text-3xl font-bold text-light">Experiencia Profesional</h2>
+                    <h2 class="text-3xl font-bold text-light" data-i18n="experience.title">Experiencia Profesional</h2>
                     <div class="h-px bg-gray-700 flex-grow ml-6"></div>
                 </div>
 
@@ -292,11 +298,11 @@
                         <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
                         <div class="glass-card p-6 rounded-lg">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light">Python GenAI Software Engineer & Deep Agents Integration</h3>
+                                <h3 class="text-xl font-bold text-light" data-i18n="experience.etheroi_role">Python GenAI Software Engineer & Deep Agents Integration</h3>
                                 <span class="font-mono text-sm text-primary mt-1 md:mt-0">Jun 2025 - Ene 2026</span>
                             </div>
                             <h4 class="text-lg text-secondary mb-2">EtherOI | Costa Rica</h4>
-                            <p class="text-sm mb-3">Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.</p>
+                            <p class="text-sm mb-3" data-i18n="experience.etheroi_desc">Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li class="bg-surface px-2 py-1 rounded">Python</li>
                                 <li class="bg-surface px-2 py-1 rounded">LangChain</li>
@@ -313,11 +319,11 @@
                         <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
                         <div class="glass-card p-6 rounded-lg">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light">Python Senior Software Engineer & Voice Agent Integration</h3>
+                                <h3 class="text-xl font-bold text-light" data-i18n="experience.cobros_role">Python Senior Software Engineer & Voice Agent Integration</h3>
                                 <span class="font-mono text-sm text-primary mt-1 md:mt-0">Ago 2024 - Ene 2026</span>
                             </div>
                             <h4 class="text-lg text-secondary mb-2">Cobros CR | Costa Rica</h4>
-                            <p class="text-sm mb-3">Desarrollo de 3 aplicaciones para el sector financiero. Integración de IA con Gemini y Voice Agent para comunicación con base de datos D1 Cloudflare.</p>
+                            <p class="text-sm mb-3" data-i18n="experience.cobros_desc">Desarrollo de 3 aplicaciones para el sector financiero. Integración de IA con Gemini y Voice Agent para comunicación con base de datos D1 Cloudflare.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li class="bg-surface px-2 py-1 rounded">Python</li>
                                 <li class="bg-surface px-2 py-1 rounded">Laravel</li>
@@ -334,11 +340,11 @@
                         <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
                         <div class="glass-card p-6 rounded-lg">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light">Python Senior Cloud Engineer</h3>
+                                <h3 class="text-xl font-bold text-light" data-i18n="experience.ollin_role">Python Senior Cloud Engineer</h3>
                                 <span class="font-mono text-sm text-primary mt-1 md:mt-0">Ago 2024 - Jun 2025</span>
                             </div>
                             <h4 class="text-lg text-secondary mb-2">Ollin CR | Costa Rica</h4>
-                            <p class="text-sm mb-3">Aplicación web administrativa en React/TypeScript para plataforma de logística con Firebase. Integración de Google Maps, autenticación por roles y tracking en tiempo real.</p>
+                            <p class="text-sm mb-3" data-i18n="experience.ollin_desc">Aplicación web administrativa en React/TypeScript para plataforma de logística con Firebase. Integración de Google Maps, autenticación por roles y tracking en tiempo real.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li class="bg-surface px-2 py-1 rounded">GCP</li>
                                 <li class="bg-surface px-2 py-1 rounded">Firebase</li>
@@ -355,11 +361,11 @@
                         <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
                         <div class="glass-card p-6 rounded-lg">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light">.Net Technical Lead & Software Architect</h3>
+                                <h3 class="text-xl font-bold text-light" data-i18n="experience.lievant_role">.Net Technical Lead & Software Architect</h3>
                                 <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Ene 2024 - Jul 2024</span>
                             </div>
                             <h4 class="text-lg text-secondary mb-2">Lievant | Costa Rica</h4>
-                            <p class="text-sm mb-3">Desarrollo de servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros usando C#/.NET 8/ASP.NET Core.</p>
+                            <p class="text-sm mb-3" data-i18n="experience.lievant_desc">Desarrollo de servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros usando C#/.NET 8/ASP.NET Core.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li class="bg-surface px-2 py-1 rounded">.NET 8</li>
                                 <li class="bg-surface px-2 py-1 rounded">C#</li>
@@ -376,11 +382,11 @@
                         <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
                         <div class="glass-card p-6 rounded-lg">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light">Node.js Mid. Full Stack & AWS Mid. Backend Developer</h3>
+                                <h3 class="text-xl font-bold text-light" data-i18n="experience.people_role">Node.js Mid. Full Stack & AWS Mid. Backend Developer</h3>
                                 <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Jul 2022 - Dic 2023</span>
                             </div>
                             <h4 class="text-lg text-secondary mb-2">People Connection Technology | Costa Rica</h4>
-                            <p class="text-sm mb-3">Aplicación SaaS en AWS con TypeScript, Redis y Stripe API. Dashboards de analytics predictivos con Google Analytics API. Microservicios Java en Docker.</p>
+                            <p class="text-sm mb-3" data-i18n="experience.people_desc">Aplicación SaaS en AWS con TypeScript, Redis y Stripe API. Dashboards de analytics predictivos con Google Analytics API. Microservicios Java en Docker.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li class="bg-surface px-2 py-1 rounded">Node.js</li>
                                 <li class="bg-surface px-2 py-1 rounded">TypeScript</li>
@@ -397,11 +403,11 @@
                         <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
                         <div class="glass-card p-6 rounded-lg">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light">Microsoft ETL Data Engineer & Data Analyst</h3>
+                                <h3 class="text-xl font-bold text-light" data-i18n="experience.grupo823_role">Microsoft ETL Data Engineer & Data Analyst</h3>
                                 <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Feb 2022 - Jun 2022</span>
                             </div>
                             <h4 class="text-lg text-secondary mb-2">Grupo823 | Costa Rica</h4>
-                            <p class="text-sm mb-3">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C#. Optimización de rendimiento de base de datos con transacciones y stored procedures complejos.</p>
+                            <p class="text-sm mb-3" data-i18n="experience.grupo823_desc">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C#. Optimización de rendimiento de base de datos con transacciones y stored procedures complejos.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li class="bg-surface px-2 py-1 rounded">SQL Server</li>
                                 <li class="bg-surface px-2 py-1 rounded">SSIS</li>
@@ -422,7 +428,7 @@
             <div class="reveal">
                 <div class="flex items-center mb-12">
                     <span class="font-mono text-primary text-xl mr-2">03.</span>
-                    <h2 class="text-3xl font-bold text-light">Educación</h2>
+                    <h2 class="text-3xl font-bold text-light" data-i18n="education.title">Educación</h2>
                     <div class="h-px bg-gray-700 flex-grow ml-6"></div>
                 </div>
 
@@ -431,11 +437,11 @@
                         <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
                         <div class="glass-card p-6 rounded-lg">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light">Licenciatura en Ingeniería en Computación</h3>
+                                <h3 class="text-xl font-bold text-light" data-i18n="education.degree">Licenciatura en Ingeniería en Computación</h3>
                                 <span class="font-mono text-sm text-primary mt-1 md:mt-0">Feb 2015 - Sep 2022</span>
                             </div>
-                            <h4 class="text-lg text-secondary mb-4">Instituto Tecnológico de Costa Rica (TEC) | Cartago</h4>
-                            <p class="text-sm">Enfoque en: Análisis de Algoritmos, Ciencias de la Computación, Inteligencia Artificial, Machine Learning y Matemáticas.</p>
+                            <h4 class="text-lg text-secondary mb-4" data-i18n="education.university">Instituto Tecnológico de Costa Rica (TEC) | Cartago</h4>
+                            <p class="text-sm" data-i18n="education.desc">Enfoque en: Análisis de Algoritmos, Ciencias de la Computación, Inteligencia Artificial, Machine Learning y Matemáticas.</p>
                             <div class="mt-4 flex flex-wrap gap-2">
                                 <span class="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-mono">ICPC 2015-2017</span>
                                 <span class="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-mono">PANTEC 2017-2019</span>
@@ -453,7 +459,7 @@
             <div class="reveal">
                 <div class="flex items-center mb-12">
                     <span class="font-mono text-primary text-xl mr-2">04.</span>
-                    <h2 class="text-3xl font-bold text-light">Habilidades Técnicas</h2>
+                    <h2 class="text-3xl font-bold text-light" data-i18n="skills.title">Habilidades Técnicas</h2>
                     <div class="h-px bg-gray-700 flex-grow ml-6"></div>
                 </div>
 
@@ -462,7 +468,7 @@
                     <div class="glass-card p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-code text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light">Lenguajes</h3>
+                            <h3 class="text-xl font-bold text-light" data-i18n="skills.languages">Lenguajes</h3>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Python</span>
@@ -481,7 +487,7 @@
                     <div class="glass-card p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-server text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light">Backend</h3>
+                            <h3 class="text-xl font-bold text-light" data-i18n="skills.backend">Backend</h3>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">.NET 8</span>
@@ -499,7 +505,7 @@
                     <div class="glass-card p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-desktop text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light">Frontend</h3>
+                            <h3 class="text-xl font-bold text-light" data-i18n="skills.frontend">Frontend</h3>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">React</span>
@@ -516,7 +522,7 @@
                     <div class="glass-card p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-cloud text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light">Cloud & DevOps</h3>
+                            <h3 class="text-xl font-bold text-light" data-i18n="skills.cloud">Cloud & DevOps</h3>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">AWS</span>
@@ -534,7 +540,7 @@
                     <div class="glass-card p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-database text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light">Bases de Datos</h3>
+                            <h3 class="text-xl font-bold text-light" data-i18n="skills.databases">Bases de Datos</h3>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MySQL</span>
@@ -551,7 +557,7 @@
                     <div class="glass-card p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-brain text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light">IA & Machine Learning</h3>
+                            <h3 class="text-xl font-bold text-light" data-i18n="skills.ai">IA & Machine Learning</h3>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">TensorFlow</span>
@@ -575,7 +581,7 @@
             <div class="reveal">
                 <div class="flex items-center mb-12">
                     <span class="font-mono text-primary text-xl mr-2">05.</span>
-                    <h2 class="text-3xl font-bold text-light">Proyectos Destacados</h2>
+                    <h2 class="text-3xl font-bold text-light" data-i18n="projects.title">Proyectos Destacados</h2>
                     <div class="h-px bg-gray-700 flex-grow ml-6"></div>
                 </div>
 
@@ -587,19 +593,19 @@
                             <div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-all"></div>
                             <i class="fas fa-network-wired text-6xl text-secondary group-hover:text-primary transition-colors scale-100 group-hover:scale-110 duration-500"></i>
                             <div class="absolute top-4 right-4 bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full border border-primary/30">
-                                <span class="text-xs font-mono text-primary">Nuevo</span>
+                                <span class="text-xs font-mono text-primary" data-i18n="projects.new_badge">Nuevo</span>
                             </div>
                         </div>
                         <div class="p-8 relative">
                             <div class="flex justify-between items-center mb-6">
                                 <i class="far fa-folder text-4xl text-primary/80"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://jeremylive-dev.netlify.app/products#maaas" target="_blank" class="hover:text-primary transition-colors" title="Ver Info"><i class="fas fa-info-circle text-xl"></i></a>
-                                    <a href="https://chat.etheroi.com" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://jeremylive-dev.netlify.app/products#maaas" target="_blank" class="hover:text-primary transition-colors" title="Ver Info" data-i18n-title="projects.view_info"><i class="fas fa-info-circle text-xl"></i></a>
+                                    <a href="https://chat.etheroi.com" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">MAaaS Platform</h3>
-                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Plataforma escalable Multi-Agente como Servicio en Cloudflare serverless. Comunicación WebSocket en tiempo real, Durable Objects y orquestación de LLMs.</p>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors" data-i18n="projects.maaas_title">MAaaS Platform</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed" data-i18n="projects.maaas_desc">Plataforma escalable Multi-Agente como Servicio en Cloudflare serverless. Comunicación WebSocket en tiempo real, Durable Objects y orquestación de LLMs.</p>
                             <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
                                 <li class="bg-primary/5 px-2 py-1 rounded">TypeScript</li>
                                 <li class="bg-primary/5 px-2 py-1 rounded">React</li>
@@ -616,19 +622,19 @@
                             <div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-all"></div>
                             <i class="fas fa-microphone-alt text-6xl text-secondary group-hover:text-primary transition-colors scale-100 group-hover:scale-110 duration-500"></i>
                             <div class="absolute top-4 right-4 bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full border border-primary/30">
-                                <span class="text-xs font-mono text-primary">Nuevo</span>
+                                <span class="text-xs font-mono text-primary" data-i18n="projects.new_badge">Nuevo</span>
                             </div>
                         </div>
                         <div class="p-8 relative">
                             <div class="flex justify-between items-center mb-6">
                                 <i class="far fa-folder text-4xl text-primary/80"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://jeremylive-dev.netlify.app/products#mktvoz" target="_blank" class="hover:text-primary transition-colors" title="Ver Info"><i class="fas fa-info-circle text-xl"></i></a>
-                                    <a href="https://mktvoz.etheroi.com" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://jeremylive-dev.netlify.app/products#mktvoz" target="_blank" class="hover:text-primary transition-colors" title="Ver Info" data-i18n-title="projects.view_info"><i class="fas fa-info-circle text-xl"></i></a>
+                                    <a href="https://mktvoz.etheroi.com" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">MktVoz AI Studio</h3>
-                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Asistente de voz multimodal con Gemini 2.5 Flash. Analiza PDF/Audio/Video para generar mapas mentales, quizzes y material de estudio al instante.</p>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors" data-i18n="projects.mktvoz_title">MktVoz AI Studio</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed" data-i18n="projects.mktvoz_desc">Asistente de voz multimodal con Gemini 2.5 Flash. Analiza PDF/Audio/Video para generar mapas mentales, quizzes y material de estudio al instante.</p>
                             <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
                                 <li class="bg-primary/5 px-2 py-1 rounded">React Native</li>
                                 <li class="bg-primary/5 px-2 py-1 rounded">Node.js</li>
@@ -645,19 +651,19 @@
                             <div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-all"></div>
                             <i class="fas fa-language text-6xl text-secondary group-hover:text-primary transition-colors scale-100 group-hover:scale-110 duration-500"></i>
                             <div class="absolute top-4 right-4 bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full border border-primary/30">
-                                <span class="text-xs font-mono text-primary">Nuevo</span>
+                                <span class="text-xs font-mono text-primary" data-i18n="projects.new_badge">Nuevo</span>
                             </div>
                         </div>
                         <div class="p-8 relative">
                             <div class="flex justify-between items-center mb-6">
                                 <i class="far fa-folder text-4xl text-primary/80"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://jeremylive-dev.netlify.app/products#live-ai-translate" target="_blank" class="hover:text-primary transition-colors" title="Ver Info"><i class="fas fa-info-circle text-xl"></i></a>
-                                    <a href="https://liveaitranslate.etheroi.com/" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://jeremylive-dev.netlify.app/products#live-ai-translate" target="_blank" class="hover:text-primary transition-colors" title="Ver Info" data-i18n-title="projects.view_info"><i class="fas fa-info-circle text-xl"></i></a>
+                                    <a href="https://liveaitranslate.etheroi.com/" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">Live AI Translate</h3>
-                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Estudio de traducción en tiempo real con soporte de voz de alta fidelidad potenciado por Cloudflare Workers AI.</p>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors" data-i18n="projects.liveai_title">Live AI Translate</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed" data-i18n="projects.liveai_desc">Estudio de traducción en tiempo real con soporte de voz de alta fidelidad potenciado por Cloudflare Workers AI.</p>
                             <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
                                 <li class="bg-primary/5 px-2 py-1 rounded">Cloudflare AI</li>
                                 <li class="bg-primary/5 px-2 py-1 rounded">React</li>
@@ -677,11 +683,11 @@
                             <div class="flex justify-between items-center mb-6">
                                 <i class="far fa-folder text-4xl text-primary/80"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://github.com/developerjeremylive/deepMCPAgent-WebUI" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-github text-xl"></i></a>
+                                    <a href="https://github.com/developerjeremylive/deepMCPAgent-WebUI" target="_blank" class="hover:text-primary transition-colors" title="Ver Código" data-i18n-title="projects.view_code"><i class="fab fa-github text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">DeepMCPAgent WebUI</h3>
-                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Interfaz no-code open-source para agentes LangChain/LangGraph independientes del modelo, potenciados por herramientas MCP.</p>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors" data-i18n="projects.deepmcp_title">DeepMCPAgent WebUI</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed" data-i18n="projects.deepmcp_desc">Interfaz no-code open-source para agentes LangChain/LangGraph independientes del modelo, potenciados por herramientas MCP.</p>
                             <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
                                 <li class="bg-primary/5 px-2 py-1 rounded">Python</li>
                                 <li class="bg-primary/5 px-2 py-1 rounded">LangChain</li>
@@ -702,11 +708,11 @@
                             <div class="flex justify-between items-center mb-6">
                                 <i class="far fa-folder text-4xl text-primary/80"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://payment.etheroi.com" target="_blank" class="hover:text-primary transition-colors"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://payment.etheroi.com" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">Voice Agent con IA</h3>
-                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Sistema de agente de voz con integración de Gemini AI para comunicación con base de datos D1 Cloudflare y generación de gráficos en el chat.</p>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors" data-i18n="projects.voiceagent_title">Voice Agent con IA</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed" data-i18n="projects.voiceagent_desc">Sistema de agente de voz con integración de Gemini AI para comunicación con base de datos D1 Cloudflare y generación de gráficos en el chat.</p>
                             <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
                                 <li class="bg-primary/5 px-2 py-1 rounded">Python</li>
                                 <li class="bg-primary/5 px-2 py-1 rounded">Gemini AI</li>
@@ -727,11 +733,11 @@
                             <div class="flex justify-between items-center mb-6">
                                 <i class="far fa-folder text-4xl text-primary/80"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://portal.ollincr.com" target="_blank" class="hover:text-primary transition-colors"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://portal.ollincr.com" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">Plataforma de Logística</h3>
-                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Aplicación web administrativa con tracking en tiempo real, optimización de rutas y autenticación por roles usando Firebase y Google Maps.</p>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors" data-i18n="projects.logistics_title">Plataforma de Logística</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed" data-i18n="projects.logistics_desc">Aplicación web administrativa con tracking en tiempo real, optimización de rutas y autenticación por roles usando Firebase y Google Maps.</p>
                             <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
                                 <li class="bg-primary/5 px-2 py-1 rounded">React</li>
                                 <li class="bg-primary/5 px-2 py-1 rounded">TypeScript</li>
@@ -751,11 +757,11 @@
                             <div class="flex justify-between items-center mb-4">
                                 <i class="far fa-folder text-4xl text-primary"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://probeas.coop/" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://probeas.coop/" target="_blank" class="hover:text-primary" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">Sistema de Salud</h3>
-                            <p class="text-sm mb-4">Servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros.</p>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors" data-i18n="projects.health_title">Sistema de Salud</h3>
+                            <p class="text-sm mb-4" data-i18n="projects.health_desc">Servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li>.NET 8</li>
                                 <li>C#</li>
@@ -775,11 +781,11 @@
                             <div class="flex justify-between items-center mb-4">
                                 <i class="far fa-folder text-4xl text-primary"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://mylnker.com/explore" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://mylnker.com/explore" target="_blank" class="hover:text-primary" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">SaaS con Analytics</h3>
-                            <p class="text-sm mb-4">Aplicación SaaS en AWS con sistema de pagos Stripe y dashboards de analytics predictivos usando Google Analytics API.</p>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors" data-i18n="projects.saas_title">SaaS con Analytics</h3>
+                            <p class="text-sm mb-4" data-i18n="projects.saas_desc">Aplicación SaaS en AWS con sistema de pagos Stripe y dashboards de analytics predictivos usando Google Analytics API.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li>Node.js</li>
                                 <li>TypeScript</li>
@@ -799,11 +805,11 @@
                             <div class="flex justify-between items-center mb-4">
                                 <i class="far fa-folder text-4xl text-primary"></i>
                                 <div class="flex gap-4 text-secondary">
-                                    <a href="https://grupo823.com" target="_blank" class="hover:text-primary"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="https://grupo823.com" target="_blank" class="hover:text-primary" title="Visitar Sitio" data-i18n-title="projects.visit_site"><i class="fas fa-external-link-alt text-xl"></i></a>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors">Pipelines ETL</h3>
-                            <p class="text-sm mb-4">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C# para optimización de flujos de datos empresariales.</p>
+                            <h3 class="text-xl font-bold text-light mb-2 group-hover:text-primary transition-colors" data-i18n="projects.etl_title">Pipelines ETL</h3>
+                            <p class="text-sm mb-4" data-i18n="projects.etl_desc">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C# para optimización de flujos de datos empresariales.</p>
                             <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
                                 <li>SQL Server</li>
                                 <li>SSIS</li>
@@ -820,16 +826,16 @@
     <!-- Contact Section -->
     <section id="contact" class="py-24">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
-            <p class="font-mono text-primary mb-4">¿Qué sigue?</p>
-            <h2 class="text-4xl md:text-5xl font-bold text-light mb-6">Ponte en Contacto</h2>
-            <p class="text-lg mb-12">
+            <p class="font-mono text-primary mb-4" data-i18n="contact.next">¿Qué sigue?</p>
+            <h2 class="text-4xl md:text-5xl font-bold text-light mb-6" data-i18n="contact.title">Ponte en Contacto</h2>
+            <p class="text-lg mb-12" data-i18n="contact.desc">
                 Estoy siempre abierto a nuevas oportunidades y colaboraciones. Ya sea que tengas una pregunta o simplemente quieras saludar, ¡haré todo lo posible por responderte!
             </p>
             
             <div class="text-center mb-16 relative group inline-block">
                 <div class="absolute -inset-1 bg-gradient-to-r from-primary to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                 <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="relative inline-flex items-center justify-center px-10 py-5 text-lg font-mono font-bold text-dark bg-primary rounded-lg hover:bg-primary/90 transition-all transform hover:-translate-y-1 shadow-lg shadow-primary/20">
-                    <span class="mr-3">Ir al Formulario de Contacto</span>
+                    <span class="mr-3" data-i18n="contact.cta">Ir al Formulario de Contacto</span>
                     <i class="fas fa-arrow-right animate-pulse"></i>
                 </a>
             </div>
@@ -847,21 +853,23 @@
             </div>
 
             <div class="text-sm font-mono text-secondary space-y-2">
-                <p><i class="fas fa-map-marker-alt text-primary mr-2"></i>San José, Costa Rica</p>
+                <p><i class="fas fa-map-marker-alt text-primary mr-2"></i><span data-i18n="contact.location">San José, Costa Rica</span></p>
                 <p><i class="fas fa-envelope text-primary mr-2"></i>jeremylive@live.com</p>
                 <p><i class="fas fa-phone text-primary mr-2"></i>+506 8395 3467</p>
-                <p><i class="fas fa-language text-primary mr-2"></i>Español (Nativo) | Inglés (C1/Fluido)</p>
+                <p><i class="fas fa-language text-primary mr-2"></i><span data-i18n="contact.native">Español (Nativo) | Inglés (C1/Fluido)</span></p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="py-8 text-center text-sm font-mono text-secondary border-t border-white/5">
-        <p>Diseñado & Desarrollado por Jeremy José Live González</p>
-        <p class="mt-2 text-xs opacity-50">Construido con HTML, Tailwind CSS & Three.js</p>
+        <p data-i18n="footer.designed">Diseñado & Desarrollado por Jeremy José Live González</p>
+        <p class="mt-2 text-xs opacity-50" data-i18n="footer.built">Construido con HTML, Tailwind CSS & Three.js</p>
     </footer>
 
     <!-- Scripts -->
+    <script src="js/translations.js"></script>
+    <script src="js/app.js"></script>
     <script>
         // Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
