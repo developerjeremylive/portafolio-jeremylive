@@ -893,6 +893,9 @@
     </footer>
 
     <!-- Voice Agent UI -->
+    <!-- Backdrop Overlay -->
+    <div id="voice-agent-overlay" class="fixed inset-0 bg-dark/60 backdrop-blur-sm z-[55] hidden transition-opacity duration-300"></div>
+
     <!-- Floating Button -->
     <button id="voice-agent-btn" class="fixed bottom-6 right-6 z-50 bg-primary text-dark w-14 h-14 rounded-full shadow-lg shadow-primary/30 flex items-center justify-center hover:scale-110 transition-transform duration-300 group">
         <i class="fas fa-robot text-2xl group-hover:animate-pulse"></i>
@@ -982,7 +985,7 @@
         </div>
 
         <!-- Settings Modal (Overlay inside panel) -->
-        <div id="voice-settings-modal" class="absolute inset-0 bg-surface/95 backdrop-blur-xl z-10 p-6 hidden flex-col">
+        <div id="voice-settings-modal" class="absolute inset-x-0 top-[73px] bottom-0 bg-surface/95 backdrop-blur-xl z-30 p-6 hidden flex-col border-t border-white/10 animate-fade-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="font-mono font-bold text-light text-lg">Configuración</h3>
                 <button id="close-settings-btn" class="text-secondary hover:text-primary"><i class="fas fa-times"></i></button>

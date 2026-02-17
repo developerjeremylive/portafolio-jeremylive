@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const UI = {
         btn: document.getElementById('voice-agent-btn'),
         panel: document.getElementById('voice-agent-panel'),
+        overlay: document.getElementById('voice-agent-overlay'),
         closeBtn: document.getElementById('voice-close-btn'),
         settingsBtn: document.getElementById('voice-settings-btn'),
         settingsModal: document.getElementById('voice-settings-modal'),
@@ -241,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             UI.btn.addEventListener('click', togglePanel);
             UI.closeBtn.addEventListener('click', togglePanel);
+            UI.overlay.addEventListener('click', togglePanel);
             UI.settingsBtn.addEventListener('click', () => {
                 const isHidden = UI.settingsModal.classList.contains('hidden');
                 toggleSettings(isHidden);
@@ -312,12 +314,14 @@ document.addEventListener('DOMContentLoaded', () => {
         STATE.isOpen = !STATE.isOpen;
         if (STATE.isOpen) {
             UI.panel.classList.remove('translate-x-full');
+            UI.overlay.classList.remove('hidden');
             UI.btn.classList.add('scale-0'); // Hide button when open
             scrollToBottom();
             // Focus input
             setTimeout(() => UI.input.focus(), 300);
         } else {
             UI.panel.classList.add('translate-x-full');
+            UI.overlay.classList.add('hidden');
             UI.btn.classList.remove('scale-0');
         }
     }
