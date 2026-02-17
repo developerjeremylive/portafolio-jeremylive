@@ -917,12 +917,33 @@
         </div>
 
         <!-- Chat Area -->
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth pb-20">
             <!-- Messages will be injected here -->
             <div class="flex justify-start">
                 <div class="bg-white/10 text-light rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] text-sm">
                     Hola, soy el asistente virtual de Jeremy. ¿En qué puedo ayudarte hoy?
                 </div>
+            </div>
+        </div>
+
+        <!-- Audio Player Controls (Fixed above input) -->
+        <div id="audio-player-controls" class="px-4 py-2 bg-dark/80 backdrop-blur border-t border-white/5 flex items-center justify-between hidden transition-all duration-300">
+            <div class="flex items-center gap-2 overflow-hidden">
+                <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                    <i class="fas fa-volume-up text-xs"></i>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-[10px] text-primary font-mono truncate" id="current-voice-name">Google Español</span>
+                    <span class="text-[10px] text-secondary/60 truncate" id="player-status">Reproduciendo...</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-1">
+                <button id="player-stop-btn" class="w-8 h-8 rounded-full hover:bg-white/10 text-secondary hover:text-red-400 flex items-center justify-center transition-colors" title="Detener">
+                    <i class="fas fa-stop text-xs"></i>
+                </button>
+                <button id="player-play-pause-btn" class="w-8 h-8 rounded-full bg-primary text-dark hover:bg-primary/90 flex items-center justify-center transition-colors shadow-lg shadow-primary/20" title="Pausar/Reproducir">
+                    <i class="fas fa-pause text-xs"></i>
+                </button>
             </div>
         </div>
 
@@ -987,6 +1008,14 @@
                     <select id="voice-lang-select" class="bg-transparent text-primary text-sm outline-none text-right">
                         <option value="es">Español</option>
                         <option value="en">English</option>
+                    </select>
+                </div>
+
+                <div class="space-y-2 pt-2">
+                    <label class="block text-xs font-mono text-secondary uppercase tracking-wider">Voz del Agente</label>
+                    <select id="voice-select" class="w-full bg-dark/50 border border-white/10 rounded px-3 py-2 text-sm text-light focus:border-primary outline-none">
+                        <option value="default">Voz por defecto</option>
+                        <!-- Voices will be populated via JS -->
                     </select>
                 </div>
             </div>

@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const STATE = {
         isOpen: false,
         isListening: false,
+        isSpeaking: false,
         messages: [],
         config: {
             apiKey: localStorage.getItem('gemini_api_key') || '',
@@ -14,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
             customModel: localStorage.getItem('gemini_custom_model') || 'gemini-3-flash-preview',
             useThinking: localStorage.getItem('gemini_thinking') !== 'false', // Default true for thinking model
             useTTS: localStorage.getItem('gemini_tts') !== 'false', // Default true
-            lang: localStorage.getItem('gemini_lang') || 'es'
+            lang: localStorage.getItem('gemini_lang') || 'es',
+            voiceURI: localStorage.getItem('gemini_voice_uri') || ''
         }
     };
 
@@ -40,8 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
         thinkingToggle: document.getElementById('thinking-mode-toggle'),
         ttsToggle: document.getElementById('tts-toggle'),
         langSelect: document.getElementById('voice-lang-select'),
+        voiceSelect: document.getElementById('voice-select'),
         clearHistoryBtn: document.getElementById('clear-history-btn'),
-        modelStatus: document.getElementById('model-status')
+        modelStatus: document.getElementById('model-status'),
+
+        // Player Controls
+        playerControls: document.getElementById('audio-player-controls'),
+        playerPlayPauseBtn: document.getElementById('player-play-pause-btn'),
+        playerStopBtn: document.getElementById('player-stop-btn'),
+        playerStatus: document.getElementById('player-status'),
+        currentVoiceName: document.getElementById('current-voice-name')
     };
 
     // --- Initialization ---
@@ -442,41 +452,126 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Voice Features (STT & TTS) ---
 
-    // 1. Text-to-Speech (Google Translate Hack)
-    function speak(text) {
-        const cleanText = text.replace(/[*`]/g, '');
-        const lang = STATE.config.lang; // 'es' or 'en'
+    // 3. Text-to-Speech (Web Speech API)
+    let synthesis = window.speechSynthesis;
+    let currentUtterance = null;
+    let availableVoices = [];
+
+    function loadVoices() {
+        availableVoices = synthesis.getVoices();
         
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.lang = lang === 'es' ? 'es-ES' : 'en-US';
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            
-            // Try to select a "Google" voice if available
-            const voices = window.speechSynthesis.getVoices();
-            // Try to find a Google voice for the selected language
-            const googleVoice = voices.find(v => v.name.includes('Google') && v.lang.startsWith(lang));
-            
-            if (googleVoice) {
-                utterance.voice = googleVoice;
-            } else {
-                // Fallback to any voice matching the language
-                const langVoice = voices.find(v => v.lang.startsWith(lang));
-                if (langVoice) utterance.voice = langVoice;
+        // Filter voices by selected language
+        const langCode = STATE.config.lang === 'es' ? 'es' : 'en';
+        const filteredVoices = availableVoices.filter(v => v.lang.startsWith(langCode));
+
+        // Populate select
+        UI.voiceSelect.innerHTML = '<option value="">Voz automática</option>';
+        filteredVoices.forEach(voice => {
+            const option = document.createElement('option');
+            option.value = voice.voiceURI;
+            option.textContent = `${voice.name} (${voice.lang})`;
+            if (voice.voiceURI === STATE.config.voiceURI) {
+                option.selected = true;
             }
-            
-            window.speechSynthesis.speak(utterance);
+            UI.voiceSelect.appendChild(option);
+        });
+    }
+
+    // Chrome requires an event to load voices
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function speak(text) {
+        if (!STATE.config.useTTS) return;
+
+        // Cancel previous
+        if (synthesis.speaking) {
+            synthesis.cancel();
+        }
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Select voice
+        if (STATE.config.voiceURI) {
+            const voice = availableVoices.find(v => v.voiceURI === STATE.config.voiceURI);
+            if (voice) utterance.voice = voice;
         } else {
-            // Fallback to audio element hack
-            const encoded = encodeURIComponent(cleanText.substring(0, 200)); 
-            const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encoded}&tl=${lang}&client=tw-ob`;
-            const audio = new Audio(url);
-            audio.play().catch(e => console.error("TTS Playback failed", e));
+             // Fallback to best available for language
+             const langCode = STATE.config.lang === 'es' ? 'es-ES' : 'en-US';
+             utterance.lang = langCode;
+        }
+
+        // Setup events for player UI
+        utterance.onstart = () => {
+            STATE.isSpeaking = true;
+            showPlayer(true);
+            UI.playerStatus.textContent = "Reproduciendo...";
+            UI.currentVoiceName.textContent = utterance.voice ? utterance.voice.name : 'Voz Automática';
+            UI.playerPlayPauseBtn.innerHTML = '<i class="fas fa-pause text-xs"></i>';
+        };
+
+        utterance.onend = () => {
+            STATE.isSpeaking = false;
+            showPlayer(false);
+            UI.playerPlayPauseBtn.innerHTML = '<i class="fas fa-play text-xs"></i>';
+        };
+
+        utterance.onerror = () => {
+            STATE.isSpeaking = false;
+            showPlayer(false);
+        };
+
+        currentUtterance = utterance;
+        synthesis.speak(utterance);
+    }
+
+    function showPlayer(show) {
+        if (show) {
+            UI.playerControls.classList.remove('hidden');
+        } else {
+            // Delay hiding slightly for smoother UX
+            setTimeout(() => {
+                if (!synthesis.speaking) {
+                    UI.playerControls.classList.add('hidden');
+                }
+            }, 2000);
         }
     }
+
+    // Player Controls Logic
+    UI.playerStopBtn.addEventListener('click', () => {
+        if (synthesis.speaking) {
+            synthesis.cancel();
+            STATE.isSpeaking = false;
+            showPlayer(false);
+        }
+    });
+
+    UI.playerPlayPauseBtn.addEventListener('click', () => {
+        if (synthesis.paused) {
+            synthesis.resume();
+            UI.playerPlayPauseBtn.innerHTML = '<i class="fas fa-pause text-xs"></i>';
+            UI.playerStatus.textContent = "Reproduciendo...";
+        } else if (synthesis.speaking) {
+            synthesis.pause();
+            UI.playerPlayPauseBtn.innerHTML = '<i class="fas fa-play text-xs"></i>';
+            UI.playerStatus.textContent = "Pausado";
+        }
+    });
+
+    // Update voice list when language changes
+    UI.langSelect.addEventListener('change', () => {
+        updateConfig('lang', UI.langSelect.value);
+        loadVoices(); // Refresh list
+    });
+
+    // Save selected voice
+    UI.voiceSelect.addEventListener('change', () => {
+        updateConfig('voiceURI', UI.voiceSelect.value);
+    });
+
+    // --- End TTS Logic ---
 
     // 2. Speech-to-Text (Web Speech API)
     let recognition;
