@@ -241,7 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             UI.btn.addEventListener('click', togglePanel);
             UI.closeBtn.addEventListener('click', togglePanel);
-            UI.settingsBtn.addEventListener('click', () => toggleSettings(true));
+            UI.settingsBtn.addEventListener('click', () => {
+                const isHidden = UI.settingsModal.classList.contains('hidden');
+                toggleSettings(isHidden);
+            });
             UI.closeSettingsBtn.addEventListener('click', () => toggleSettings(false));
             
             UI.sendBtn.addEventListener('click', handleUserMessage);
