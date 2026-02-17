@@ -574,6 +574,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = UI.input.value.trim();
         if (!text) return;
 
+        // Auto-create chat if in empty state
+        if (!STATE.currentChatId) {
+            createNewChat();
+        }
+
         // Clear input
         UI.input.value = '';
 
@@ -688,38 +693,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return formatted;
     }
 
+
+
     // --- History Management ---
 
     function saveMessageToHistory(role, text) {
-        STATE.messages.push({ role, text, timestamp: Date.now() });
-        localStorage.setItem('chat_history', JSON.stringify(STATE.messages));
-    }
+        if (!STATE.currentChatId) return;
 
-    function loadHistory() {
-        const saved = localStorage.getItem('chat_history');
-        if (saved) {
-            STATE.messages = JSON.parse(saved);
-            STATE.messages.forEach(msg => {
-                // Manually recreate UI without saving again
-                const div = document.createElement('div');
-                div.className = `flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`;
-                const bubble = document.createElement('div');
-                bubble.className = msg.role === 'user' 
-                    ? 'bg-primary text-dark rounded-2xl rounded-tr-none px-4 py-3 max-w-[85%] text-sm shadow-md'
-                    : 'bg-white/10 text-light rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] text-sm shadow-md';
-                bubble.innerHTML = formatText(msg.text);
-                div.appendChild(bubble);
-                UI.chatContainer.appendChild(div);
+        const chat = STATE.chats.find(c => c.id === STATE.currentChatId);
+        if (chat) {
+            chat.messages.push({ 
+                role: role, 
+                content: text, 
+                timestamp: Date.now() 
             });
-            scrollToBottom();
+            saveChats();
+            
+            // Update title if it's the first user message
+            if (role === 'user' && chat.messages.filter(m => m.role === 'user').length === 1) {
+                 updateChatTitle(STATE.currentChatId, text);
+            }
         }
-    }
-
-    function clearHistory() {
-        STATE.messages = [];
-        localStorage.removeItem('chat_history');
-        UI.chatContainer.innerHTML = ''; // Clear UI
-        addMessage('bot', 'Historial borrado. ¿En qué puedo ayudarte?');
     }
 
     // --- Gemini API Integration ---
