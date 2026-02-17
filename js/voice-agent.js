@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         messages: [],
         config: {
             apiKey: localStorage.getItem('gemini_api_key') || '',
-            model: localStorage.getItem('gemini_model') || 'gemini-2.0-flash-exp',
-            customModel: localStorage.getItem('gemini_custom_model') || '',
-            useThinking: localStorage.getItem('gemini_thinking') === 'true',
+            model: localStorage.getItem('gemini_model') || 'custom',
+            customModel: localStorage.getItem('gemini_custom_model') || 'gemini-3-flash-preview',
+            useThinking: localStorage.getItem('gemini_thinking') !== 'false', // Default true for thinking model
             useTTS: localStorage.getItem('gemini_tts') !== 'false', // Default true
             lang: localStorage.getItem('gemini_lang') || 'es'
         }
@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Settings Inputs
         apiKeyInput: document.getElementById('api-key-input'),
         modelSelect: document.getElementById('model-select'),
+        refreshModelsBtn: document.getElementById('refresh-models-btn'),
         customModelInput: document.getElementById('custom-model-input'),
         thinkingToggle: document.getElementById('thinking-mode-toggle'),
         ttsToggle: document.getElementById('tts-toggle'),
@@ -61,7 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     UI.micBtn.addEventListener('click', toggleVoiceRecognition);
     
     // Settings Events
-    UI.apiKeyInput.addEventListener('change', (e) => updateConfig('apiKey', e.target.value));
+    UI.refreshModelsBtn.addEventListener('click', fetchAvailableModels);
+    UI.apiKeyInput.addEventListener('change', (e) => {
+        updateConfig('apiKey', e.target.value);
+        if (e.target.value) fetchAvailableModels(); // Auto fetch when key added
+    });
     UI.modelSelect.addEventListener('change', (e) => {
         updateConfig('model', e.target.value);
         toggleCustomModelInput(e.target.value === 'custom');
@@ -138,6 +143,81 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateModelStatus() {
         const modelName = STATE.config.model === 'custom' ? STATE.config.customModel : STATE.config.model;
         UI.modelStatus.textContent = `Model: ${modelName} ${STATE.config.useThinking ? '(Thinking)' : ''}`;
+    }
+
+    async function fetchAvailableModels() {
+        if (!STATE.config.apiKey) {
+            // alert('Por favor configura primero tu API Key.'); // Don't alert on auto-load
+            return;
+        }
+
+        const btn = UI.refreshModelsBtn;
+        const icon = btn.querySelector('i');
+        icon.classList.add('animate-spin');
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${STATE.config.apiKey}`);
+            if (!response.ok) throw new Error('Error al obtener modelos');
+            
+            const data = await response.json();
+            let models = [];
+            if (data.models) {
+                models = data.models.filter(m => 
+                    m.supportedGenerationMethods && 
+                    m.supportedGenerationMethods.includes('generateContent') &&
+                    m.name.includes('gemini') // Filter strictly for Gemini models
+                );
+            }
+
+            // Save current custom option to restore it
+            const customOption = document.createElement('option');
+            customOption.value = 'custom';
+            customOption.textContent = 'Custom Model ID';
+
+            UI.modelSelect.innerHTML = ''; // Clear existing
+            
+            // Sort: newer versions first (roughly)
+            models.sort((a, b) => b.displayName.localeCompare(a.displayName));
+
+            models.forEach(model => {
+                const option = document.createElement('option');
+                // model.name is like "models/gemini-pro"
+                const value = model.name.replace('models/', '');
+                option.value = value;
+                option.textContent = `${model.displayName} (${value})`;
+                UI.modelSelect.appendChild(option);
+            });
+
+            // Always add Custom option at the end
+            UI.modelSelect.appendChild(customOption);
+
+            // Restore selection if still valid, else select first available
+            if (models.some(m => m.name.replace('models/', '') === STATE.config.model)) {
+                UI.modelSelect.value = STATE.config.model;
+            } else if (models.length > 0) {
+                UI.modelSelect.value = models[0].name.replace('models/', '');
+                updateConfig('model', UI.modelSelect.value);
+            } else {
+                 // Fallback if no models found (e.g. key issue but no error thrown yet)
+                 UI.modelSelect.value = 'custom';
+            }
+
+            // Show success feedback
+            icon.classList.remove('fa-sync-alt', 'animate-spin');
+            icon.classList.add('fa-check', 'text-green-400');
+            setTimeout(() => {
+                icon.classList.remove('fa-check', 'text-green-400');
+                icon.classList.add('fa-sync-alt');
+            }, 2000);
+
+        } catch (error) {
+            console.error('Failed to fetch models:', error);
+            // alert('No se pudieron cargar los modelos. Verifica tu API Key.');
+        } finally {
+            icon.classList.remove('animate-spin');
+            btn.disabled = false;
+        }
     }
 
     // --- Chat Logic ---
@@ -415,6 +495,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
         
+        // Detect language or use configured one
+        // If config.lang is 'es' -> 'es-ES', if 'en' -> 'en-US'
+        // But let's make it smarter: if user speaks in english to a spanish config, it might fail.
+        // Web Speech API doesn't support auto-detect well. 
+        // We will stick to configured language but ensure it updates dynamically.
         recognition.lang = STATE.config.lang === 'es' ? 'es-ES' : 'en-US';
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
@@ -423,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
             STATE.isListening = true;
             UI.indicator.classList.remove('hidden');
             UI.micBtn.classList.add('text-red-500', 'animate-pulse');
-            UI.input.placeholder = "Escuchando...";
+            UI.input.placeholder = recognition.lang.startsWith('es') ? "Escuchando..." : "Listening...";
         };
 
         recognition.onend = () => {
@@ -445,6 +530,13 @@ document.addEventListener('DOMContentLoaded', () => {
             STATE.isListening = false;
             UI.indicator.classList.add('hidden');
             UI.micBtn.classList.remove('text-red-500', 'animate-pulse');
+            
+            // Handle specific errors
+            if (event.error === 'no-speech') {
+                // Just ignore
+            } else if (event.error === 'not-allowed') {
+                alert('Permiso de micrófono denegado.');
+            }
         };
 
         recognition.start();
