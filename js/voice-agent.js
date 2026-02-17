@@ -3,6 +3,17 @@
 // Integrates Gemini API, Web Speech API, and LocalStorage
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Helper to safely parse JSON from localStorage
+    const safeJSONParse = (key, fallback) => {
+        try {
+            const item = localStorage.getItem(key);
+            return item ? JSON.parse(item) : fallback;
+        } catch (e) {
+            console.error(`Error parsing ${key} from localStorage`, e);
+            return fallback;
+        }
+    };
+
     // --- Configuration & State ---
     const STATE = {
         isOpen: false,
@@ -10,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isSpeaking: false,
         isHistoryOpen: false, // New
         currentChatId: null, // New
-        chats: JSON.parse(localStorage.getItem('gemini_chats') || '[]'), // Array of {id, title, messages, timestamp}
+        chats: safeJSONParse('gemini_chats', []), // Array of {id, title, messages, timestamp}
         // messages: [], // Deprecated in favor of currentChatId -> chats
         config: {
             apiKey: localStorage.getItem('gemini_api_key') || '',
@@ -226,54 +237,67 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initialization ---
 
     function init() {
-        initSettings();
-        
-        // Initialize Chats
-        if (STATE.chats.length === 0) {
-            createNewChat();
-        } else {
-            // Load most recent
-            loadChat(STATE.chats[0].id);
-            renderChatHistory();
+        // Event Listeners (Initialize first to ensure UI is responsive)
+        try {
+            UI.btn.addEventListener('click', togglePanel);
+            UI.closeBtn.addEventListener('click', togglePanel);
+            UI.settingsBtn.addEventListener('click', () => toggleSettings(true));
+            UI.closeSettingsBtn.addEventListener('click', () => toggleSettings(false));
+            
+            UI.sendBtn.addEventListener('click', handleUserMessage);
+            UI.input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleUserMessage();
+            });
+
+            UI.micBtn.addEventListener('click', toggleVoiceRecognition);
+            
+            // History Listeners
+            UI.historyToggleBtn.addEventListener('click', toggleHistory);
+            UI.newChatBtn.addEventListener('click', createNewChat);
+            UI.clearAllChatsBtn.addEventListener('click', clearAllChats);
+            
+            // Settings Events
+            UI.refreshModelsBtn.addEventListener('click', fetchAvailableModels);
+            UI.apiKeyInput.addEventListener('change', (e) => {
+                updateConfig('apiKey', e.target.value);
+                if (e.target.value) fetchAvailableModels();
+            });
+            UI.modelSelect.addEventListener('change', (e) => {
+                updateConfig('model', e.target.value);
+                toggleCustomModelInput(e.target.value === 'custom');
+            });
+            UI.customModelInput.addEventListener('change', (e) => updateConfig('customModel', e.target.value));
+            UI.thinkingToggle.addEventListener('change', (e) => updateConfig('useThinking', e.target.checked));
+            UI.ttsToggle.addEventListener('change', (e) => updateConfig('useTTS', e.target.checked));
+            UI.langSelect.addEventListener('change', (e) => updateConfig('lang', e.target.value));
+            if (UI.clearHistoryBtn) {
+                UI.clearHistoryBtn.addEventListener('click', clearAllChats);
+            }
+        } catch (e) {
+            console.error("Error initializing event listeners:", e);
         }
 
-        // Event Listeners
-        UI.btn.addEventListener('click', togglePanel);
-        UI.closeBtn.addEventListener('click', togglePanel);
-        UI.settingsBtn.addEventListener('click', () => toggleSettings(true));
-        UI.closeSettingsBtn.addEventListener('click', () => toggleSettings(false));
-        
-        UI.sendBtn.addEventListener('click', handleUserMessage);
-        UI.input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleUserMessage();
-        });
-
-        UI.micBtn.addEventListener('click', toggleVoiceRecognition);
-        
-        // History Listeners
-        UI.historyToggleBtn.addEventListener('click', toggleHistory);
-        UI.newChatBtn.addEventListener('click', createNewChat);
-        UI.clearAllChatsBtn.addEventListener('click', clearAllChats);
-        
-        // Settings Events
-        UI.refreshModelsBtn.addEventListener('click', fetchAvailableModels);
-        UI.apiKeyInput.addEventListener('change', (e) => {
-            updateConfig('apiKey', e.target.value);
-            if (e.target.value) fetchAvailableModels();
-        });
-        UI.modelSelect.addEventListener('change', (e) => {
-            updateConfig('model', e.target.value);
-            toggleCustomModelInput(e.target.value === 'custom');
-        });
-        UI.customModelInput.addEventListener('change', (e) => updateConfig('customModel', e.target.value));
-        UI.thinkingToggle.addEventListener('change', (e) => updateConfig('useThinking', e.target.checked));
-        UI.ttsToggle.addEventListener('change', (e) => updateConfig('useTTS', e.target.checked));
-        UI.langSelect.addEventListener('change', (e) => updateConfig('lang', e.target.value));
-        UI.clearHistoryBtn.addEventListener('click', clearAllChats);
-        
-        // Auto-fetch models if key exists
-        if (STATE.config.apiKey) {
-            fetchAvailableModels();
+        try {
+            initSettings();
+            
+            // Initialize Chats
+            if (!STATE.chats || !Array.isArray(STATE.chats) || STATE.chats.length === 0) {
+                STATE.chats = []; // Reset if invalid
+                createNewChat();
+            } else {
+                // Load most recent
+                loadChat(STATE.chats[0].id);
+                renderChatHistory();
+            }
+            
+            // Auto-fetch models if key exists
+            if (STATE.config.apiKey) {
+                fetchAvailableModels();
+            }
+        } catch (e) {
+            console.error("Error initializing app state:", e);
+            // Fallback: create new chat if loading failed
+            createNewChat();
         }
     }
 
