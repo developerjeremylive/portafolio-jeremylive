@@ -424,6 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error initializing event listeners:", e);
         }
 
+        // Initialize last
         try {
             initSettings();
             
@@ -450,8 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showEmptyState();
         }
     }
-
-    init();
 
     // --- Core Functions ---
 
@@ -1010,6 +1009,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Speech-to-Text (Web Speech API)
     let recognition;
+    let autoSendTimer = null;
     
     function toggleVoiceRecognition() {
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -1019,6 +1019,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (STATE.isListening) {
             if (recognition) {
+                // Stop manually -> Cancel auto-send
+                if (autoSendTimer) clearTimeout(autoSendTimer);
+                
                 recognition.stop();
                 STATE.isListening = false;
                 UI.indicator.classList.add('hidden');
@@ -1090,13 +1093,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show results
             UI.input.value = finalTranscript || interimTranscript;
 
-            if (finalTranscript) {
-                // Auto send
-                setTimeout(() => handleUserMessage(), 800);
+            if (finalTranscript && STATE.isListening) {
+                // Auto send only if still listening (not manually stopped)
+                if (autoSendTimer) clearTimeout(autoSendTimer);
+                autoSendTimer = setTimeout(() => handleUserMessage(), 800);
             }
         };
 
         recognition.onerror = (event) => {
+            if (autoSendTimer) clearTimeout(autoSendTimer);
             console.error('Speech error:', event.error);
             STATE.isListening = false;
             UI.indicator.classList.add('hidden');
@@ -1130,4 +1135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showNotification("Error interno al iniciar micrófono.", 'error');
         }
     }
+
+    // Initialize the app after all definitions
+    init();
 });
