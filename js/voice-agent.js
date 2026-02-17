@@ -931,6 +931,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         utterance.onerror = (e) => {
+            // Ignore interruption errors (when we cancel manually)
+            if (e.error === 'interrupted' || e.error === 'canceled') {
+                STATE.isSpeaking = false;
+                showPlayer(false);
+                return;
+            }
+            
             console.error('TTS Error:', e);
             STATE.isSpeaking = false;
             UI.playerStatus.textContent = "Error al reproducir";
@@ -1011,7 +1018,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (STATE.isListening) {
-            if (recognition) recognition.stop();
+            if (recognition) {
+                recognition.stop();
+                STATE.isListening = false;
+                UI.indicator.classList.add('hidden');
+                UI.micBtn.classList.remove('text-red-500', 'animate-pulse');
+            }
             return;
         }
 
@@ -1022,15 +1034,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Web Speech API requires HTTPS (except localhost)
-        // window.isSecureContext is true for HTTPS and localhost
         if (!window.isSecureContext) {
             showNotification('El reconocimiento de voz requiere HTTPS o Localhost.', 'error');
             return;
         }
 
-        // Cleanup previous instance if any to prevent conflicts
+        // Cleanup previous instance completely
         if (recognition) {
             try {
+                recognition.onend = null; // Prevent triggering old listeners
+                recognition.onerror = null;
                 recognition.abort();
             } catch (e) { /* ignore */ }
             recognition = null;
@@ -1039,17 +1052,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
         
-        // Use configured language
+        // Configuration
         recognition.lang = STATE.config.lang === 'es' ? 'es-ES' : 'en-US';
-        recognition.interimResults = true; // Changed to true for better feedback
+        recognition.interimResults = true; 
         recognition.maxAlternatives = 1;
-        recognition.continuous = false; // Stop after one phrase
+        recognition.continuous = false;
+
+        // Visual Feedback Initialization
+        UI.input.placeholder = "Inicializando micrófono...";
 
         recognition.onstart = () => {
             STATE.isListening = true;
             UI.indicator.classList.remove('hidden');
             UI.micBtn.classList.add('text-red-500', 'animate-pulse');
-            UI.input.placeholder = recognition.lang.startsWith('es') ? "Escuchando..." : "Listening...";
+            UI.input.placeholder = recognition.lang.startsWith('es') ? "Escuchando... (habla ahora)" : "Listening... (speak now)";
         };
 
         recognition.onend = () => {
@@ -1071,14 +1087,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // Show interim results in input for feedback
+            // Show results
             UI.input.value = finalTranscript || interimTranscript;
 
             if (finalTranscript) {
-                // Auto send after a short delay to allow corrections if needed?
-                // Or just send immediately. User asked "que se copie el texto".
-                // But typically voice assistants send automatically.
-                // Let's keep auto-send but make it robust.
+                // Auto send
                 setTimeout(() => handleUserMessage(), 800);
             }
         };
@@ -1091,18 +1104,22 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Handle specific errors
             if (event.error === 'no-speech') {
-                showNotification('No se detectó voz. Intenta de nuevo.', 'info');
+                showNotification('No se detectó voz. Intenta acercarte al micrófono.', 'info');
             } else if (event.error === 'not-allowed') {
-                showNotification('Permiso de micrófono denegado. Revisa tu navegador.', 'error');
+                showConfirm('⚠️ Permiso Denegado\n\nEl navegador no tiene permiso para usar el micrófono.\n\nPor favor, haz clic en el icono de "candado" o "cámara" en la barra de dirección y permite el acceso.', () => {});
             } else if (event.error === 'network') {
-                // Improve network error message
                 const isLocal = window.location.protocol === 'file:';
-                const msg = isLocal 
-                    ? 'Error de red: El reconocimiento de voz no funciona en archivos locales (file://). Usa un servidor local.' 
-                    : 'Error de red. Verifica tu conexión a internet o el acceso a los servicios de voz de Google.';
-                showNotification(msg, 'error');
+                
+                if (isLocal) {
+                    showConfirm('⚠️ Error de Protocolo\n\nEl reconocimiento de voz no funciona en archivos locales (file://).', () => {});
+                } else {
+                     // More detailed error for production (Netlify)
+                     showNotification('Error de conexión con Google Speech API. Puede ser por VPN, Firewall o Bloqueador de anuncios.', 'error');
+                }
+            } else if (event.error === 'aborted') {
+                // Ignore aborted errors (user stopped)
             } else {
-                showNotification(`Error de reconocimiento: ${event.error}`, 'error');
+                showNotification(`Error: ${event.error}`, 'error');
             }
         };
 
@@ -1110,7 +1127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             recognition.start();
         } catch (e) {
             console.error("Error starting recognition:", e);
-            showNotification("No se pudo iniciar el micrófono.", 'error');
+            showNotification("Error interno al iniciar micrófono.", 'error');
         }
     }
 });
