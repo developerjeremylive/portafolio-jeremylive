@@ -191,7 +191,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const newChat = {
             id: chatId,
             title: 'Nuevo Chat',
-            messages: [],
+            messages: [{
+                role: 'bot',
+                content: 'Hola, soy el asistente virtual de Jeremy. ¿En qué puedo ayudarte hoy?',
+                timestamp: Date.now()
+            }],
             timestamp: Date.now()
         };
         STATE.chats.unshift(newChat);
@@ -217,8 +221,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear UI
         UI.chatContainer.innerHTML = '';
         
-        // Add welcome message always
-        addMessage('bot', 'Hola, soy el asistente virtual de Jeremy. ¿En qué puedo ayudarte hoy?', false);
+        // Add welcome message if chat is empty (fallback for old chats or edge cases)
+        // But normally it should be in history.
+        if (chat.messages.length === 0) {
+             // If really empty, add one but don't save it yet? 
+             // Or better, let's just rely on history.
+             // If we add it here, we risk duplication if we save it later.
+             // Let's just render what we have.
+             // If it's a NEW chat, createNewChat initializes it with a message.
+        }
 
         // Render messages
         chat.messages.forEach(msg => {
@@ -310,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h5 class="text-sm font-mono ${isActive ? 'text-primary' : 'text-light'} truncate">${chat.title}</h5>
                     <p class="text-[10px] text-secondary truncate">${date}</p>
                 </div>
-                <button class="text-secondary hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity p-1" onclick="deleteChat('${chat.id}', event)">
+                <button class="text-secondary hover:text-red-400 opacity-100 transition-opacity p-1" onclick="deleteChat('${chat.id}', event)">
                     <i class="fas fa-trash-alt text-xs"></i>
                 </button>
             `;
@@ -956,7 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function toggleVoiceRecognition() {
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            alert('Tu navegador no soporta reconocimiento de voz.');
+            showNotification('Tu navegador no soporta reconocimiento de voz.', 'error');
             return;
         }
 
@@ -968,14 +979,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
         
-        // Detect language or use configured one
-        // If config.lang is 'es' -> 'es-ES', if 'en' -> 'en-US'
-        // But let's make it smarter: if user speaks in english to a spanish config, it might fail.
-        // Web Speech API doesn't support auto-detect well. 
-        // We will stick to configured language but ensure it updates dynamically.
+        // Use configured language
         recognition.lang = STATE.config.lang === 'es' ? 'es-ES' : 'en-US';
-        recognition.interimResults = false;
+        recognition.interimResults = true; // Changed to true for better feedback
         recognition.maxAlternatives = 1;
+        recognition.continuous = false; // Stop after one phrase
 
         recognition.onstart = () => {
             STATE.isListening = true;
@@ -991,11 +999,28 @@ document.addEventListener('DOMContentLoaded', () => {
             UI.input.placeholder = "Escribe o habla...";
         };
 
+        let finalTranscript = '';
+
         recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            UI.input.value = transcript;
-            // Auto send after speech
-            setTimeout(() => handleUserMessage(), 500);
+            let interimTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    finalTranscript += event.results[i][0].transcript;
+                } else {
+                    interimTranscript += event.results[i][0].transcript;
+                }
+            }
+            
+            // Show interim results in input for feedback
+            UI.input.value = finalTranscript || interimTranscript;
+
+            if (finalTranscript) {
+                // Auto send after a short delay to allow corrections if needed?
+                // Or just send immediately. User asked "que se copie el texto".
+                // But typically voice assistants send automatically.
+                // Let's keep auto-send but make it robust.
+                setTimeout(() => handleUserMessage(), 800);
+            }
         };
 
         recognition.onerror = (event) => {
@@ -1006,12 +1031,21 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Handle specific errors
             if (event.error === 'no-speech') {
-                // Just ignore
+                showNotification('No se detectó voz. Intenta de nuevo.', 'info');
             } else if (event.error === 'not-allowed') {
-                alert('Permiso de micrófono denegado.');
+                showNotification('Permiso de micrófono denegado. Revisa tu navegador.', 'error');
+            } else if (event.error === 'network') {
+                showNotification('Error de red. Verifica tu conexión a internet.', 'error');
+            } else {
+                showNotification(`Error de reconocimiento: ${event.error}`, 'error');
             }
         };
 
-        recognition.start();
+        try {
+            recognition.start();
+        } catch (e) {
+            console.error("Error starting recognition:", e);
+            showNotification("No se pudo iniciar el micrófono.", 'error');
+        }
     }
 });
