@@ -879,10 +879,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function speak(text) {
         if (!STATE.config.useTTS) return;
 
-        // Cancel previous
-        if (synthesis.speaking) {
-            synthesis.cancel();
-        }
+        // Cancel previous to clear queue and fix stuck states
+        synthesis.cancel();
 
         const utterance = new SpeechSynthesisUtterance(text);
         
@@ -890,18 +888,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (STATE.config.voiceURI) {
             const voice = availableVoices.find(v => v.voiceURI === STATE.config.voiceURI);
             if (voice) utterance.voice = voice;
-        } else {
-             // Fallback to best available for language
+        } 
+        
+        // Fallback/Default settings
+        if (!utterance.voice) {
              const langCode = STATE.config.lang === 'es' ? 'es-ES' : 'en-US';
              utterance.lang = langCode;
         }
 
+        // Show player immediately to give feedback
+        showPlayer(true);
+        STATE.isSpeaking = true;
+        UI.playerStatus.textContent = "Preparando audio...";
+        UI.currentVoiceName.textContent = utterance.voice ? utterance.voice.name : 'Voz Automática';
+        UI.playerPlayPauseBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i>';
+
         // Setup events for player UI
         utterance.onstart = () => {
             STATE.isSpeaking = true;
-            showPlayer(true);
             UI.playerStatus.textContent = "Reproduciendo...";
-            UI.currentVoiceName.textContent = utterance.voice ? utterance.voice.name : 'Voz Automática';
             UI.playerPlayPauseBtn.innerHTML = '<i class="fas fa-pause text-xs"></i>';
         };
 
@@ -911,13 +916,29 @@ document.addEventListener('DOMContentLoaded', () => {
             UI.playerPlayPauseBtn.innerHTML = '<i class="fas fa-play text-xs"></i>';
         };
 
-        utterance.onerror = () => {
+        utterance.onerror = (e) => {
+            console.error('TTS Error:', e);
             STATE.isSpeaking = false;
-            showPlayer(false);
+            UI.playerStatus.textContent = "Error al reproducir";
+            setTimeout(() => showPlayer(false), 2000);
         };
 
         currentUtterance = utterance;
-        synthesis.speak(utterance);
+        
+        // Fix for Chrome: Resume before speaking if paused
+        if (synthesis.paused) synthesis.resume();
+
+        // Small delay to ensure cancellation took effect
+        setTimeout(() => {
+            synthesis.speak(utterance);
+            
+            // Safety check: if onstart doesn't fire in 1s, try resuming again
+            setTimeout(() => {
+                if (STATE.isSpeaking && synthesis.paused) {
+                    synthesis.resume();
+                }
+            }, 500);
+        }, 50);
     }
 
     function showPlayer(show) {
