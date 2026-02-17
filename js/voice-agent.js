@@ -148,9 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Chat Management ---
 
-    function createNewChat() {
-        // Check if current chat is empty
-        if (STATE.currentChatId) {
+    function createNewChat(isUserInitiated = false) {
+        // Check if current chat is empty, ONLY if user initiated
+        if (isUserInitiated && STATE.currentChatId) {
             const currentChat = STATE.chats.find(c => c.id === STATE.currentChatId);
             // Check if there are user messages
             const hasUserMessages = currentChat && currentChat.messages.some(m => m.role === 'user');
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // History Listeners
             UI.historyToggleBtn.addEventListener('click', toggleHistory);
-            UI.newChatBtn.addEventListener('click', createNewChat);
+            UI.newChatBtn.addEventListener('click', () => createNewChat(true));
             UI.clearAllChatsBtn.addEventListener('click', clearAllChats);
             
             // Settings Events
