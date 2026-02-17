@@ -798,13 +798,33 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadVoices() {
         availableVoices = synthesis.getVoices();
         
+        // Retry logic: If no voices, try again shortly (some browsers are slow)
         if (availableVoices.length === 0) {
+            setTimeout(loadVoices, 100);
             return;
         }
 
         // Filter voices by selected language
+        // Support broader matching: 'es' matches 'es-ES', 'es-MX', etc.
         const langCode = STATE.config.lang; // 'es' or 'en'
-        const filteredVoices = availableVoices.filter(v => v.lang.startsWith(langCode) || v.lang.includes(langCode));
+        
+        // Better filtering: 
+        // 1. Starts with langCode (e.g. 'es-ES' starts with 'es')
+        // 2. Exact match (rare but possible)
+        const filteredVoices = availableVoices.filter(v => 
+            v.lang.startsWith(langCode) || 
+            v.lang.toLowerCase().includes(langCode.toLowerCase())
+        );
+
+        // Sort: Google voices first (usually higher quality), then Microsoft, then others
+        filteredVoices.sort((a, b) => {
+            const getScore = (name) => {
+                if (name.includes('Google')) return 2;
+                if (name.includes('Microsoft')) return 1;
+                return 0;
+            };
+            return getScore(b.name) - getScore(a.name);
+        });
 
         // Populate select
         UI.voiceSelect.innerHTML = '<option value="">Voz automática (Por defecto)</option>';
@@ -812,17 +832,26 @@ document.addEventListener('DOMContentLoaded', () => {
         filteredVoices.forEach(voice => {
             const option = document.createElement('option');
             option.value = voice.voiceURI;
-            option.textContent = `${voice.name} (${voice.lang})`;
+            // Clean up name for better UI
+            let displayName = voice.name;
+            displayName = displayName.replace('Google', '').replace('Microsoft', '').replace('Desktop', '').trim();
+            // Add region hint if available
+            const region = voice.lang.split('-')[1] || voice.lang;
+            
+            option.textContent = `${displayName} (${region})`;
+            
+            // Re-select saved voice
             if (voice.voiceURI === STATE.config.voiceURI) {
                 option.selected = true;
             }
             UI.voiceSelect.appendChild(option);
         });
         
-        // Update current if selected one is missing
-        if (STATE.config.voiceURI && !filteredVoices.find(v => v.voiceURI === STATE.config.voiceURI)) {
-            // Keep it selected in UI? No, switch to default
+        // Update current if selected one is missing from the new list
+        // Only reset if we actually have options but the selected one isn't there
+        if (filteredVoices.length > 0 && STATE.config.voiceURI && !filteredVoices.find(v => v.voiceURI === STATE.config.voiceURI)) {
             UI.voiceSelect.value = "";
+            updateConfig('voiceURI', ''); // Clear invalid config
         }
     }
 
@@ -833,6 +862,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initial try
     loadVoices();
+    // Force retry after delay
+    setTimeout(loadVoices, 1000);
+    setTimeout(loadVoices, 5000);
 
     function speak(text) {
         if (!STATE.config.useTTS) return;
