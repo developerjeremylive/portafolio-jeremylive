@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Toggle History Sidebar
     function toggleHistory() {
         STATE.isHistoryOpen = !STATE.isHistoryOpen;
         if (STATE.isHistoryOpen) {
