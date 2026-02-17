@@ -146,10 +146,36 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // --- Empty State ---
+
+    function showEmptyState() {
+        STATE.currentChatId = null;
+        UI.chatContainer.innerHTML = '';
+        
+        const div = document.createElement('div');
+        div.className = 'flex flex-col items-center justify-center h-full animate-fade-in opacity-50';
+        div.innerHTML = `
+            <button id="empty-state-btn" class="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 text-primary flex items-center justify-center text-2xl hover:bg-primary/20 hover:scale-110 transition-all shadow-lg shadow-primary/10 mb-4">
+                <i class="fas fa-plus"></i>
+            </button>
+            <p class="text-sm font-mono text-secondary">Inicia un nuevo chat</p>
+        `;
+        
+        UI.chatContainer.appendChild(div);
+        
+        document.getElementById('empty-state-btn').addEventListener('click', () => {
+            createNewChat(true);
+        });
+        
+        // Ensure history reflects no active chat
+        renderChatHistory();
+    }
+
     // --- Chat Management ---
 
     function createNewChat(isUserInitiated = false) {
         // Check if current chat is empty, ONLY if user initiated
+        // If we are in empty state (currentChatId is null), we allow creation
         if (isUserInitiated && STATE.currentChatId) {
             const currentChat = STATE.chats.find(c => c.id === STATE.currentChatId);
             // Check if there are user messages
@@ -242,10 +268,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // If deleted active chat
             if (STATE.currentChatId === chatId) {
                 if (STATE.chats.length > 0) {
-                    loadChat(STATE.chats[0].id);
+                    // Just show empty state instead of auto-loading next one
+                    // to match user request: "refrescar el chat a un mensaje por defecto..."
+                    // "solo si se borra el chat donde esta el chat ubicado"
+                    showEmptyState();
                 } else {
-                    STATE.currentChatId = null; // Reset to allow creation
-                    createNewChat();
+                    // No chats left
+                    showEmptyState();
                 }
             }
             showNotification('Chat eliminado correctamente');
@@ -256,8 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showConfirm('¿Estás seguro de borrar TODO el historial?', () => {
             STATE.chats = [];
             saveChats();
-            STATE.currentChatId = null;
-            createNewChat();
+            showEmptyState();
             showNotification('Historial borrado completamente');
         });
     }
@@ -375,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Initialize Chats
             if (!STATE.chats || !Array.isArray(STATE.chats) || STATE.chats.length === 0) {
                 STATE.chats = []; // Reset if invalid
-                createNewChat();
+                showEmptyState();
             } else {
                 // Load most recent
                 loadChat(STATE.chats[0].id);
@@ -389,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             console.error("Error initializing app state:", e);
             // Fallback: create new chat if loading failed
-            createNewChat();
+            showEmptyState();
         }
     }
 
