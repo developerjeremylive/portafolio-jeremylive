@@ -1052,6 +1052,26 @@
         </div>
     </div>
 
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-dark/80 backdrop-blur-sm z-[70] hidden items-center justify-center p-4">
+        <div class="bg-surface border border-white/10 rounded-lg p-6 max-w-sm w-full shadow-2xl animate-fade-in">
+            <h3 class="text-lg font-bold text-light mb-2">Confirmación</h3>
+            <p id="confirm-message" class="text-secondary text-sm mb-6">¿Estás seguro?</p>
+            <div class="flex justify-end gap-3">
+                <button id="confirm-cancel-btn" class="px-4 py-2 rounded text-sm text-secondary hover:text-light hover:bg-white/5 transition-colors">Cancelar</button>
+                <button id="confirm-ok-btn" class="px-4 py-2 rounded text-sm bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 transition-colors">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="fixed top-24 right-6 z-[80] hidden transform transition-all duration-300 translate-x-10 opacity-0">
+        <div class="bg-surface border border-primary/20 text-light px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 backdrop-blur-xl">
+            <i id="notification-icon" class="fas fa-info-circle text-primary"></i>
+            <span id="notification-message" class="text-sm font-mono">Mensaje aquí</span>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="js/translations.js"></script>
     <script src="js/backgrounds.js"></script>

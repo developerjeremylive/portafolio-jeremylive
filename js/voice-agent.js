@@ -73,12 +73,94 @@ document.addEventListener('DOMContentLoaded', () => {
         playerPlayPauseBtn: document.getElementById('player-play-pause-btn'),
         playerStopBtn: document.getElementById('player-stop-btn'),
         playerStatus: document.getElementById('player-status'),
-        currentVoiceName: document.getElementById('current-voice-name')
+        currentVoiceName: document.getElementById('current-voice-name'),
+
+        // Modals & Notifications
+        confirmModal: document.getElementById('confirm-modal'),
+        confirmMessage: document.getElementById('confirm-message'),
+        confirmOkBtn: document.getElementById('confirm-ok-btn'),
+        confirmCancelBtn: document.getElementById('confirm-cancel-btn'),
+        
+        toast: document.getElementById('notification-toast'),
+        toastMessage: document.getElementById('notification-message'),
+        toastIcon: document.getElementById('notification-icon')
     };
+
+    // --- Notifications & Modals ---
+
+    function showNotification(message, type = 'info') {
+        UI.toastMessage.textContent = message;
+        UI.toast.classList.remove('hidden');
+        
+        // Trigger reflow for animation
+        void UI.toast.offsetWidth;
+        
+        UI.toast.classList.remove('translate-x-10', 'opacity-0');
+        
+        if (type === 'error') {
+            UI.toastIcon.className = 'fas fa-exclamation-circle text-red-400';
+            UI.toast.firstElementChild.className = 'bg-surface border border-red-500/20 text-light px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 backdrop-blur-xl';
+        } else {
+            UI.toastIcon.className = 'fas fa-info-circle text-primary';
+            UI.toast.firstElementChild.className = 'bg-surface border border-primary/20 text-light px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 backdrop-blur-xl';
+        }
+
+        setTimeout(() => {
+            UI.toast.classList.add('translate-x-10', 'opacity-0');
+            setTimeout(() => {
+                UI.toast.classList.add('hidden');
+            }, 300);
+        }, 3000);
+    }
+
+    function showConfirm(message, onConfirm) {
+        UI.confirmMessage.textContent = message;
+        UI.confirmModal.classList.remove('hidden');
+        UI.confirmModal.classList.add('flex');
+        
+        // Clone buttons to remove old event listeners
+        const newOk = UI.confirmOkBtn.cloneNode(true);
+        const newCancel = UI.confirmCancelBtn.cloneNode(true);
+        
+        UI.confirmOkBtn.parentNode.replaceChild(newOk, UI.confirmOkBtn);
+        UI.confirmCancelBtn.parentNode.replaceChild(newCancel, UI.confirmCancelBtn);
+        
+        UI.confirmOkBtn = newOk;
+        UI.confirmCancelBtn = newCancel;
+
+        const cleanup = () => {
+            UI.confirmModal.classList.add('hidden');
+            UI.confirmModal.classList.remove('flex');
+        };
+
+        UI.confirmOkBtn.addEventListener('click', () => {
+            onConfirm();
+            cleanup();
+        });
+
+        UI.confirmCancelBtn.addEventListener('click', cleanup);
+        
+        // Close on click outside
+        UI.confirmModal.onclick = (e) => {
+            if (e.target === UI.confirmModal) cleanup();
+        };
+    }
 
     // --- Chat Management ---
 
     function createNewChat() {
+        // Check if current chat is empty
+        if (STATE.currentChatId) {
+            const currentChat = STATE.chats.find(c => c.id === STATE.currentChatId);
+            // Check if there are user messages
+            const hasUserMessages = currentChat && currentChat.messages.some(m => m.role === 'user');
+            
+            if (currentChat && !hasUserMessages) {
+                showNotification('¡Ya tienes un chat nuevo abierto! Envía un mensaje primero.', 'error');
+                return;
+            }
+        }
+
         const chatId = Date.now().toString();
         const newChat = {
             id: chatId,
@@ -151,28 +233,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function deleteChat(chatId, event) {
         if (event) event.stopPropagation();
-        if (confirm('¿Borrar este chat?')) {
+        
+        showConfirm('¿Estás seguro de eliminar este chat?', () => {
             STATE.chats = STATE.chats.filter(c => c.id !== chatId);
             saveChats();
             renderChatHistory();
             
-            // If deleted active chat, create new or load first
+            // If deleted active chat
             if (STATE.currentChatId === chatId) {
                 if (STATE.chats.length > 0) {
                     loadChat(STATE.chats[0].id);
                 } else {
+                    STATE.currentChatId = null; // Reset to allow creation
                     createNewChat();
                 }
             }
-        }
+            showNotification('Chat eliminado correctamente');
+        });
     }
 
     function clearAllChats() {
-        if (confirm('¿Estás seguro de borrar TODO el historial?')) {
+        showConfirm('¿Estás seguro de borrar TODO el historial?', () => {
             STATE.chats = [];
             saveChats();
+            STATE.currentChatId = null;
             createNewChat();
-        }
+            showNotification('Historial borrado completamente');
+        });
     }
 
     function renderChatHistory() {
@@ -683,12 +770,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadVoices() {
         availableVoices = synthesis.getVoices();
         
+        if (availableVoices.length === 0) {
+            return;
+        }
+
         // Filter voices by selected language
-        const langCode = STATE.config.lang === 'es' ? 'es' : 'en';
-        const filteredVoices = availableVoices.filter(v => v.lang.startsWith(langCode));
+        const langCode = STATE.config.lang; // 'es' or 'en'
+        const filteredVoices = availableVoices.filter(v => v.lang.startsWith(langCode) || v.lang.includes(langCode));
 
         // Populate select
-        UI.voiceSelect.innerHTML = '<option value="">Voz automática</option>';
+        UI.voiceSelect.innerHTML = '<option value="">Voz automática (Por defecto)</option>';
+        
         filteredVoices.forEach(voice => {
             const option = document.createElement('option');
             option.value = voice.voiceURI;
@@ -698,12 +790,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             UI.voiceSelect.appendChild(option);
         });
+        
+        // Update current if selected one is missing
+        if (STATE.config.voiceURI && !filteredVoices.find(v => v.voiceURI === STATE.config.voiceURI)) {
+            // Keep it selected in UI? No, switch to default
+            UI.voiceSelect.value = "";
+        }
     }
 
     // Chrome requires an event to load voices
     if (speechSynthesis.onvoiceschanged !== undefined) {
         speechSynthesis.onvoiceschanged = loadVoices;
     }
+    
+    // Initial try
+    loadVoices();
 
     function speak(text) {
         if (!STATE.config.useTTS) return;
