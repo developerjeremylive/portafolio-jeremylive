@@ -1040,7 +1040,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (event.error === 'not-allowed') {
                 showNotification('Permiso de micrófono denegado. Revisa tu navegador.', 'error');
             } else if (event.error === 'network') {
-                showNotification('Error de red. Verifica tu conexión a internet.', 'error');
+                // Improve network error message
+                const isLocal = window.location.protocol === 'file:';
+                const msg = isLocal 
+                    ? 'Error de red: El reconocimiento de voz no funciona en archivos locales (file://). Usa un servidor local.' 
+                    : 'Error de red. Verifica tu conexión a internet o el acceso a los servicios de voz de Google.';
+                showNotification(msg, 'error');
             } else {
                 showNotification(`Error de reconocimiento: ${event.error}`, 'error');
             }
