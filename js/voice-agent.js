@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isListening: false,
         isSpeaking: false,
         isHistoryOpen: false, // New
-        currentChatId: null, // New
+        currentChatId: localStorage.getItem('gemini_last_chat_id') || null, // Restore last chat
         chats: safeJSONParse('gemini_chats', []), // Array of {id, title, messages, timestamp}
         // messages: [], // Deprecated in favor of currentChatId -> chats
         config: {
@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showEmptyState() {
         STATE.currentChatId = null;
+        localStorage.removeItem('gemini_last_chat_id'); // Clear active chat
         UI.chatContainer.innerHTML = '';
         
         const div = document.createElement('div');
@@ -217,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!chat) return;
 
         STATE.currentChatId = chatId;
+        localStorage.setItem('gemini_last_chat_id', chatId); // Persist active chat
         
         // Clear UI
         UI.chatContainer.innerHTML = '';
@@ -416,8 +418,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 STATE.chats = []; // Reset if invalid
                 showEmptyState();
             } else {
-                // Load most recent
-                loadChat(STATE.chats[0].id);
+                // Restore last chat or load most recent
+                const lastChatId = localStorage.getItem('gemini_last_chat_id');
+                const chatToLoad = STATE.chats.find(c => c.id === lastChatId) ? lastChatId : STATE.chats[0].id;
+                
+                loadChat(chatToLoad);
                 renderChatHistory();
             }
             
