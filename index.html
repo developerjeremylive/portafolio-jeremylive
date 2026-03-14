@@ -123,6 +123,70 @@
             background: rgba(100, 255, 218, 0.2);
             transform: scale(1.05);
         }
+
+        /* Floating Banner Button with Animated Border */
+        .floating-banner {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            background: #0a192f;
+            padding: 3px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .floating-banner:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+        }
+
+        .floating-banner-inner {
+            background: #112240;
+            padding: 12px 20px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: #64ffda;
+        }
+
+        .floating-banner i {
+            font-size: 18px;
+        }
+
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .floating-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(var(--angle), #64ffda, #57cbff, #a855f7, #ec4899, #f97316, #64ffda);
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% { --angle: 0deg; }
+            100% { --angle: 360deg; }
+        }
     </style>
     <style>
         /* Custom Animations */
@@ -843,6 +907,56 @@
                             </ul>
                         </div>
                     </div>
+
+                    <!-- Project 7: NFT Marketplace -->
+                    <div class="glass-card rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30">
+                        <div class="h-52 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+                            <div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-all"></div>
+                            <i class="fas fa-cube text-6xl text-secondary group-hover:text-primary transition-colors scale-100 group-hover:scale-110 duration-500"></i>
+                        </div>
+                        <div class="p-8 relative">
+                            <div class="flex justify-between items-center mb-6">
+                                <i class="far fa-folder text-4xl text-primary/80"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://nft.etheroi.com/" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">NFT Marketplace</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Plataforma de NFTs de próxima generación. Crea, colecciona y comercia arte digital único aseguranado mediante blockchain. Mercado digital con subastas y galería de artistas.</p>
+                            <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
+                                <li class="bg-primary/5 px-2 py-1 rounded">Cloudflare Workers</li>
+                                <li class="bg-primary/5 px-2 py-1 rounded">D1 Database</li>
+                                <li class="bg-primary/5 px-2 py-1 rounded">Blockchain</li>
+                                <li class="bg-primary/5 px-2 py-1 rounded">React</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 8: Agent Chat -->
+                    <div class="glass-card rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30">
+                        <div class="h-52 bg-surface flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+                            <div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-all"></div>
+                            <i class="fas fa-robot text-6xl text-secondary group-hover:text-primary transition-colors scale-100 group-hover:scale-110 duration-500"></i>
+                        </div>
+                        <div class="p-8 relative">
+                            <div class="flex justify-between items-center mb-6">
+                                <i class="far fa-folder text-4xl text-primary/80"></i>
+                                <div class="flex gap-4 text-secondary">
+                                    <a href="https://agent.etheroi.com/chat" target="_blank" class="hover:text-primary transition-colors" title="Visitar Sitio"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-light mb-3 group-hover:text-primary transition-colors">AI Agent Chat</h3>
+                            <p class="text-secondary/80 text-sm mb-6 leading-relaxed">Plataforma de chat con agentes de IA avanzados. Asistente conversacional potenciado por múltiples modelos de IA con capacidades de agente autónomo.</p>
+                            <ul class="flex flex-wrap gap-3 font-mono text-xs text-secondary/60">
+                                <li class="bg-primary/5 px-2 py-1 rounded">Cloudflare AI</li>
+                                <li class="bg-primary/5 px-2 py-1 rounded">Gemini</li>
+                                <li class="bg-primary/5 px-2 py-1 rounded">LangChain</li>
+                                <li class="bg-primary/5 px-2 py-1 rounded">React</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1063,6 +1177,13 @@
             </div>
         </div>
     </div>
+
+    <a href="https://jeremylive-dev.netlify.app" target="_blank" class="floating-banner" title="Versión Anterior del Portafolio">
+        <div class="floating-banner-inner">
+            <i class="fas fa-history"></i>
+            <span>Sitio Anterior</span>
+        </div>
+    </a>
 
     <!-- Notification Toast -->
     <div id="notification-toast" class="fixed top-24 right-6 z-[80] hidden transform transition-all duration-300 translate-x-10 opacity-0">
