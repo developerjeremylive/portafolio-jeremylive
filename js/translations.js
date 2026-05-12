@@ -50,7 +50,7 @@ const translations = {
             sdc_role: "Node.js Full Stack & AWS Backend Developer",
             sdc_desc: "Creación de sitios web responsivos mejorando el diseño en el desarrollo. Implementación de nuevas funcionalidades en la plataforma de mantenimiento del cliente. Trabajo con múltiples tareas simultáneamente.",
             camaleon_role: "Python Full Stack & AWS Backend Developer",
-            camaleon_desc: "Construcción de aplicaciones web de alto rendimiento y escalables usando PHP/Laravel y Java/Spring. Aplicaciones web y APIs RESTful en Python/Flask con bases de datos PostgreSQL/MySQL/MongoDB.",
+            camaleon_desc: "Construcción de aplicaciones web de alto rendimiento y escalables usando PHP/Laravel y Java/Spring. Aplicaciones web y APIs RESTful en Python/Flask con bases de datos PostgreSQL/MySQL/MongoDB/SQL. Diseño de interfaces responsivas con Angular y Bootstrap. Integración de APIs de terceros e implementación de IAM/OAuth 2.0/JWT Bearer token para autenticación segura. Liderazgo en proyectos full-stack aprovechando plataformas cloud, optimizando pipelines CI/CD con Docker y Kubernetes.",
             etheroi_role: "GenAI Senior Software Engineer & Deep MCP Agents Integration",
             etheroi_desc: "Productos AI originales alojados en Cloudflare utilizando R2/D1SQL/KV/WorkersAI/AIGateway. Dedicado al desarrollo especializado en arquitectura de IA Generativa y Sistemas Multi-Agente. Enfoque en patrones avanzados de despliegue para LLMs y Sistemas Multi-Agente en entornos multi-cloud (AWS, Azure, GCP) y Cloudflare.",
             cobros_role: "Python Senior Software Engineer & AI Backend Specialist",
@@ -214,11 +214,11 @@ const translations = {
                                 </div>`,
             camaleon_achievements: `<div class="space-y-3">
                                     <ul class="text-xs text-secondary/70 space-y-1">
-                                        <li>• Aplicaciones web de alto rendimiento y escalables</li>
-                                        <li>• APIs RESTful con Python/Flask</li>
-                                        <li>• Interfaces responsivas con Angular y Bootstrap</li>
-                                        <li>• Integración de APIs de terceros y autenticación OAuth 2.0</li>
-                                        <li>• Liderazgo en proyectos full-stack con CI/CD optimizado</li>
+                                        <li>• Aplicaciones web de alto rendimiento y escalables con PHP/Laravel y Java/Spring</li>
+                                        <li>• APIs RESTful en Python/Flask con bases de datos PostgreSQL/MySQL/MongoDB/SQL</li>
+                                        <li>• Interfaces responsivas con Angular y Bootstrap mejorando la experiencia del usuario</li>
+                                        <li>• Integración de APIs de terceros e implementación de IAM/OAuth 2.0/JWT Bearer token</li>
+                                        <li>• Liderazgo en proyectos full-stack con plataformas cloud y CI/CD optimizado</li>
                                     </ul>
                                 </div>`,
             pantec_role: "Coordinador de Alfabetización Digital",
@@ -342,7 +342,7 @@ const translations = {
             sdc_role: "Node.js Full Stack & AWS Backend Developer",
             sdc_desc: "Created responsive media websites improving design in development. Implemented new functionalities in the client-side maintenance platform. Worked with multiple tasks simultaneously.",
             camaleon_role: "Python Full Stack & AWS Backend Developer",
-            camaleon_desc: "Built high-performance, scalable web applications using PHP/Laravel and Java/Spring frameworks. Web applications and RESTful APIs in Python/Flask with PostgreSQL/MySQL/MongoDB databases.",
+            camaleon_desc: "Built high-performance, scalable web applications using PHP/Laravel and Java/Spring frameworks. Web applications and RESTful APIs in Python/Flask with PostgreSQL/MySQL/MongoDB/SQL databases. Designed responsive front-end interfaces with Angular and Bootstrap, enhancing user experience. Integrated third-party APIs and implemented IAM/OAuth 2.0/JWT Bearer token for secure authentication. Led full-stack projects, leveraging cloud platforms, optimized CI/CD pipelines with Docker and Kubernetes.",
             etheroi_role: "GenAI Senior Software Engineer & Deep MCP Agents Integration",
             etheroi_desc: "Original AI Products hosted on Cloudflare using R2/D1SQL/KV/WorkersAI/AIGateway. Dedicated to specialized development in Generative AI architecture and Multi-Agent Systems. Focus on advanced deployment patterns for Large Language Models (LLMs) and Multi-Agent Systems across AWS, Azure, GCP, and Cloudflare environments.",
             cobros_role: "Python Senior Software Engineer & AI Backend Specialist",
@@ -506,11 +506,11 @@ const translations = {
                                 </div>`,
             camaleon_achievements: `<div class="space-y-3">
                                     <ul class="text-xs text-secondary/70 space-y-1">
-                                        <li>• High-performance and scalable web applications</li>
-                                        <li>• RESTful APIs with Python/Flask</li>
-                                        <li>• Responsive interfaces with Angular and Bootstrap</li>
-                                        <li>• Integration of third-party APIs and OAuth 2.0 authentication</li>
-                                        <li>• Leadership in full-stack projects with optimized CI/CD</li>
+                                        <li>• High-performance, scalable web applications using PHP/Laravel and Java/Spring</li>
+                                        <li>• RESTful APIs in Python/Flask with PostgreSQL/MySQL/MongoDB/SQL databases</li>
+                                        <li>• Responsive front-end interfaces with Angular and Bootstrap, enhancing user experience</li>
+                                        <li>• Integration of third-party APIs and IAM/OAuth 2.0/JWT Bearer token implementation</li>
+                                        <li>• Leadership in full-stack projects leveraging cloud platforms and optimized CI/CD</li>
                                     </ul>
                                 </div>`,
             pantec_role: "Digital Literacy Coordinator",
