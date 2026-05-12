@@ -27,6 +27,8 @@ const translations = {
         experience: {
             title: "Experiencia Profesional",
             achievements: "Logros Destacados",
+            developercity_role: "Python Senior Backend Engineer – AI & Multi-Cloud Architecture",
+            developercity_desc: "Contribución al desarrollo de soluciones web avanzadas que mejoraron la eficiencia operacional y experiencia del usuario final, aplicando metodologías ágiles y mejores prácticas de desarrollo. Integración de funcionalidades avanzadas en KhayaCore.",
             etheroi_role: "Python GenAI Software Engineer & Deep Agents Integration",
             etheroi_desc: "Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.",
             cobros_role: "Python Senior Software Engineer & Voice Agent Integration",
@@ -127,6 +129,8 @@ const translations = {
         experience: {
             title: "Professional Experience",
             achievements: "Key Achievements",
+            developercity_role: "Python Senior Backend Engineer – AI & Multi-Cloud Architecture",
+            developercity_desc: "Contributed to the development of advanced web solutions that improved operational efficiency and end-user experience, applying agile methodologies and development best practices. Integration of Advanced Functionalities in KhayaCore.",
             etheroi_role: "Python GenAI Software Engineer & Deep Agents Integration",
             etheroi_desc: "Development of Multi-Agent-as-a-Service (MAaaS) platform using Cloudflare Workers and Durable Objects. Integration of LLMs via MCP with cost optimization.",
             cobros_role: "Python Senior Software Engineer & Voice Agent Integration",
