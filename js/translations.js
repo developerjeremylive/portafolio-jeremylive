@@ -26,6 +26,7 @@ const translations = {
         },
         experience: {
             title: "Experiencia Profesional",
+            achievements: "Logros Destacados",
             etheroi_role: "Python GenAI Software Engineer & Deep Agents Integration",
             etheroi_desc: "Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.",
             cobros_role: "Python Senior Software Engineer & Voice Agent Integration",
@@ -125,6 +126,7 @@ const translations = {
         },
         experience: {
             title: "Professional Experience",
+            achievements: "Key Achievements",
             etheroi_role: "Python GenAI Software Engineer & Deep Agents Integration",
             etheroi_desc: "Development of Multi-Agent-as-a-Service (MAaaS) platform using Cloudflare Workers and Durable Objects. Integration of LLMs via MCP with cost optimization.",
             cobros_role: "Python Senior Software Engineer & Voice Agent Integration",

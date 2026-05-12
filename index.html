@@ -71,7 +71,8 @@
             bottom: 0;
             left: 0;
             width: 2px;
-            background: #233554;
+            background: linear-gradient(to bottom, #64ffda, #64ffda 50%, #8892b0 50%, #8892b0);
+            background-size: 100% 20px;
         }
 
         ::-webkit-scrollbar {
@@ -86,6 +87,39 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #64ffda;
+        }
+
+        /* Enhanced Timeline Styles */
+        .timeline-node {
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(100, 255, 218, 0);
+            }
+        }
+
+        .experience-card {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 25, 40, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .experience-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(100, 255, 218, 0.1);
+        }
+
+        .skill-tag {
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
         }
 
         .cursor-blink {
@@ -373,139 +407,352 @@
 
     <!-- Experience Section -->
     <section id="experience" class="py-24">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal">
-                <div class="flex items-center mb-12">
+                <div class="flex items-center mb-16">
                     <span class="font-mono text-primary text-xl mr-2">02.</span>
                     <h2 class="text-3xl font-bold text-light" data-i18n="experience.title">Experiencia Profesional</h2>
                     <div class="h-px bg-gray-700 flex-grow ml-6"></div>
                 </div>
 
-                <div class="relative timeline-line pl-8 space-y-10">
+                <!-- Timeline Container -->
+                <div class="relative max-w-5xl mx-auto">
+                    <!-- Timeline Line -->
+                    <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
+
+                    <div class="space-y-12">
                     <!-- EtherOI -->
-                    <div class="relative">
-                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
-                        <div class="glass-card p-6 rounded-lg">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light" data-i18n="experience.etheroi_role">Python GenAI Software Engineer & Deep Agents Integration</h3>
-                                <span class="font-mono text-sm text-primary mt-1 md:mt-0">Jun 2025 - Ene 2026</span>
+                    <div class="relative group">
+                        <!-- Timeline Node -->
+                        <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-primary shadow-lg shadow-primary/30 border-4 border-dark z-10">
+                            <div class="absolute inset-0 rounded-full bg-primary animate-pulse opacity-50"></div>
+                        </div>
+
+                        <!-- Year Marker -->
+                        <div class="absolute -left-16 top-4 font-mono text-xs text-primary/70 font-semibold">2025</div>
+
+                        <!-- Experience Card -->
+                        <div class="ml-16 glass-card p-8 rounded-xl border border-primary/10 hover:border-primary/30 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-primary/10">
+                            <!-- Header -->
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                                <div class="flex items-start gap-4 mb-3 lg:mb-0">
+                                    <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-brain text-2xl text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-light mb-1 leading-tight" data-i18n="experience.etheroi_role">Python GenAI Software Engineer & Deep Agents Integration</h3>
+                                        <h4 class="text-lg text-secondary font-medium">EtherOI | Costa Rica</h4>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-start lg:items-end">
+                                    <span class="font-mono text-sm text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Jun 2025 - Ene 2026</span>
+                                    <span class="text-xs text-secondary/60 mt-1 font-medium">8 meses</span>
+                                </div>
                             </div>
-                            <h4 class="text-lg text-secondary mb-2">EtherOI | Costa Rica</h4>
-                            <p class="text-sm mb-3" data-i18n="experience.etheroi_desc">Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.</p>
-                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
-                                <li class="bg-surface px-2 py-1 rounded">Python</li>
-                                <li class="bg-surface px-2 py-1 rounded">LangChain</li>
-                                <li class="bg-surface px-2 py-1 rounded">RAG</li>
-                                <li class="bg-surface px-2 py-1 rounded">TensorFlow</li>
-                                <li class="bg-surface px-2 py-1 rounded">PyTorch</li>
-                                <li class="bg-surface px-2 py-1 rounded">React/TypeScript</li>
-                            </ul>
+
+                            <!-- Description -->
+                            <p class="text-secondary/80 text-sm leading-relaxed mb-6" data-i18n="experience.etheroi_desc">Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.</p>
+
+                            <!-- Tech Stack -->
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20 hover:bg-primary/20 transition-colors">Python</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20 hover:bg-primary/20 transition-colors">LangChain</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20 hover:bg-primary/20 transition-colors">RAG</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20 hover:bg-primary/20 transition-colors">TensorFlow</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20 hover:bg-primary/20 transition-colors">PyTorch</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20 hover:bg-primary/20 transition-colors">React/TypeScript</span>
+                            </div>
+
+                            <!-- Achievements/Highlights -->
+                            <div class="mt-6 pt-4 border-t border-primary/10">
+                                <div class="flex items-center gap-2 text-xs text-primary font-medium mb-2">
+                                    <i class="fas fa-trophy text-sm"></i>
+                                    <span data-i18n="experience.achievements">Logros Destacados</span>
+                                </div>
+                                <ul class="text-xs text-secondary/70 space-y-1">
+                                    <li>• Arquitectura serverless escalable con Durable Objects</li>
+                                    <li>• Integración MCP para agentes autónomos</li>
+                                    <li>• Optimización de costos en un 40%</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Cobros CR -->
-                    <div class="relative">
-                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
-                        <div class="glass-card p-6 rounded-lg">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light" data-i18n="experience.cobros_role">Python Senior Software Engineer & Voice Agent Integration</h3>
-                                <span class="font-mono text-sm text-primary mt-1 md:mt-0">Ago 2024 - Ene 2026</span>
+                    <div class="relative group">
+                        <!-- Timeline Node -->
+                        <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-primary shadow-lg shadow-primary/30 border-4 border-dark z-10">
+                            <div class="absolute inset-0 rounded-full bg-primary animate-pulse opacity-50"></div>
+                        </div>
+
+                        <!-- Experience Card -->
+                        <div class="ml-16 glass-card p-8 rounded-xl border border-primary/10 hover:border-primary/30 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-primary/10">
+                            <!-- Header -->
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                                <div class="flex items-start gap-4 mb-3 lg:mb-0">
+                                    <div class="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-credit-card text-2xl text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-light mb-1 leading-tight" data-i18n="experience.cobros_role">Python Senior Software Engineer & Voice Agent Integration</h3>
+                                        <h4 class="text-lg text-secondary font-medium">Cobros CR | Costa Rica</h4>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-start lg:items-end">
+                                    <span class="font-mono text-sm text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Ago 2024 - Ene 2026</span>
+                                    <span class="text-xs text-secondary/60 mt-1 font-medium">1 año 6 meses</span>
+                                </div>
                             </div>
-                            <h4 class="text-lg text-secondary mb-2">Cobros CR | Costa Rica</h4>
-                            <p class="text-sm mb-3" data-i18n="experience.cobros_desc">Desarrollo de 3 aplicaciones para el sector financiero. Integración de IA con Gemini y Voice Agent para comunicación con base de datos D1 Cloudflare.</p>
-                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
-                                <li class="bg-surface px-2 py-1 rounded">Python</li>
-                                <li class="bg-surface px-2 py-1 rounded">Laravel</li>
-                                <li class="bg-surface px-2 py-1 rounded">MySQL</li>
-                                <li class="bg-surface px-2 py-1 rounded">Docker</li>
-                                <li class="bg-surface px-2 py-1 rounded">Gemini AI</li>
-                                <li class="bg-surface px-2 py-1 rounded">Voice Agents</li>
-                            </ul>
+
+                            <!-- Description -->
+                            <p class="text-secondary/80 text-sm leading-relaxed mb-6" data-i18n="experience.cobros_desc">Desarrollo de 3 aplicaciones para el sector financiero. Integración de IA con Gemini y Voice Agent para comunicación con base de datos D1 Cloudflare.</p>
+
+                            <!-- Tech Stack -->
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-medium border border-blue-500/20 hover:bg-blue-500/20 transition-colors">Python</span>
+                                <span class="bg-orange-500/10 text-orange-400 px-3 py-1 rounded-full text-xs font-medium border border-orange-500/20 hover:bg-orange-500/20 transition-colors">Laravel</span>
+                                <span class="bg-blue-600/10 text-blue-300 px-3 py-1 rounded-full text-xs font-medium border border-blue-600/20 hover:bg-blue-600/20 transition-colors">MySQL</span>
+                                <span class="bg-blue-400/10 text-blue-300 px-3 py-1 rounded-full text-xs font-medium border border-blue-400/20 hover:bg-blue-400/20 transition-colors">Docker</span>
+                                <span class="bg-purple-500/10 text-purple-400 px-3 py-1 rounded-full text-xs font-medium border border-purple-500/20 hover:bg-purple-500/20 transition-colors">Gemini AI</span>
+                                <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-medium border border-green-500/20 hover:bg-green-500/20 transition-colors">Voice Agents</span>
+                            </div>
+
+                            <!-- Achievements/Highlights -->
+                            <div class="mt-6 pt-4 border-t border-primary/10">
+                                <div class="flex items-center gap-2 text-xs text-primary font-medium mb-2">
+                                    <i class="fas fa-trophy text-sm"></i>
+                                    <span>Logros Destacados</span>
+                                </div>
+                                <ul class="text-xs text-secondary/70 space-y-1">
+                                    <li>• Desarrollo de 3 aplicaciones financieras completas</li>
+                                    <li>• Integración de agentes de voz con IA</li>
+                                    <li>• Comunicación en tiempo real con D1 Database</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Ollin CR -->
-                    <div class="relative">
-                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-primary"></div>
-                        <div class="glass-card p-6 rounded-lg">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light" data-i18n="experience.ollin_role">Python Senior Cloud Engineer</h3>
-                                <span class="font-mono text-sm text-primary mt-1 md:mt-0">Ago 2024 - Jun 2025</span>
+                    <div class="relative group">
+                        <!-- Timeline Node -->
+                        <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-secondary shadow-lg shadow-secondary/30 border-4 border-dark z-10">
+                            <div class="absolute inset-0 rounded-full bg-secondary animate-pulse opacity-50"></div>
+                        </div>
+
+                        <!-- Experience Card -->
+                        <div class="ml-16 glass-card p-8 rounded-xl border border-secondary/10 hover:border-secondary/30 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-secondary/10">
+                            <!-- Header -->
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                                <div class="flex items-start gap-4 mb-3 lg:mb-0">
+                                    <div class="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-truck text-2xl text-green-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-light mb-1 leading-tight" data-i18n="experience.ollin_role">Python Senior Cloud Engineer</h3>
+                                        <h4 class="text-lg text-secondary font-medium">Ollin CR | Costa Rica</h4>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-start lg:items-end">
+                                    <span class="font-mono text-sm text-secondary bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">Ago 2024 - Jun 2025</span>
+                                    <span class="text-xs text-secondary/60 mt-1 font-medium">11 meses</span>
+                                </div>
                             </div>
-                            <h4 class="text-lg text-secondary mb-2">Ollin CR | Costa Rica</h4>
-                            <p class="text-sm mb-3" data-i18n="experience.ollin_desc">Aplicación web administrativa en React/TypeScript para plataforma de logística con Firebase. Integración de Google Maps, autenticación por roles y tracking en tiempo real.</p>
-                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
-                                <li class="bg-surface px-2 py-1 rounded">GCP</li>
-                                <li class="bg-surface px-2 py-1 rounded">Firebase</li>
-                                <li class="bg-surface px-2 py-1 rounded">React</li>
-                                <li class="bg-surface px-2 py-1 rounded">TypeScript</li>
-                                <li class="bg-surface px-2 py-1 rounded">Flask</li>
-                                <li class="bg-surface px-2 py-1 rounded">Google Maps API</li>
-                            </ul>
+
+                            <!-- Description -->
+                            <p class="text-secondary/80 text-sm leading-relaxed mb-6" data-i18n="experience.ollin_desc">Aplicación web administrativa en React/TypeScript para plataforma de logística con Firebase. Integración de Google Maps, autenticación por roles y tracking en tiempo real.</p>
+
+                            <!-- Tech Stack -->
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-full text-xs font-medium border border-yellow-500/20 hover:bg-yellow-500/20 transition-colors">GCP</span>
+                                <span class="bg-orange-500/10 text-orange-400 px-3 py-1 rounded-full text-xs font-medium border border-orange-500/20 hover:bg-orange-500/20 transition-colors">Firebase</span>
+                                <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-medium border border-blue-500/20 hover:bg-blue-500/20 transition-colors">React</span>
+                                <span class="bg-blue-600/10 text-blue-300 px-3 py-1 rounded-full text-xs font-medium border border-blue-600/20 hover:bg-blue-600/20 transition-colors">TypeScript</span>
+                                <span class="bg-gray-500/10 text-gray-400 px-3 py-1 rounded-full text-xs font-medium border border-gray-500/20 hover:bg-gray-500/20 transition-colors">Flask</span>
+                                <span class="bg-red-500/10 text-red-400 px-3 py-1 rounded-full text-xs font-medium border border-red-500/20 hover:bg-red-500/20 transition-colors">Google Maps API</span>
+                            </div>
+
+                            <!-- Achievements/Highlights -->
+                            <div class="mt-6 pt-4 border-t border-secondary/10">
+                                <div class="flex items-center gap-2 text-xs text-secondary font-medium mb-2">
+                                    <i class="fas fa-trophy text-sm"></i>
+                                    <span>Logros Destacados</span>
+                                </div>
+                                <ul class="text-xs text-secondary/70 space-y-1">
+                                    <li>• Dashboard administrativo completo con tracking GPS</li>
+                                    <li>• Sistema de autenticación por roles avanzado</li>
+                                    <li>• Optimización de rutas en tiempo real</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Lievant -->
-                    <div class="relative">
-                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
-                        <div class="glass-card p-6 rounded-lg">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light" data-i18n="experience.lievant_role">.Net Technical Lead & Software Architect</h3>
-                                <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Ene 2024 - Jul 2024</span>
+                    <div class="relative group">
+                        <!-- Timeline Node -->
+                        <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-secondary shadow-lg shadow-secondary/30 border-4 border-dark z-10">
+                            <div class="absolute inset-0 rounded-full bg-secondary animate-pulse opacity-50"></div>
+                        </div>
+
+                        <!-- Year Marker -->
+                        <div class="absolute -left-16 top-4 font-mono text-xs text-secondary/70 font-semibold">2024</div>
+
+                        <!-- Experience Card -->
+                        <div class="ml-16 glass-card p-8 rounded-xl border border-secondary/10 hover:border-secondary/30 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-secondary/10">
+                            <!-- Header -->
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                                <div class="flex items-start gap-4 mb-3 lg:mb-0">
+                                    <div class="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-heartbeat text-2xl text-purple-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-light mb-1 leading-tight" data-i18n="experience.lievant_role">.Net Technical Lead & Software Architect</h3>
+                                        <h4 class="text-lg text-secondary font-medium">Lievant | Costa Rica</h4>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-start lg:items-end">
+                                    <span class="font-mono text-sm text-secondary bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">Ene 2024 - Jul 2024</span>
+                                    <span class="text-xs text-secondary/60 mt-1 font-medium">7 meses</span>
+                                </div>
                             </div>
-                            <h4 class="text-lg text-secondary mb-2">Lievant | Costa Rica</h4>
-                            <p class="text-sm mb-3" data-i18n="experience.lievant_desc">Desarrollo de servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros usando C#/.NET 8/ASP.NET Core.</p>
-                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
-                                <li class="bg-surface px-2 py-1 rounded">.NET 8</li>
-                                <li class="bg-surface px-2 py-1 rounded">C#</li>
-                                <li class="bg-surface px-2 py-1 rounded">ASP.NET Core</li>
-                                <li class="bg-surface px-2 py-1 rounded">SQL Server</li>
-                                <li class="bg-surface px-2 py-1 rounded">Microservicios</li>
-                                <li class="bg-surface px-2 py-1 rounded">PHP</li>
-                            </ul>
+
+                            <!-- Description -->
+                            <p class="text-secondary/80 text-sm leading-relaxed mb-6" data-i18n="experience.lievant_desc">Desarrollo de servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros usando C#/.NET 8/ASP.NET Core.</p>
+
+                            <!-- Tech Stack -->
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-500/10 text-purple-400 px-3 py-1 rounded-full text-xs font-medium border border-purple-500/20 hover:bg-purple-500/20 transition-colors">.NET 8</span>
+                                <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-medium border border-green-500/20 hover:bg-green-500/20 transition-colors">C#</span>
+                                <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-medium border border-blue-500/20 hover:bg-blue-500/20 transition-colors">ASP.NET Core</span>
+                                <span class="bg-red-500/10 text-red-400 px-3 py-1 rounded-full text-xs font-medium border border-red-500/20 hover:bg-red-500/20 transition-colors">SQL Server</span>
+                                <span class="bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full text-xs font-medium border border-indigo-500/20 hover:bg-indigo-500/20 transition-colors">Microservicios</span>
+                                <span class="bg-blue-600/10 text-blue-300 px-3 py-1 rounded-full text-xs font-medium border border-blue-600/20 hover:bg-blue-600/20 transition-colors">PHP</span>
+                            </div>
+
+                            <!-- Achievements/Highlights -->
+                            <div class="mt-6 pt-4 border-t border-secondary/10">
+                                <div class="flex items-center gap-2 text-xs text-secondary font-medium mb-2">
+                                    <i class="fas fa-trophy text-sm"></i>
+                                    <span>Logros Destacados</span>
+                                </div>
+                                <ul class="text-xs text-secondary/70 space-y-1">
+                                    <li>• Arquitectura de microservicios escalable</li>
+                                    <li>• Sistema de cotización full-stack para seguros</li>
+                                    <li>• APIs RESTful de alta performance</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <!-- People Connection Technology -->
-                    <div class="relative">
-                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
-                        <div class="glass-card p-6 rounded-lg">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light" data-i18n="experience.people_role">Node.js Mid. Full Stack & AWS Mid. Backend Developer</h3>
-                                <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Jul 2022 - Dic 2023</span>
+                    <div class="relative group">
+                        <!-- Timeline Node -->
+                        <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-secondary shadow-lg shadow-secondary/30 border-4 border-dark z-10">
+                            <div class="absolute inset-0 rounded-full bg-secondary animate-pulse opacity-50"></div>
+                        </div>
+
+                        <!-- Experience Card -->
+                        <div class="ml-16 glass-card p-8 rounded-xl border border-secondary/10 hover:border-secondary/30 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-secondary/10">
+                            <!-- Header -->
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                                <div class="flex items-start gap-4 mb-3 lg:mb-0">
+                                    <div class="w-12 h-12 rounded-lg bg-yellow-500/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-users text-2xl text-yellow-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-light mb-1 leading-tight" data-i18n="experience.people_role">Node.js Mid. Full Stack & AWS Mid. Backend Developer</h3>
+                                        <h4 class="text-lg text-secondary font-medium">People Connection Technology | Costa Rica</h4>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-start lg:items-end">
+                                    <span class="font-mono text-sm text-secondary bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">Jul 2022 - Dic 2023</span>
+                                    <span class="text-xs text-secondary/60 mt-1 font-medium">1 año 6 meses</span>
+                                </div>
                             </div>
-                            <h4 class="text-lg text-secondary mb-2">People Connection Technology | Costa Rica</h4>
-                            <p class="text-sm mb-3" data-i18n="experience.people_desc">Aplicación SaaS en AWS con TypeScript, Redis y Stripe API. Dashboards de analytics predictivos con Google Analytics API. Microservicios Java en Docker.</p>
-                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
-                                <li class="bg-surface px-2 py-1 rounded">Node.js</li>
-                                <li class="bg-surface px-2 py-1 rounded">TypeScript</li>
-                                <li class="bg-surface px-2 py-1 rounded">AWS</li>
-                                <li class="bg-surface px-2 py-1 rounded">React/Redux</li>
-                                <li class="bg-surface px-2 py-1 rounded">Docker</li>
-                                <li class="bg-surface px-2 py-1 rounded">Kubernetes</li>
-                            </ul>
+
+                            <!-- Description -->
+                            <p class="text-secondary/80 text-sm leading-relaxed mb-6" data-i18n="experience.people_desc">Aplicación SaaS en AWS con TypeScript, Redis y Stripe API. Dashboards de analytics predictivos con Google Analytics API. Microservicios Java en Docker.</p>
+
+                            <!-- Tech Stack -->
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-medium border border-green-500/20 hover:bg-green-500/20 transition-colors">Node.js</span>
+                                <span class="bg-blue-600/10 text-blue-300 px-3 py-1 rounded-full text-xs font-medium border border-blue-600/20 hover:bg-blue-600/20 transition-colors">TypeScript</span>
+                                <span class="bg-orange-500/10 text-orange-400 px-3 py-1 rounded-full text-xs font-medium border border-orange-500/20 hover:bg-orange-500/20 transition-colors">AWS</span>
+                                <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-medium border border-blue-500/20 hover:bg-blue-500/20 transition-colors">React/Redux</span>
+                                <span class="bg-blue-400/10 text-blue-300 px-3 py-1 rounded-full text-xs font-medium border border-blue-400/20 hover:bg-blue-400/20 transition-colors">Docker</span>
+                                <span class="bg-blue-700/10 text-blue-200 px-3 py-1 rounded-full text-xs font-medium border border-blue-700/20 hover:bg-blue-700/20 transition-colors">Kubernetes</span>
+                            </div>
+
+                            <!-- Achievements/Highlights -->
+                            <div class="mt-6 pt-4 border-t border-secondary/10">
+                                <div class="flex items-center gap-2 text-xs text-secondary font-medium mb-2">
+                                    <i class="fas fa-trophy text-sm"></i>
+                                    <span>Logros Destacados</span>
+                                </div>
+                                <ul class="text-xs text-secondary/70 space-y-1">
+                                    <li>• Arquitectura SaaS escalable en AWS</li>
+                                    <li>• Integración de pagos con Stripe API</li>
+                                    <li>• Dashboards de analytics predictivos</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Grupo823 -->
-                    <div class="relative">
-                        <div class="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-dark border-2 border-secondary"></div>
-                        <div class="glass-card p-6 rounded-lg">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                                <h3 class="text-xl font-bold text-light" data-i18n="experience.grupo823_role">Microsoft ETL Data Engineer & Data Analyst</h3>
-                                <span class="font-mono text-sm text-secondary mt-1 md:mt-0">Feb 2022 - Jun 2022</span>
+                    <div class="relative group">
+                        <!-- Timeline Node -->
+                        <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-secondary shadow-lg shadow-secondary/30 border-4 border-dark z-10">
+                            <div class="absolute inset-0 rounded-full bg-secondary animate-pulse opacity-50"></div>
+                        </div>
+
+                        <!-- Year Marker -->
+                        <div class="absolute -left-16 top-4 font-mono text-xs text-secondary/70 font-semibold">2022</div>
+
+                        <!-- Experience Card -->
+                        <div class="ml-16 glass-card p-8 rounded-xl border border-secondary/10 hover:border-secondary/30 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-secondary/10">
+                            <!-- Header -->
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                                <div class="flex items-start gap-4 mb-3 lg:mb-0">
+                                    <div class="w-12 h-12 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-database text-2xl text-red-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-light mb-1 leading-tight" data-i18n="experience.grupo823_role">Microsoft ETL Data Engineer & Data Analyst</h3>
+                                        <h4 class="text-lg text-secondary font-medium">Grupo823 | Costa Rica</h4>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-start lg:items-end">
+                                    <span class="font-mono text-sm text-secondary bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">Feb 2022 - Jun 2022</span>
+                                    <span class="text-xs text-secondary/60 mt-1 font-medium">5 meses</span>
+                                </div>
                             </div>
-                            <h4 class="text-lg text-secondary mb-2">Grupo823 | Costa Rica</h4>
-                            <p class="text-sm mb-3" data-i18n="experience.grupo823_desc">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C#. Optimización de rendimiento de base de datos con transacciones y stored procedures complejos.</p>
-                            <ul class="flex flex-wrap gap-2 font-mono text-xs text-secondary">
-                                <li class="bg-surface px-2 py-1 rounded">SQL Server</li>
-                                <li class="bg-surface px-2 py-1 rounded">SSIS</li>
-                                <li class="bg-surface px-2 py-1 rounded">C#</li>
-                                <li class="bg-surface px-2 py-1 rounded">PowerShell</li>
-                                <li class="bg-surface px-2 py-1 rounded">ETL</li>
-                            </ul>
+
+                            <!-- Description -->
+                            <p class="text-secondary/80 text-sm leading-relaxed mb-6" data-i18n="experience.grupo823_desc">Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C#. Optimización de rendimiento de base de datos con transacciones y stored procedures complejos.</p>
+
+                            <!-- Tech Stack -->
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-red-500/10 text-red-400 px-3 py-1 rounded-full text-xs font-medium border border-red-500/20 hover:bg-red-500/20 transition-colors">SQL Server</span>
+                                <span class="bg-purple-500/10 text-purple-400 px-3 py-1 rounded-full text-xs font-medium border border-purple-500/20 hover:bg-purple-500/20 transition-colors">SSIS</span>
+                                <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-medium border border-green-500/20 hover:bg-green-500/20 transition-colors">C#</span>
+                                <span class="bg-blue-600/10 text-blue-300 px-3 py-1 rounded-full text-xs font-medium border border-blue-600/20 hover:bg-blue-600/20 transition-colors">PowerShell</span>
+                                <span class="bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full text-xs font-medium border border-indigo-500/20 hover:bg-indigo-500/20 transition-colors">ETL</span>
+                            </div>
+
+                            <!-- Achievements/Highlights -->
+                            <div class="mt-6 pt-4 border-t border-secondary/10">
+                                <div class="flex items-center gap-2 text-xs text-secondary font-medium mb-2">
+                                    <i class="fas fa-trophy text-sm"></i>
+                                    <span>Logros Destacados</span>
+                                </div>
+                                <ul class="text-xs text-secondary/70 space-y-1">
+                                    <li>• 37 pipelines ETL complejos implementados</li>
+                                    <li>• Optimización de performance de BD</li>
+                                    <li>• Arquitectura de datos empresarial</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
