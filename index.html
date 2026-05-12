@@ -552,112 +552,143 @@
                     <div class="h-px bg-gray-700 flex-grow ml-6"></div>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Languages -->
-                    <div class="glass-card p-6 rounded-lg">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-code text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light" data-i18n="skills.languages">Lenguajes</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Python</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">C#</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">JavaScript</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">TypeScript</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PHP</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Java</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">SQL</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Dart</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PowerShell</span>
+                <!-- Carousel Container -->
+                <div class="relative group">
+                    <!-- Navigation Buttons -->
+                    <button id="skills-prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-surface/80 hover:bg-surface border border-primary/20 hover:border-primary/40 text-primary p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 md:opacity-100 backdrop-blur-sm z-10">
+                        <i class="fas fa-chevron-left text-xl"></i>
+                    </button>
+                    <button id="skills-next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-surface/80 hover:bg-surface border border-primary/20 hover:border-primary/40 text-primary p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 md:opacity-100 backdrop-blur-sm z-10">
+                        <i class="fas fa-chevron-right text-xl"></i>
+                    </button>
+
+                    <!-- Carousel Wrapper -->
+                    <div id="skills-carousel" class="overflow-hidden">
+                        <div class="flex transition-transform duration-500 ease-in-out" id="skills-carousel-inner">
+                            <!-- Languages -->
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4">
+                                <div class="glass-card p-6 rounded-lg group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30 h-full">
+                                    <div class="flex items-center mb-4">
+                                        <i class="fas fa-code text-primary text-2xl mr-3"></i>
+                                        <h3 class="text-xl font-bold text-light group-hover:text-primary transition-colors" data-i18n="skills.languages">Lenguajes</h3>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Python</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">C#</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">JavaScript</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">TypeScript</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">PHP</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Java</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">SQL</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Dart</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">PowerShell</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Backend -->
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4">
+                                <div class="glass-card p-6 rounded-lg group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30 h-full">
+                                    <div class="flex items-center mb-4">
+                                        <i class="fas fa-server text-primary text-2xl mr-3"></i>
+                                        <h3 class="text-xl font-bold text-light group-hover:text-primary transition-colors" data-i18n="skills.backend">Backend</h3>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">.NET 8</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">ASP.NET Core</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Node.js</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Express.js</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Flask</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Laravel</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Spring Framework</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Microservicios</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Frontend -->
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4">
+                                <div class="glass-card p-6 rounded-lg group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30 h-full">
+                                    <div class="flex items-center mb-4">
+                                        <i class="fas fa-desktop text-primary text-2xl mr-3"></i>
+                                        <h3 class="text-xl font-bold text-light group-hover:text-primary transition-colors" data-i18n="skills.frontend">Frontend</h3>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">React</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Vue.js</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Angular</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">TypeScript</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Tailwind CSS</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Redux</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">NgRx</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cloud & DevOps -->
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4">
+                                <div class="glass-card p-6 rounded-lg group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30 h-full">
+                                    <div class="flex items-center mb-4">
+                                        <i class="fas fa-cloud text-primary text-2xl mr-3"></i>
+                                        <h3 class="text-xl font-bold text-light group-hover:text-primary transition-colors" data-i18n="skills.cloud">Cloud & DevOps</h3>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">AWS</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">GCP</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Firebase</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Cloudflare</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Docker</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Kubernetes</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">CI/CD</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Linux</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Databases -->
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4">
+                                <div class="glass-card p-6 rounded-lg group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30 h-full">
+                                    <div class="flex items-center mb-4">
+                                        <i class="fas fa-database text-primary text-2xl mr-3"></i>
+                                        <h3 class="text-xl font-bold text-light group-hover:text-primary transition-colors" data-i18n="skills.databases">Bases de Datos</h3>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">MySQL</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">PostgreSQL</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">MongoDB</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">SQL Server</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">MariaDB</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Redis</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Firestore</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI & ML -->
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4">
+                                <div class="glass-card p-6 rounded-lg group hover:-translate-y-2 transition-all duration-300 border border-primary/10 hover:border-primary/30 h-full">
+                                    <div class="flex items-center mb-4">
+                                        <i class="fas fa-brain text-primary text-2xl mr-3"></i>
+                                        <h3 class="text-xl font-bold text-light group-hover:text-primary transition-colors" data-i18n="skills.ai">IA & Machine Learning</h3>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">TensorFlow</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">PyTorch</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">LangChain</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">RAG</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">MCP</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Gemini AI</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">Azure AI</span>
+                                        <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary hover:bg-primary/10 hover:text-primary transition-colors">AWS Bedrock</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Backend -->
-                    <div class="glass-card p-6 rounded-lg">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-server text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light" data-i18n="skills.backend">Backend</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">.NET 8</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">ASP.NET Core</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Node.js</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Express.js</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Flask</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Laravel</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Spring Framework</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Microservicios</span>
-                        </div>
-                    </div>
-
-                    <!-- Frontend -->
-                    <div class="glass-card p-6 rounded-lg">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-desktop text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light" data-i18n="skills.frontend">Frontend</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">React</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Vue.js</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Angular</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">TypeScript</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Tailwind CSS</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Redux</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">NgRx</span>
-                        </div>
-                    </div>
-
-                    <!-- Cloud & DevOps -->
-                    <div class="glass-card p-6 rounded-lg">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-cloud text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light" data-i18n="skills.cloud">Cloud & DevOps</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">AWS</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">GCP</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Firebase</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Cloudflare</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Docker</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Kubernetes</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">CI/CD</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Linux</span>
-                        </div>
-                    </div>
-
-                    <!-- Databases -->
-                    <div class="glass-card p-6 rounded-lg">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-database text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light" data-i18n="skills.databases">Bases de Datos</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MySQL</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PostgreSQL</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MongoDB</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">SQL Server</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MariaDB</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Redis</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Firestore</span>
-                        </div>
-                    </div>
-
-                    <!-- AI & ML -->
-                    <div class="glass-card p-6 rounded-lg">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-brain text-primary text-2xl mr-3"></i>
-                            <h3 class="text-xl font-bold text-light" data-i18n="skills.ai">IA & Machine Learning</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">TensorFlow</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">PyTorch</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">LangChain</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">RAG</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">MCP</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Gemini AI</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">Azure AI</span>
-                            <span class="skill-tag bg-surface px-3 py-2 rounded text-sm text-secondary">AWS Bedrock</span>
-                        </div>
+                    <!-- Indicator Dots -->
+                    <div class="flex justify-center mt-8 space-x-2" id="skills-carousel-dots">
+                        <!-- Dots will be generated by JS -->
                     </div>
                 </div>
             </div>
@@ -1229,6 +1260,132 @@
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
             const dotsContainer = document.getElementById('carousel-dots');
+
+            if (!carousel || !carouselInner || !prevBtn || !nextBtn || !dotsContainer) return;
+
+            const items = carouselInner.children;
+            const totalItems = items.length;
+            let currentIndex = 0;
+            let itemsPerView = getItemsPerView();
+
+            function getItemsPerView() {
+                if (window.innerWidth >= 1024) return 3; // lg: 3 cards
+                if (window.innerWidth >= 768) return 2; // md: 2 cards
+                return 1; // mobile: 1 card
+            }
+
+            function updateCarousel() {
+                const translateX = -(currentIndex * (100 / itemsPerView));
+                carouselInner.style.transform = `translateX(${translateX}%)`;
+
+                // Update dots
+                updateDots();
+
+                // Update button states
+                prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
+                prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+
+                const maxIndex = totalItems - itemsPerView;
+                nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+                nextBtn.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
+            }
+
+            function updateDots() {
+                const totalSlides = Math.ceil(totalItems / itemsPerView);
+                dotsContainer.innerHTML = '';
+
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = `w-3 h-3 rounded-full transition-all duration-300 ${
+                        i === Math.floor(currentIndex / itemsPerView)
+                            ? 'bg-primary scale-125'
+                            : 'bg-secondary/30 hover:bg-secondary/50'
+                    }`;
+                    dot.addEventListener('click', () => goToSlide(i));
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            function goToSlide(slideIndex) {
+                currentIndex = slideIndex * itemsPerView;
+                if (currentIndex > totalItems - itemsPerView) {
+                    currentIndex = totalItems - itemsPerView;
+                }
+                if (currentIndex < 0) currentIndex = 0;
+                updateCarousel();
+            }
+
+            function nextSlide() {
+                if (currentIndex < totalItems - itemsPerView) {
+                    currentIndex += itemsPerView;
+                    if (currentIndex > totalItems - itemsPerView) {
+                        currentIndex = totalItems - itemsPerView;
+                    }
+                    updateCarousel();
+                }
+            }
+
+            function prevSlide() {
+                if (currentIndex > 0) {
+                    currentIndex -= itemsPerView;
+                    if (currentIndex < 0) currentIndex = 0;
+                    updateCarousel();
+                }
+            }
+
+            // Touch/swipe support
+            let startX = 0;
+            let isDragging = false;
+
+            carousel.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            carousel.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const currentX = e.touches[0].clientX;
+                const diff = startX - currentX;
+
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    isDragging = false;
+                }
+            });
+
+            carousel.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            // Button event listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // Window resize handler
+            window.addEventListener('resize', () => {
+                const newItemsPerView = getItemsPerView();
+                if (newItemsPerView !== itemsPerView) {
+                    itemsPerView = newItemsPerView;
+                    currentIndex = 0;
+                    updateCarousel();
+                }
+            });
+
+            // Initialize
+            updateCarousel();
+        });
+
+        // Skills Carousel Script
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('skills-carousel');
+            const carouselInner = document.getElementById('skills-carousel-inner');
+            const prevBtn = document.getElementById('skills-prev-btn');
+            const nextBtn = document.getElementById('skills-next-btn');
+            const dotsContainer = document.getElementById('skills-carousel-dots');
 
             if (!carousel || !carouselInner || !prevBtn || !nextBtn || !dotsContainer) return;
 
