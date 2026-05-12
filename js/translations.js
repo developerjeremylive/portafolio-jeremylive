@@ -57,6 +57,10 @@ const translations = {
         projects: {
             title: "Proyectos Destacados",
             new_badge: "Nuevo",
+            etheroi_title: "EtherOI Platform",
+            etheroi_desc: "Plataforma integral de IA con agentes multi-modales, chat inteligente, traducción en tiempo real y herramientas de estudio avanzadas. Arquitectura serverless en Cloudflare.",
+            aiagent_title: "AI Agent Chat",
+            aiagent_desc: "Plataforma de chat con agentes de IA avanzados. Asistente conversacional potenciado por múltiples modelos de IA con capacidades de agente autónomo.",
             maaas_title: "MAaaS Platform",
             maaas_desc: "Plataforma escalable Multi-Agente como Servicio en Cloudflare serverless. Comunicación WebSocket en tiempo real, Durable Objects y orquestación de LLMs.",
             mktvoz_title: "MktVoz AI Studio",
@@ -75,6 +79,8 @@ const translations = {
             saas_desc: "Aplicación SaaS en AWS con sistema de pagos Stripe y dashboards de analytics predictivos usando Google Analytics API.",
             etl_title: "Pipelines ETL",
             etl_desc: "Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C# para optimización de flujos de datos empresariales.",
+            nft_title: "NFT Marketplace",
+            nft_desc: "Plataforma de NFTs de próxima generación. Crea, colecciona y comercia arte digital único aseguranado mediante blockchain. Mercado digital con subastas y galería de artistas.",
             view_info: "Ver Info",
             visit_site: "Visitar Sitio",
             view_code: "Ver Código"
@@ -150,6 +156,10 @@ const translations = {
         projects: {
             title: "Featured Projects",
             new_badge: "New",
+            etheroi_title: "EtherOI Platform",
+            etheroi_desc: "Comprehensive AI platform with multi-modal agents, intelligent chat, real-time translation, and advanced study tools. Serverless architecture on Cloudflare.",
+            aiagent_title: "AI Agent Chat",
+            aiagent_desc: "Chat platform with advanced AI agents. Conversational assistant powered by multiple AI models with autonomous agent capabilities.",
             maaas_title: "MAaaS Platform",
             maaas_desc: "Scalable Multi-Agent-as-a-Service platform on Cloudflare serverless. Real-time WebSocket communication, Durable Objects, and LLM orchestration.",
             mktvoz_title: "MktVoz AI Studio",
@@ -168,6 +178,8 @@ const translations = {
             saas_desc: "SaaS application on AWS with Stripe payment system and predictive analytics dashboards using Google Analytics API.",
             etl_title: "ETL Pipelines",
             etl_desc: "Design and implementation of 37 advanced ETL pipelines using SSIS and C# for enterprise data flow optimization.",
+            nft_title: "NFT Marketplace",
+            nft_desc: "Next-generation NFT platform. Create, collect, and trade unique digital art secured by blockchain. Digital marketplace with auctions and artist gallery.",
             view_info: "View Info",
             visit_site: "Visit Site",
             view_code: "View Code"
