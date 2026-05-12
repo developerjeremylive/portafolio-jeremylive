@@ -192,6 +192,303 @@
             transform: scale(1.05);
         }
 
+        /* Futuristic Navigation Popup */
+        .futuristic-popup {
+            position: relative;
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.95), rgba(17, 34, 64, 0.95));
+            border: 1px solid rgba(100, 255, 218, 0.15);
+            border-radius: 12px;
+            box-shadow:
+                0 20px 40px -10px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(100, 255, 218, 0.05);
+            animation: popupSlideIn 0.3s ease-out forwards;
+            backdrop-filter: blur(16px);
+        }
+
+
+
+        .futuristic-popup:hover::before {
+            opacity: 0.15;
+        }
+
+        @keyframes popupSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-15px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes popupFadeOut {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-15px) scale(0.96);
+                filter: blur(4px);
+            }
+        }
+
+        @keyframes buttonStaggerIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-25px) scale(0.9) rotateY(-5deg);
+            }
+            70% {
+                opacity: 0.7;
+                transform: translateX(3px) scale(1.02) rotateY(1deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1) rotateY(0deg);
+            }
+        }
+
+
+
+
+
+        .nav-popup-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(100, 255, 218, 0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .nav-popup-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-popup-item:hover::before {
+            left: 100%;
+        }
+
+        /* Futuristic Menu Button */
+        .futuristic-menu-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.8), rgba(17, 34, 64, 0.8));
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 8px;
+            color: #e5e7eb;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .futuristic-menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .futuristic-menu-btn:hover::before {
+            left: 100%;
+        }
+
+        .futuristic-menu-btn:hover {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.1), rgba(87, 203, 255, 0.1));
+            border-color: rgba(100, 255, 218, 0.6);
+            color: #64ffda;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(100, 255, 218, 0.3);
+        }
+
+        .futuristic-menu-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Text is already white for optimal contrast */
+
+        .nav-popup-item:hover {
+            transform: translateX(4px);
+            background: rgba(100, 255, 218, 0.02);
+            border-color: rgba(100, 255, 218, 0.12);
+        }
+
+        .nav-popup-item:active {
+            transform: translateX(3px) scale(0.98);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        /* Unique styles for each navigation button */
+        .nav-popup-item:nth-child(1) {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.1), rgba(87, 203, 255, 0.1));
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            animation: buttonStaggerIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+        }
+        .nav-popup-item:nth-child(1) i,
+        .nav-popup-item:nth-child(1) span:not(:last-child) {
+            color: #64ffda;
+        }
+        .nav-popup-item:nth-child(1) span:last-child {
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+        .nav-popup-item:nth-child(1):hover {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.08), rgba(87, 203, 255, 0.08));
+            border-color: rgba(100, 255, 218, 0.25);
+        }
+        .nav-popup-item:nth-child(1) .fa-arrow-right {
+            color: #64ffda;
+            transition: color 0.3s ease;
+        }
+
+        .nav-popup-item:nth-child(2) {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            animation: buttonStaggerIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+        }
+        .nav-popup-item:nth-child(2) i,
+        .nav-popup-item:nth-child(2) span:not(:last-child) {
+            color: #a855f7;
+        }
+        .nav-popup-item:nth-child(2) span:last-child {
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+        .nav-popup-item:nth-child(2):hover {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(139, 92, 246, 0.08));
+            border-color: rgba(168, 85, 247, 0.25);
+        }
+        .nav-popup-item:nth-child(2) .fa-arrow-right {
+            color: #a855f7;
+            transition: color 0.3s ease;
+        }
+
+
+        .nav-popup-item:nth-child(3) .fa-arrow-right {
+            color: #3b82f6;
+            transition: color 0.3s ease;
+        }
+
+
+        .nav-popup-item:nth-child(4) .fa-arrow-right {
+            color: #f97316;
+            transition: color 0.3s ease;
+        }
+
+
+        .nav-popup-item:nth-child(5) .fa-arrow-right {
+            color: #22c55e;
+            transition: color 0.3s ease;
+        }
+        .nav-popup-item:nth-child(2) .fa-arrow-right {
+            color: #a855f7;
+            transition: color 0.3s ease;
+        }
+
+        .nav-popup-item:nth-child(3) .fa-arrow-right {
+            color: #3b82f6;
+            transition: color 0.3s ease;
+        }
+
+        .nav-popup-item:nth-child(4) .fa-arrow-right {
+            color: #f97316;
+            transition: color 0.3s ease;
+        }
+
+        .nav-popup-item:nth-child(5) .fa-arrow-right {
+            color: #22c55e;
+            transition: color 0.3s ease;
+        }
+
+        .nav-popup-item:nth-child(3) {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            animation: buttonStaggerIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+        }
+        .nav-popup-item:nth-child(3) i,
+        .nav-popup-item:nth-child(3) span:not(:last-child) {
+            color: #3b82f6;
+        }
+        .nav-popup-item:nth-child(3) span:last-child {
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+        .nav-popup-item:nth-child(3):hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.08));
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        .nav-popup-item:nth-child(3) .fa-arrow-right {
+            color: #3b82f6;
+        }
+
+        .nav-popup-item:nth-child(4) {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(234, 88, 12, 0.1));
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            animation: buttonStaggerIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+        }
+        .nav-popup-item:nth-child(4) i,
+        .nav-popup-item:nth-child(4) span:not(:last-child) {
+            color: #f97316;
+        }
+        .nav-popup-item:nth-child(4) span:last-child {
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+        .nav-popup-item:nth-child(4):hover {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), rgba(234, 88, 12, 0.08));
+            border-color: rgba(249, 115, 22, 0.25);
+        }
+
+        .nav-popup-item:nth-child(4) .fa-arrow-right {
+            color: #f97316;
+        }
+
+        .nav-popup-item:nth-child(5) {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            animation: buttonStaggerIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+        }
+        .nav-popup-item:nth-child(5) i,
+        .nav-popup-item:nth-child(5) span:not(:last-child) {
+            color: #22c55e;
+        }
+        .nav-popup-item:nth-child(5) span:last-child {
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+        .nav-popup-item:nth-child(5):hover {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(22, 163, 74, 0.08));
+            border-color: rgba(34, 197, 94, 0.25);
+        }
+
+        .nav-popup-item:nth-child(5) .fa-arrow-right {
+            color: #22c55e;
+        }
+
 
     </style>
     <style>
@@ -234,13 +531,12 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#about" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.about">01. Sobre Mí</a>
-                        <a href="#experience" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.experience">02. Experiencia</a>
-                        <a href="#education" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.education">03. Educación</a>
-                        <a href="#skills" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.skills">04. Habilidades</a>
-                        <a href="#projects" class="hover:text-primary transition-colors duration-300 font-mono text-sm" data-i18n="nav.projects">05. Proyectos</a>
+                        <button id="nav-menu-btn" class="futuristic-menu-btn group" data-i18n="nav.menu">
+                            <i class="fas fa-bars mr-2 transition-transform duration-300 group-hover:rotate-90 md:hidden"></i>
+                            <span class="font-mono text-sm">Menú</span>
+                        </button>
                         <a href="https://jeremylive-dev.netlify.app/contact" target="_blank" class="px-4 py-2 border border-primary text-primary rounded hover:bg-primary/10 transition-all duration-300 font-mono text-sm" data-i18n="nav.contact">Contacto</a>
-                        <a href="https://jeremylive-dev.netlify.app" target="_blank" class="hidden md:inline-flex items-center px-3 py-2 border border-secondary text-secondary rounded hover:bg-secondary/10 transition-all duration-300 font-mono text-sm ml-4" data-i18n="nav.previous_site">Sitio Anterior</a>
+                        <a href="https://jeremylive-dev.netlify.app" target="_blank" class="hidden md:inline-flex items-center px-4 py-2 border border-secondary text-secondary rounded hover:bg-secondary/10 transition-all duration-300 font-mono text-sm ml-4 whitespace-nowrap" data-i18n="nav.previous_site">Sitio Anterior</a>
                         <button id="language-toggle" class="hover:text-primary transition-colors duration-300 font-mono text-sm ml-4 border border-secondary px-2 py-1 rounded">
                             <span id="lang-text">EN</span>
                         </button>
@@ -268,6 +564,73 @@
             </div>
         </div>
     </nav>
+
+    <!-- Navigation Popup -->
+    <div id="nav-popup" class="fixed inset-0 z-40 hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="nav-popup-backdrop"></div>
+
+        <!-- Popup Content -->
+        <div class="absolute top-24 left-1/2 transform -translate-x-1/2 w-full max-w-md mx-4">
+            <div class="futuristic-popup bg-dark/95 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 shadow-2xl">
+                <button id="popup-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+                <div class="grid grid-cols-1 gap-4">
+                    <a href="#about" class="nav-popup-item group" data-i18n="nav.about">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-user text-lg mr-2"></i>
+                            <span class="font-mono text-sm">01.</span>
+                        </div>
+                        <span class="text-white transition-colors">Sobre Mí</span>
+                        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="#experience" class="nav-popup-item group" data-i18n="nav.experience">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-briefcase text-lg mr-2"></i>
+                            <span class="font-mono text-sm">02.</span>
+                        </div>
+                        <span class="text-white transition-colors">Experiencia</span>
+                        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="#education" class="nav-popup-item group" data-i18n="nav.education">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-graduation-cap text-lg mr-2"></i>
+                            <span class="font-mono text-sm">03.</span>
+                        </div>
+                        <span class="text-white transition-colors">Educación</span>
+                        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="#skills" class="nav-popup-item group" data-i18n="nav.skills">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-code text-lg mr-2"></i>
+                            <span class="font-mono text-sm">04.</span>
+                        </div>
+                        <span class="text-white transition-colors">Habilidades</span>
+                        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="#projects" class="nav-popup-item group" data-i18n="nav.projects">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-project-diagram text-lg mr-2"></i>
+                            <span class="font-mono text-sm">05.</span>
+                        </div>
+                        <span class="text-white transition-colors">Proyectos</span>
+                        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="min-h-screen flex items-center justify-center pt-20 relative">
@@ -1806,6 +2169,52 @@
                 menu.classList.add('hidden');
             });
         });
+
+        // Navigation Popup Toggle - Click to open
+        const navMenuBtn = document.getElementById('nav-menu-btn');
+        const navPopup = document.getElementById('nav-popup');
+
+        navMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navPopup.classList.toggle('hidden');
+        });
+
+        // Close popup when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navPopup.classList.contains('hidden') &&
+                !navPopup.contains(e.target) &&
+                !navMenuBtn.contains(e.target)) {
+                navPopup.classList.add('hidden');
+            }
+        });
+
+        // Close button functionality
+        const popupCloseBtn = document.getElementById('popup-close-btn');
+        if (popupCloseBtn) {
+            popupCloseBtn.addEventListener('click', () => {
+                navPopup.classList.add('hidden');
+            });
+        }
+
+        // Close popup when clicking on navigation items (improved UX)
+        document.querySelectorAll('.nav-popup-item').forEach(item => {
+            item.addEventListener('click', () => {
+                closePopup();
+            });
+        });
+
+        function closePopup() {
+            const popup = document.querySelector('.futuristic-popup');
+            if (popup) {
+                popup.style.animation = 'popupFadeOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+                setTimeout(() => {
+                    navPopup.classList.add('hidden');
+                    popup.style.animation = ''; // Reset animation
+                }, 400);
+            } else {
+                navPopup.classList.add('hidden');
+            }
+        }
 
         // Reveal on Scroll
         function reveal() {

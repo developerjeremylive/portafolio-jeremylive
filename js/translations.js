@@ -7,7 +7,8 @@ const translations = {
             skills: "04. Habilidades",
             projects: "05. Proyectos",
             contact: "Contacto",
-            previous_site: "Sitio Anterior"
+            previous_site: "Sitio Anterior",
+            menu: "Menú"
         },
         hero: {
             greeting: "Hola, mi nombre es",
@@ -130,7 +131,8 @@ const translations = {
             skills: "04. Skills",
             projects: "05. Projects",
             contact: "Contact",
-            previous_site: "Previous Site"
+            previous_site: "Previous Site",
+            menu: "Menu"
         },
         hero: {
             greeting: "Hi, my name is",
