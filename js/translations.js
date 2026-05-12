@@ -36,15 +36,15 @@ const translations = {
             etheroi_role: "Python GenAI Software Engineer & Deep Agents Integration",
             etheroi_desc: "Desarrollo de plataforma Multi-Agent-as-a-Service (MAaaS) usando Cloudflare Workers y Durable Objects. Integración de LLMs vía MCP con optimización de costos.",
             cobros_role: "Python Senior Software Engineer & AI Backend Specialist",
-            cobros_desc: "Desarrollo de 3 aplicaciones para el sector financiero. Integración de IA con Gemini y Voice Agent para comunicación con base de datos D1 Cloudflare.",
+            cobros_desc: "Desarrollo de tres aplicaciones para el sector financiero alojadas en cPanel. Dos aplicaciones en PHP/Laravel conectadas entre sí para crear un portal administrativo y cliente completo. La tercera aplicación en Python con integración de IA usando Gemini y Voice Agent para comunicación con base de datos relacional D1 de Cloudflare.",
             ollin_role: "Python Senior Cloud Engineer",
-            ollin_desc: "Aplicación web administrativa en React/TypeScript para plataforma de logística con Firebase. Integración de Google Maps, autenticación por roles y tracking en tiempo real.",
+            ollin_desc: "Desarrollo de aplicación web React alojada en Google Cloud Platform con portales administrativos y de conductor conectados. Sistema de entregas en tiempo real con rutas de entrega en mapas, optimización de rutas y formularios públicos para clientes.",
             lievant_role: ".Net Technical Lead & Software Architect",
-            lievant_desc: "Desarrollo de servicios web RESTful y microservicios para el sector salud. Sistema de cotización full-stack para productos de seguros usando C#/.NET 8/ASP.NET Core.",
+            lievant_desc: "Desarrollo de aplicación web MVC .NET 8 Enterprise con sitio público y portal administrativo. Integración completa de API Java con lógica de negocio conectada a formularios públicos de clientes. Alojamiento en Windows Server 2019 con enfoque en ciclo de vida completo del desarrollo de software.",
             people_role: "Node.js Mid. Full Stack & AWS Mid. Backend Developer",
-            people_desc: "Aplicación SaaS en AWS con TypeScript, Redis y Stripe API. Dashboards de analytics predictivos con Google Analytics API. Microservicios Java en Docker.",
+            people_desc: "Desarrollo full-stack de plataforma SaaS utilizando MariaDB, Node.js, React.js, Redux y TypeScript. Sistema completo de pagos con integraciones de Stripe y PayPal, analytics avanzado con Google Analytics API, y arquitectura multi-idioma/multirregional.",
             grupo823_role: "Microsoft ETL Data Engineer & Data Analyst",
-            grupo823_desc: "Diseño e implementación de 37 pipelines ETL avanzados usando SSIS y C#. Optimización de rendimiento de base de datos con transacciones y stored procedures complejos."
+            grupo823_desc: "Desarrollo de procesos ETL limpios desde bases de datos fuente a destino. Creación de hilos conductores de componentes de Extracción, Transformación y Carga. Desarrollo de 37 pipelines ETL con soluciones creativas e innovadoras."
         },
         education: {
             title: "Educación",
@@ -142,15 +142,15 @@ const translations = {
             etheroi_role: "Python GenAI Software Engineer & Deep Agents Integration",
             etheroi_desc: "Development of Multi-Agent-as-a-Service (MAaaS) platform using Cloudflare Workers and Durable Objects. Integration of LLMs via MCP with cost optimization.",
             cobros_role: "Python Senior Software Engineer & AI Backend Specialist",
-            cobros_desc: "Development of 3 applications for the financial sector. AI integration with Gemini and Voice Agent for communication with Cloudflare D1 database.",
+            cobros_desc: "Development of three applications for the financial sector hosted on cPanel. Two applications in PHP/Laravel connected to each other to create a complete admin and client portal. The third application in Python with AI integration using Gemini and Voice Agent for communication with Cloudflare D1 relational database.",
             ollin_role: "Python Senior Cloud Engineer",
-            ollin_desc: "Administrative web application in React/TypeScript for logistics platform with Firebase. Integration of Google Maps, role-based authentication, and real-time tracking.",
+            ollin_desc: "Development of React web application hosted on Google Cloud Platform with connected admin and driver portals. Real-time delivery system with delivery routes on maps, route optimization, and public client forms.",
             lievant_role: ".Net Technical Lead & Software Architect",
-            lievant_desc: "Development of RESTful web services and microservices for the healthcare sector. Full-stack quotation system for insurance products using C#/.NET 8/ASP.NET Core.",
+            lievant_desc: "Development of MVC .NET 8 Enterprise web application with public website and admin portal. Complete Java API integration with business logic connected to public client forms. Hosting on Windows Server 2019 with focus on complete software development lifecycle.",
             people_role: "Node.js Mid. Full Stack & AWS Mid. Backend Developer",
-            people_desc: "SaaS application on AWS with TypeScript, Redis, and Stripe API. Predictive analytics dashboards with Google Analytics API. Java microservices in Docker.",
+            people_desc: "Full-stack development of SaaS platform using MariaDB, Node.js, React.js, Redux and TypeScript. Complete payment system with Stripe and PayPal integrations, advanced analytics with Google Analytics API, and multi-language/multi-regional architecture.",
             grupo823_role: "Microsoft ETL Data Engineer & Data Analyst",
-            grupo823_desc: "Design and implementation of 37 advanced ETL pipelines using SSIS and C#. Database performance optimization with complex transactions and stored procedures."
+            grupo823_desc: "Development of clean ETL processes from source databases to destination. Creation of conductive threads of Extraction, Transformation, Load components. Development of 37 ETL pipelines with creative and innovative solutions."
         },
         education: {
             title: "Education",
