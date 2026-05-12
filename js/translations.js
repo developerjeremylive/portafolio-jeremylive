@@ -62,7 +62,175 @@ const translations = {
             people_role: "Node.js Mid. Full Stack & AWS Mid. Backend Developer",
             people_desc: "Desarrollo full-stack de plataforma SaaS utilizando MariaDB, Node.js, React.js, Redux y TypeScript. Sistema completo de pagos con integraciones de Stripe y PayPal, analytics avanzado con Google Analytics API, y arquitectura multi-idioma/multirregional.",
             grupo823_role: "Microsoft ETL Data Engineer & Data Analyst",
-            grupo823_desc: "Desarrollo de procesos ETL limpios desde bases de datos fuente a destino. Creación de hilos conductores de componentes de Extracción, Transformación y Carga. Desarrollo de 37 pipelines ETL con soluciones creativas e innovadoras."
+            grupo823_desc: "Desarrollo de procesos ETL limpios desde bases de datos fuente a destino. Creación de hilos conductores de componentes de Extracción, Transformación y Carga. Desarrollo de 37 pipelines ETL con soluciones creativas e innovadoras.",
+            etheroi_achievements: `<div class="space-y-4">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">Productos AI Principales:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• MAaaS Multi-Cloud con LangChain: <a href="https://chat.etheroi.com" target="_blank" class="text-primary hover:underline">chat.etheroi.com</a></li>
+                                            <li>• Plataforma AI Multi-página: <a href="https://etheroi.com" target="_blank" class="text-primary hover:underline">etheroi.com</a></li>
+                                            <li>• DeepMCPAgent WebUI Open Source: <a href="https://github.com/developerjeremylive/deepMCPAgent-WebUI" target="_blank" class="text-primary hover:underline">github.com/developerjeremylive/deepMCPAgent-WebUI</a></li>
+                                            <li>• AI Voice App con Gemini: <a href="https://mktvoz.etheroi.com" target="_blank" class="text-primary hover:underline">mktvoz.etheroi.com</a></li>
+                                            <li>• Traductor AI Multi-idiomas: <a href="https://liveaitranslate.etheroi.com" target="_blank" class="text-primary hover:underline">liveaitranslate.etheroi.com</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">Productos AI 2026:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2 grid grid-cols-2 gap-1">
+                                            <li>• <a href="https://agent.etheroi.com" target="_blank" class="text-primary hover:underline">agent.etheroi.com</a></li>
+                                            <li>• <a href="https://nft.etheroi.com" target="_blank" class="text-primary hover:underline">nft.etheroi.com</a></li>
+                                            <li>• <a href="https://live-ofp.netlify.app" target="_blank" class="text-primary hover:underline">live-ofp.netlify.app</a></li>
+                                            <li>• <a href="https://livehfmount.netlify.app" target="_blank" class="text-primary hover:underline">livehfmount.netlify.app</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">One-Shot Multi-Page WebApps:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2 grid grid-cols-2 gap-1">
+                                            <li>• <a href="https://barber.etheroi.com" target="_blank" class="text-primary hover:underline">barber.etheroi.com</a></li>
+                                            <li>• <a href="https://seller.etheroi.com" target="_blank" class="text-primary hover:underline">seller.etheroi.com</a></li>
+                                            <li>• <a href="https://dentist.etheroi.com" target="_blank" class="text-primary hover:underline">dentist.etheroi.com</a></li>
+                                            <li>• <a href="https://clean.etheroi.com" target="_blank" class="text-primary hover:underline">clean.etheroi.com</a></li>
+                                            <li>• <a href="https://tatto.etheroi.com" target="_blank" class="text-primary hover:underline">tatto.etheroi.com</a></li>
+                                            <li>• <a href="https://paynow.etheroi.com" target="_blank" class="text-primary hover:underline">paynow.etheroi.com</a></li>
+                                            <li>• <a href="https://ai.etheroi.com" target="_blank" class="text-primary hover:underline">ai.etheroi.com</a></li>
+                                            <li>• <a href="https://b2bwhatsapp.etheroi.com" target="_blank" class="text-primary hover:underline">b2bwhatsapp.etheroi.com</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">Desarrollo de Software Personalizado:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Desarrollo Full-Stack, SaaS, E-commerce, Landing Pages</li>
+                                            <li>• Arquitectura Multi-Cloud con LLMs y Sistemas Multi-Agente</li>
+                                            <li>• Integración avanzada de MCP y herramientas de agentes</li>
+                                            <li>• Patrón de despliegue avanzado para modelos de lenguaje grandes</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">Proyectos de Desarrollo Personalizado:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2 grid grid-cols-2 gap-1">
+                                            <li>• <a href="https://gaja-dev.netlify.app" target="_blank" class="text-primary hover:underline">gaja-dev.netlify.app</a></li>
+                                            <li>• <a href="https://contnowtax.netlify.app" target="_blank" class="text-primary hover:underline">contnowtax.netlify.app</a></li>
+                                            <li>• <a href="https://app-b2b.netlify.app" target="_blank" class="text-primary hover:underline">app-b2b.netlify.app</a></li>
+                                            <li>• <a href="https://ecommerce-ios.netlify.app" target="_blank" class="text-primary hover:underline">ecommerce-ios.netlify.app</a></li>
+                                            <li>• <a href="https://estudiobelleza.etheroi.com" target="_blank" class="text-primary hover:underline">estudiobelleza.etheroi.com</a></li>
+                                        </ul>
+                                    </div>
+                                </div>`,
+            cobros_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Aplicaciones Desarrolladas:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Sistema de pagos con reportes e IA: <a href="https://payment.etheroi.com" target="_blank" class="text-primary hover:underline">payment.etheroi.com</a></li>
+                                            <li>• Portal administrativo de préstamos: <a href="https://grupobonsai-prestacr.com" target="_blank" class="text-primary hover:underline">grupobonsai-prestacr.com</a></li>
+                                            <li>• Portal cliente para facturas: <a href="https://cobroscr.com" target="_blank" class="text-primary hover:underline">cobroscr.com</a></li>
+                                        </ul>
+                                    </div>
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Integración completa de IA con Gemini y agentes de voz</li>
+                                        <li>• Comunicación inteligente con base de datos D1 Cloudflare</li>
+                                        <li>• Arquitectura enterprise con portales conectados</li>
+                                    </ul>
+                                </div>`,
+            developercity_achievements: `<ul class="text-xs text-secondary/70 space-y-1">
+                                     <li>• Desarrollo full-stack con Python, Node.js y TypeScript</li>
+                                     <li>• Arquitecturas escalables y APIs RESTful robustas</li>
+                                     <li>• Integración de funcionalidades AIOps en KhayaCore</li>
+                                     <li>• Microservicios con patrones de diseño modernos</li>
+                                     <li>• Pipelines CI/CD con Docker y contenedorización</li>
+                                 </ul>`,
+            ollin_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Métricas de Rendimiento:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Reducción del tiempo de procesamiento de pedidos en 30%</li>
+                                            <li>• Aumento de productividad de conductores en 25%</li>
+                                            <li>• Reducción de costos operativos en 20%</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Características Técnicas:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Portal administrativo: <a href="https://ollincr-23001.web.app/" target="_blank" class="text-secondary hover:text-primary hover:underline">ollincr-23001.web.app</a></li>
+                                            <li>• Formulario público de clientes: <a href="https://ollincr.com/" target="_blank" class="text-secondary hover:text-primary hover:underline">ollincr.com</a></li>
+                                            <li>• Autenticación basada en roles con Firebase</li>
+                                            <li>• Optimización de rutas con APIs de mapas open-source</li>
+                                            <li>• Aplicación móvil para conductores con notificaciones push</li>
+                                        </ul>
+                                    </div>
+                                </div>`,
+            lievant_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Proyectos Desarrollados:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Sistema de cotización de seguros: <a href="https://probeas.coop/" target="_blank" class="text-secondary hover:text-primary hover:underline">probeas.coop</a></li>
+                                            <li>• Sistema de auto-servicio SHELL: <a href="https://www.shell.com.mx/" target="_blank" class="text-secondary hover:text-primary hover:underline">shell.com.mx</a></li>
+                                        </ul>
+                                    </div>
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Desarrollo completo del ciclo de vida del software</li>
+                                        <li>• Aplicación web SPA en sector salud con enfoque MVC</li>
+                                        <li>• Integración de APIs Java con lógica de negocio compleja</li>
+                                        <li>• Código limpio y mantenible con .NET 8 y C#</li>
+                                        <li>• Especificaciones técnicas, arquitectura y documentación</li>
+                                    </ul>
+                                </div>`,
+            people_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Plataforma SaaS: <a href="https://mylnker.com/" target="_blank" class="text-secondary hover:text-primary hover:underline">mylnker.com</a></div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Sistema de pagos completo con Stripe y PayPal</li>
+                                            <li>• Lógica de suscripciones con webhooks integrados</li>
+                                            <li>• Sistema de analytics con Google Analytics GA4</li>
+                                            <li>• Soporte multi-idioma y multirregional</li>
+                                            <li>• Portal de facturación y gestión de suscripciones</li>
+                                        </ul>
+                                    </div>
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Transformación de procedimientos almacenados a ORM</li>
+                                        <li>• Testing con Artillery (smoke y stress tests)</li>
+                                        <li>• Sistema de logs y alertas para vulnerabilidades</li>
+                                        <li>• Microservicios escalables con Java Spring Boot</li>
+                                        <li>• Optimización de pipelines CI/CD con Docker y Kubernetes</li>
+                                    </ul>
+                                </div>`,
+            grupo823_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Desarrollo de 37 pipelines ETL avanzados con soluciones innovadoras</li>
+                                        <li>• Creación de procedimientos almacenados complejos en SQL Server</li>
+                                        <li>• Programación de scripts en C# dentro de flujos de datos ETL</li>
+                                        <li>• Línea de desarrollo fluida usando SQL Server Integration Services (SSIS)</li>
+                                        <li>• Mejora significativa en el modelado de datos</li>
+                                        <li>• Dominio de lenguajes SQL y C# para manipulación de datos</li>
+                                    </ul>
+                                </div>`,
+            sdc_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Desarrollo de sitios web responsivos con medios</li>
+                                        <li>• Integración de Twig y Vue.js para soluciones innovadoras</li>
+                                        <li>• Implementación de funcionalidades en plataforma cliente</li>
+                                        <li>• Gestión eficiente de múltiples tareas simultáneas</li>
+                                        <li>• Servicios cloud AWS (S3, EC2)</li>
+                                    </ul>
+                                </div>`,
+            camaleon_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Aplicaciones web de alto rendimiento y escalables</li>
+                                        <li>• APIs RESTful con Python/Flask</li>
+                                        <li>• Interfaces responsivas con Angular y Bootstrap</li>
+                                        <li>• Integración de APIs de terceros y autenticación OAuth 2.0</li>
+                                        <li>• Liderazgo en proyectos full-stack con CI/CD optimizado</li>
+                                    </ul>
+                                </div>`,
+            pantec_role: "Coordinador de Alfabetización Digital",
+            pantec_desc: "Lideré iniciativas de alfabetización digital en el Programa Nacional de Alfabetización Tecnológica (PANTEC) del Instituto Tecnológico de Costa Rica. Desarrollé programas educativos para comunidades desatendidas, fomentando la inclusión tecnológica.",
+            pantec_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Desarrollo de programas educativos en tecnología para comunidades rurales</li>
+                                        <li>• Coordinación de talleres de alfabetización digital</li>
+                                        <li>• Colaboración con instituciones educativas y gubernamentales</li>
+                                        <li>• Impacto en más de 500 personas en programas de inclusión</li>
+                                    </ul>
+                                </div>`
         },
         education: {
             title: "Educación",
@@ -186,7 +354,175 @@ const translations = {
             people_role: "Node.js Mid. Full Stack & AWS Mid. Backend Developer",
             people_desc: "Full-stack development of SaaS platform using MariaDB, Node.js, React.js, Redux and TypeScript. Complete payment system with Stripe and PayPal integrations, advanced analytics with Google Analytics API, and multi-language/multi-regional architecture.",
             grupo823_role: "Microsoft ETL Data Engineer & Data Analyst",
-            grupo823_desc: "Development of clean ETL processes from source databases to destination. Creation of conductive threads of Extraction, Transformation, Load components. Development of 37 ETL pipelines with creative and innovative solutions."
+            grupo823_desc: "Development of clean ETL processes from source databases to destination. Creation of conductive threads of Extraction, Transformation, Load components. Development of 37 ETL pipelines with creative and innovative solutions.",
+            etheroi_achievements: `<div class="space-y-4">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">Main AI Products:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• MAaaS Multi-Cloud with LangChain: <a href="https://chat.etheroi.com" target="_blank" class="text-primary hover:underline">chat.etheroi.com</a></li>
+                                            <li>• Multi-page AI Platform: <a href="https://etheroi.com" target="_blank" class="text-primary hover:underline">etheroi.com</a></li>
+                                            <li>• DeepMCPAgent WebUI Open Source: <a href="https://github.com/developerjeremylive/deepMCPAgent-WebUI" target="_blank" class="text-primary hover:underline">github.com/developerjeremylive/deepMCPAgent-WebUI</a></li>
+                                            <li>• AI Voice App with Gemini: <a href="https://mktvoz.etheroi.com" target="_blank" class="text-primary hover:underline">mktvoz.etheroi.com</a></li>
+                                            <li>• Multi-language AI Translator: <a href="https://liveaitranslate.etheroi.com" target="_blank" class="text-primary hover:underline">liveaitranslate.etheroi.com</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">2026 AI Products:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2 grid grid-cols-2 gap-1">
+                                            <li>• <a href="https://agent.etheroi.com" target="_blank" class="text-primary hover:underline">agent.etheroi.com</a></li>
+                                            <li>• <a href="https://nft.etheroi.com" target="_blank" class="text-primary hover:underline">nft.etheroi.com</a></li>
+                                            <li>• <a href="https://live-ofp.netlify.app" target="_blank" class="text-primary hover:underline">live-ofp.netlify.app</a></li>
+                                            <li>• <a href="https://livehfmount.netlify.app" target="_blank" class="text-primary hover:underline">livehfmount.netlify.app</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">One-Shot Multi-Page WebApps:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2 grid grid-cols-2 gap-1">
+                                            <li>• <a href="https://barber.etheroi.com" target="_blank" class="text-primary hover:underline">barber.etheroi.com</a></li>
+                                            <li>• <a href="https://seller.etheroi.com" target="_blank" class="text-primary hover:underline">seller.etheroi.com</a></li>
+                                            <li>• <a href="https://dentist.etheroi.com" target="_blank" class="text-primary hover:underline">dentist.etheroi.com</a></li>
+                                            <li>• <a href="https://clean.etheroi.com" target="_blank" class="text-primary hover:underline">clean.etheroi.com</a></li>
+                                            <li>• <a href="https://tatto.etheroi.com" target="_blank" class="text-primary hover:underline">tatto.etheroi.com</a></li>
+                                            <li>• <a href="https://paynow.etheroi.com" target="_blank" class="text-primary hover:underline">paynow.etheroi.com</a></li>
+                                            <li>• <a href="https://ai.etheroi.com" target="_blank" class="text-primary hover:underline">ai.etheroi.com</a></li>
+                                            <li>• <a href="https://b2bwhatsapp.etheroi.com" target="_blank" class="text-primary hover:underline">b2bwhatsapp.etheroi.com</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">Custom Software Development:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Full-Stack Development, SaaS, E-commerce, Landing Pages</li>
+                                            <li>• Multi-Cloud Architecture with LLMs and Multi-Agent Systems</li>
+                                            <li>• Advanced MCP Integration and Agent Tools</li>
+                                            <li>• Advanced Deployment Patterns for Large Language Models</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-2">Custom Development Projects:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2 grid grid-cols-2 gap-1">
+                                            <li>• <a href="https://gaja-dev.netlify.app" target="_blank" class="text-primary hover:underline">gaja-dev.netlify.app</a></li>
+                                            <li>• <a href="https://contnowtax.netlify.app" target="_blank" class="text-primary hover:underline">contnowtax.netlify.app</a></li>
+                                            <li>• <a href="https://app-b2b.netlify.app" target="_blank" class="text-primary hover:underline">app-b2b.netlify.app</a></li>
+                                            <li>• <a href="https://ecommerce-ios.netlify.app" target="_blank" class="text-primary hover:underline">ecommerce-ios.netlify.app</a></li>
+                                            <li>• <a href="https://estudiobelleza.etheroi.com" target="_blank" class="text-primary hover:underline">estudiobelleza.etheroi.com</a></li>
+                                        </ul>
+                                    </div>
+                                </div>`,
+            cobros_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Developed Applications:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Payment system with reports and AI: <a href="https://payment.etheroi.com" target="_blank" class="text-primary hover:underline">payment.etheroi.com</a></li>
+                                            <li>• Loan admin portal: <a href="https://grupobonsai-prestacr.com" target="_blank" class="text-primary hover:underline">grupobonsai-prestacr.com</a></li>
+                                            <li>• Client invoice portal: <a href="https://cobroscr.com" target="_blank" class="text-primary hover:underline">cobroscr.com</a></li>
+                                        </ul>
+                                    </div>
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Full AI integration with Gemini and voice agents</li>
+                                        <li>• Intelligent communication with Cloudflare D1 database</li>
+                                        <li>• Enterprise architecture with connected portals</li>
+                                    </ul>
+                                </div>`,
+            developercity_achievements: `<ul class="text-xs text-secondary/70 space-y-1">
+                                     <li>• Full-stack development with Python, Node.js and TypeScript</li>
+                                     <li>• Scalable architectures and robust RESTful APIs</li>
+                                     <li>• Integration of AIOps functionalities in KhayaCore</li>
+                                     <li>• Microservices with modern design patterns</li>
+                                     <li>• CI/CD pipelines with Docker and containerization</li>
+                                 </ul>`,
+            ollin_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Performance Metrics:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• 30% reduction in order processing time</li>
+                                            <li>• 25% increase in driver productivity</li>
+                                            <li>• 20% reduction in operational costs</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Technical Features:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Admin portal: <a href="https://ollincr-23001.web.app/" target="_blank" class="text-secondary hover:text-primary hover:underline">ollincr-23001.web.app</a></li>
+                                            <li>• Public client form: <a href="https://ollincr.com/" target="_blank" class="text-secondary hover:text-primary hover:underline">ollincr.com</a></li>
+                                            <li>• Role-based authentication with Firebase</li>
+                                            <li>• Route optimization with open-source map APIs</li>
+                                            <li>• Mobile app for drivers with push notifications</li>
+                                        </ul>
+                                    </div>
+                                </div>`,
+            lievant_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">Developed Projects:</div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Insurance quotation system: <a href="https://probeas.coop/" target="_blank" class="text-secondary hover:text-primary hover:underline">probeas.coop</a></li>
+                                            <li>• SHELL self-service system: <a href="https://www.shell.com.mx/" target="_blank" class="text-secondary hover:text-primary hover:underline">shell.com.mx</a></li>
+                                        </ul>
+                                    </div>
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Complete software development lifecycle</li>
+                                        <li>• SPA web application in healthcare sector with MVC focus</li>
+                                        <li>• Java APIs integration with complex business logic</li>
+                                        <li>• Clean and maintainable code with .NET 8 and C#</li>
+                                        <li>• Technical specifications, architecture and documentation</li>
+                                    </ul>
+                                </div>`,
+            people_achievements: `<div class="space-y-3">
+                                    <div>
+                                        <div class="text-xs text-secondary/90 font-medium mb-1">SaaS Platform: <a href="https://mylnker.com/" target="_blank" class="text-secondary hover:text-primary hover:underline">mylnker.com</a></div>
+                                        <ul class="text-xs text-secondary/70 space-y-1 ml-2">
+                                            <li>• Complete payment system with Stripe and PayPal</li>
+                                            <li>• Subscription logic with integrated webhooks</li>
+                                            <li>• Analytics system with Google Analytics GA4</li>
+                                            <li>• Multi-language and multi-regional support</li>
+                                            <li>• Billing portal and subscription management</li>
+                                        </ul>
+                                    </div>
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Transformation of stored procedures to ORM</li>
+                                        <li>• Testing with Artillery (smoke and stress tests)</li>
+                                        <li>• Logging and alerting system for vulnerabilities</li>
+                                        <li>• Scalable microservices with Java Spring Boot</li>
+                                        <li>• Optimization of CI/CD pipelines with Docker and Kubernetes</li>
+                                    </ul>
+                                </div>`,
+            grupo823_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Development of 37 advanced ETL pipelines with innovative solutions</li>
+                                        <li>• Creation of complex stored procedures in SQL Server</li>
+                                        <li>• Programming of C# scripts within ETL data flows</li>
+                                        <li>• Smooth development pipeline using SQL Server Integration Services (SSIS)</li>
+                                        <li>• Significant improvement in data modeling</li>
+                                        <li>• Mastery of SQL and C# languages for data manipulation</li>
+                                    </ul>
+                                </div>`,
+            sdc_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Development of responsive websites with media</li>
+                                        <li>• Integration of Twig and Vue.js for innovative solutions</li>
+                                        <li>• Implementation of functionalities in client platform</li>
+                                        <li>• Efficient management of multiple simultaneous tasks</li>
+                                        <li>• AWS cloud services (S3, EC2)</li>
+                                    </ul>
+                                </div>`,
+            camaleon_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• High-performance and scalable web applications</li>
+                                        <li>• RESTful APIs with Python/Flask</li>
+                                        <li>• Responsive interfaces with Angular and Bootstrap</li>
+                                        <li>• Integration of third-party APIs and OAuth 2.0 authentication</li>
+                                        <li>• Leadership in full-stack projects with optimized CI/CD</li>
+                                    </ul>
+                                </div>`,
+            pantec_role: "Digital Literacy Coordinator",
+            pantec_desc: "Led digital literacy initiatives in the National Technological Literacy Program (PANTEC) of the Costa Rica Institute of Technology. Developed educational programs for underserved communities, promoting technological inclusion.",
+            pantec_achievements: `<div class="space-y-3">
+                                    <ul class="text-xs text-secondary/70 space-y-1">
+                                        <li>• Development of educational programs in technology for rural communities</li>
+                                        <li>• Coordination of digital literacy workshops</li>
+                                        <li>• Collaboration with educational and governmental institutions</li>
+                                        <li>• Impact on more than 500 people in inclusion programs</li>
+                                    </ul>
+                                </div>`
         },
         education: {
             title: "Education",
