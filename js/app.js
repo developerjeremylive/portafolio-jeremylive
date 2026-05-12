@@ -59,8 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const icpcBadge = document.getElementById('icpc-badge');
     const icpcDetails = document.getElementById('icpc-details');
     if (icpcBadge && icpcDetails) {
+        icpcBadge.classList.add('active'); // expanded by default
         icpcBadge.addEventListener('click', () => {
             icpcDetails.classList.toggle('hidden');
+            icpcBadge.classList.toggle('active');
         });
     }
 
@@ -68,8 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const pantecBadge = document.getElementById('pantec-badge');
     const pantecDetails = document.getElementById('pantec-details');
     if (pantecBadge && pantecDetails) {
+        pantecBadge.classList.add('active'); // expanded by default
         pantecBadge.addEventListener('click', () => {
             pantecDetails.classList.toggle('hidden');
+            pantecBadge.classList.toggle('active');
         });
     }
 
