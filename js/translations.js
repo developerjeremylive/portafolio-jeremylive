@@ -236,7 +236,12 @@ const translations = {
             title: "Educación",
             degree: "Licenciatura en Ingeniería en Computación",
             university: "Instituto Tecnológico de Costa Rica (TEC) | Cartago",
-            desc: "Enfoque en: Análisis de Algoritmos, Ciencias de la Computación, Inteligencia Artificial, Machine Learning y Matemáticas."
+            desc: "Enfoque en: Análisis de Algoritmos, Ciencias de la Computación, Inteligencia Artificial, Machine Learning y Matemáticas.",
+            icpc_title: "Participante en ICPC - International Collegiate Programming Contest",
+            icpc_desc: "Compití en el prestigioso Concurso Internacional de Programación Universitaria (ICPC), representando al Instituto Tecnológico de Costa Rica. Desarrollé habilidades avanzadas en algoritmos, estructuras de datos y resolución de problemas complejos bajo presión. Esta experiencia me permitió trabajar en equipo con programadores talentosos, optimizar soluciones en tiempo real y enfrentar desafíos algorítmicos de nivel mundial. Contribuyó significativamente a mi crecimiento técnico y capacidad para pensar de manera crítica y eficiente.",
+            pantec_title: "Coordinador de Alfabetización Digital - PANTEC",
+            pantec_subtitle: "Programa Nacional de Alfabetización Tecnológica",
+            pantec_desc: "Lideré iniciativas de alfabetización digital en comunidades desatendidas de Costa Rica. Desarrollé y coordiné programas educativos tecnológicos, talleres y proyectos de inclusión digital que impactaron a más de 500 personas. Colaboré con instituciones educativas y gubernamentales para promover la inclusión tecnológica en zonas rurales y marginadas."
         },
         skills: {
             title: "Habilidades Técnicas",
@@ -528,7 +533,12 @@ const translations = {
             title: "Education",
             degree: "Bachelor's Degree in Computer Engineering",
             university: "Costa Rica Institute of Technology (TEC) | Cartago",
-            desc: "Focus on: Algorithm Analysis, Computer Science, Artificial Intelligence, Machine Learning, and Mathematics."
+            desc: "Focus on: Algorithm Analysis, Computer Science, Artificial Intelligence, Machine Learning, and Mathematics.",
+            icpc_title: "ICPC Participant - International Collegiate Programming Contest",
+            icpc_desc: "Competed in the prestigious International Collegiate Programming Contest (ICPC), representing the Costa Rica Institute of Technology. Developed advanced skills in algorithms, data structures, and complex problem-solving under pressure. This experience allowed me to collaborate with talented programmers, optimize solutions in real-time, and tackle world-class algorithmic challenges. It significantly contributed to my technical growth and ability to think critically and efficiently.",
+            pantec_title: "Digital Literacy Coordinator - PANTEC",
+            pantec_subtitle: "National Technological Literacy Program",
+            pantec_desc: "Led digital literacy initiatives in underserved communities of Costa Rica. Developed and coordinated technological educational programs, workshops, and digital inclusion projects that impacted more than 500 people. Collaborated with educational and governmental institutions to promote technological inclusion in rural and marginalized areas."
         },
         skills: {
             title: "Technical Skills",

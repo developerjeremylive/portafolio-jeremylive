@@ -55,6 +55,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize
     updateContent(currentLang);
 
+    // ICPC toggle
+    const icpcBadge = document.getElementById('icpc-badge');
+    const icpcDetails = document.getElementById('icpc-details');
+    if (icpcBadge && icpcDetails) {
+        icpcBadge.addEventListener('click', () => {
+            icpcDetails.classList.toggle('hidden');
+        });
+    }
+
+    // PANTEC toggle
+    const pantecBadge = document.getElementById('pantec-badge');
+    const pantecDetails = document.getElementById('pantec-details');
+    if (pantecBadge && pantecDetails) {
+        pantecBadge.addEventListener('click', () => {
+            pantecDetails.classList.toggle('hidden');
+        });
+    }
+
     // Event Listeners
     langToggles.forEach(toggle => {
         toggle.addEventListener('click', (e) => {
