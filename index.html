@@ -361,8 +361,21 @@ tailwind.config = {
   .contact-tile:hover .tile-icon { background:#34d399; color:#0a0f0d; transform:scale(1.08) rotate(-6deg); }
 
   /* ── Footer ──────────────────────────────────────── */
-  .footer-link { color:#6b7280; transition:color .3s; }
-  .footer-link:hover { color:#34d399; }
+  .footer-link { color:#6b7280; transition:color .3s, text-shadow .3s; }
+  .footer-link:hover { color:#34d399; text-shadow:0 0 12px rgba(52,211,153,.4); }
+  .footer-mail { transition:all .3s; }
+  .footer-mail:hover { text-shadow:0 0 14px rgba(52,211,153,.4); }
+  .footer-ver {
+    font-family:'JetBrains Mono',monospace; font-size:.75rem; color:#6b7280;
+    border:1px solid #1c2b24; padding:.35rem .7rem; border-radius:.5rem;
+    background:rgba(14,21,18,.6); transition:all .3s cubic-bezier(.4,0,.2,1);
+  }
+  .footer-ver:hover { border-color:#34d399; color:#34d399; transform:translateY(-2px); box-shadow:0 8px 20px -10px rgba(52,211,153,.4); }
+  .footer-ver.current { border-color:rgba(52,211,153,.4); color:#34d399; background:rgba(52,211,153,.08); cursor:default; }
+
+  /* ── Navbar polish ───────────────────────────────── */
+  #navbar .nav-link { transition:color .3s, text-shadow .3s; }
+  #navbar .nav-link:hover { text-shadow:0 0 12px rgba(52,211,153,.45); }
 
   /* ── Reduced motion ──────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
@@ -376,7 +389,7 @@ tailwind.config = {
 <!-- ══════════ PRELOADER ══════════ -->
 <div id="preloader" role="status" aria-label="Loading">
   <div class="preloader-box">
-    <div class="preloader-line"><span class="text-gray-500">$</span> booting jeremy@live<span class="type-caret">▊</span></div>
+    <div class="preloader-line"><span class="text-gray-500">$</span> booting jeremylive@live.com<span class="type-caret">▊</span></div>
     <div class="preloader-line mt-1 text-gray-600" id="preloader-log">loading modules…</div>
   </div>
 </div>
@@ -387,8 +400,13 @@ tailwind.config = {
 <!-- ══════════ NAV ══════════ -->
 <nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-ink/80 border-b border-line transition-all duration-300">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="#top" class="font-mono font-bold text-mint text-lg tracking-tight group">
-      jeremy@live<span class="text-gray-500">:~$</span><span class="cursor-blink text-mint">▊</span>
+    <a href="#top" class="font-mono font-bold text-mint text-base lg:text-lg tracking-tight group flex items-center gap-1.5">
+      <span class="relative flex w-2 h-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-60"></span>
+        <span class="relative inline-flex rounded-full w-2 h-2 bg-mint"></span>
+      </span>
+      <span>jeremylive<span class="text-gray-500">@live.com</span></span>
+      <span class="cursor-blink text-mint">▊</span>
     </a>
     <div class="hidden lg:flex items-center gap-7 font-mono text-sm text-gray-400">
       <a href="#about" class="nav-link hover:text-mint transition" data-spy="about"><span class="text-mint">01.</span> about</a>
@@ -421,7 +439,6 @@ tailwind.config = {
       <span class="text-[11px] text-gray-600 uppercase tracking-widest">previous versions</span>
       <a href="https://jeremylive-dev.netlify.app/" target="_blank" rel="noopener" class="text-gray-500 hover:text-mint">↗ v1 · classic navy</a>
       <a href="jeremy-live-portfolio-v2.html" class="text-gray-500 hover:text-mint">↗ v2 · glass navy</a>
-      <a href="jeremy-live-portfolio-v3.html" class="text-gray-500 hover:text-mint">↗ v3 · terminal mint</a>
       <a href="#contact" class="btn-primary font-mono text-xs font-semibold px-4 py-2.5 rounded text-center mt-3">hire_me()</a>
     </div>
   </div>
@@ -452,14 +469,6 @@ tailwind.config = {
           <div class="flex-1 min-w-0">
             <div class="text-sm font-semibold text-gray-200 group-hover:text-mint transition">Glass Navy</div>
             <div class="text-xs text-gray-500 font-mono">glassmorphism</div>
-          </div>
-          <span class="text-mint opacity-0 group-hover:opacity-100 transition-opacity text-sm">↗</span>
-        </a>
-        <a href="jeremy-live-portfolio-v3.html" class="version-item group">
-          <span class="v-badge">v3.0</span>
-          <div class="flex-1 min-w-0">
-            <div class="text-sm font-semibold text-gray-200 group-hover:text-mint transition">Terminal Mint</div>
-            <div class="text-xs text-gray-500 font-mono">zsh / tui</div>
           </div>
           <span class="text-mint opacity-0 group-hover:opacity-100 transition-opacity text-sm">↗</span>
         </a>
@@ -1000,18 +1009,60 @@ tailwind.config = {
 </section>
 
 <!-- ══════════ FOOTER ══════════ -->
-<footer class="border-t border-line py-8">
-  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-600">
-    <span>© 2026 Jeremy José Live González — San José, Costa Rica 🇨🇷</span>
-    <div class="flex items-center gap-4">
-      <span class="hidden sm:inline">designed &amp; built with <span class="text-mint">♥</span></span>
-      <span class="hidden sm:inline text-gray-700">|</span>
-      <span>jeremy@live:~$ exit</span>
+<footer class="relative border-t border-line pt-14 pb-10 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 100%, rgba(52,211,153,.06), transparent)"></div>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="grid md:grid-cols-3 gap-10 md:gap-8">
+
+      <div>
+        <a href="#top" class="font-mono font-bold text-mint text-base tracking-tight inline-flex items-center gap-1.5">
+          <span class="relative flex w-2 h-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-60"></span>
+            <span class="relative inline-flex rounded-full w-2 h-2 bg-mint"></span>
+          </span>
+          jeremylive<span class="text-gray-500">@live.com</span>
+        </a>
+        <p class="text-sm text-gray-500 mt-4 leading-relaxed max-w-xs">Senior GenAI Engineer &amp; Solutions Architect — building intelligent systems from San José, Costa Rica 🇨🇷</p>
+        <a href="mailto:jeremylive@live.com" class="footer-mail inline-flex items-center gap-2 mt-5 font-mono text-sm text-gray-400 hover:text-mint transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          jeremylive@live.com
+        </a>
+      </div>
+
+      <div class="md:justify-self-center">
+        <div class="font-mono text-[11px] uppercase tracking-widest text-gray-600 mb-5">$ ls ./sections</div>
+        <nav class="grid grid-cols-2 gap-x-8 gap-y-3 font-mono text-sm">
+          <a href="#about" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">01.</span> about</a>
+          <a href="#experience" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">02.</span> experience</a>
+          <a href="#education" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">03.</span> education</a>
+          <a href="#projects" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">04.</span> projects</a>
+          <a href="#hf" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">05.</span> ai-lab</a>
+          <a href="#contact" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">06.</span> contact</a>
+        </nav>
+      </div>
+
+      <div class="md:justify-self-end">
+        <div class="font-mono text-[11px] uppercase tracking-widest text-gray-600 mb-5">$ ls --versions</div>
+        <div class="flex items-center gap-3">
+          <a href="jeremy-live-portfolio-v2.html" class="footer-ver group" title="v2 · glass navy">[v2]</a>
+          <a href="https://jeremylive-dev.netlify.app/" target="_blank" rel="noopener" class="footer-ver group" title="v1 · classic navy">[v1]</a>
+          <span class="footer-ver current" title="v4 · terminal mint">[v4]</span>
+        </div>
+        <div class="mt-6 inline-flex items-center gap-2.5 font-mono text-xs text-gray-500">
+          <span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+          open to remote work
+        </div>
+      </div>
+
     </div>
-    <div class="flex items-center gap-3">
-      <a href="jeremy-live-portfolio-v3.html" class="footer-link hover:text-mint transition" title="previous version">[v3]</a>
-      <a href="jeremy-live-portfolio-v2.html" class="footer-link hover:text-mint transition" title="previous version">[v2]</a>
-      <a href="https://jeremylive-dev.netlify.app/" target="_blank" rel="noopener" class="footer-link hover:text-mint transition" title="previous version">[v1]</a>
+
+    <div class="mt-12 pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-gray-600">
+      <span>© 2026 Jeremy José Live González — San José, Costa Rica</span>
+      <div class="flex items-center gap-4">
+        <span>designed &amp; built with <span class="text-mint">♥</span></span>
+        <span class="text-gray-700 hidden sm:inline">|</span>
+        <a href="mailto:jeremylive@live.com" class="hover:text-mint transition">jeremylive@live.com</a>
+      </div>
     </div>
   </div>
 </footer>
