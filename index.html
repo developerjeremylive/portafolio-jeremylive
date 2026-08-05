@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jeremy Live — GenAI Software Engineer & Solutions Architect</title>
 <meta name="description" content="Jeremy José Live González — Senior Software Engineer & Solutions Architect specializing in GenAI, multi-agent systems, MCP and multi-cloud architecture. San José, Costa Rica.">
+<meta name="theme-color" content="#0a0f0d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0f0d'/><text y='.9em' font-size='80' font-family='monospace' fill='%2334d399'>⌘</text></svg>">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <script>
 tailwind.config = {
@@ -22,12 +25,41 @@ tailwind.config = {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-      }
+      },
+      animation: {
+        'float-slow': 'floaty 8s ease-in-out infinite',
+        'float-slower': 'floaty 11s ease-in-out infinite reverse',
+        'spin-slow': 'spin 24s linear infinite',
+        'pulse-glow': 'pulseGlow 2.4s ease-in-out infinite',
+        'gradient-x': 'gradientX 8s ease infinite',
+      },
+      keyframes: {
+        floaty: {
+          '0%,100%': { transform: 'translateY(0) rotate(var(--rot,0deg))' },
+          '50%': { transform: 'translateY(-18px) rotate(var(--rot,0deg))' },
+        },
+        pulseGlow: {
+          '0%,100%': { boxShadow: '0 0 0 0 rgba(52,211,153,.35)' },
+          '50%': { boxShadow: '0 0 0 10px rgba(52,211,153,0)' },
+        },
+        gradientX: {
+          '0%,100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+      },
     }
   }
 }
 </script>
 <style>
+  :root {
+    --ink: #0a0f0d;
+    --panel: #0e1512;
+    --line: #1c2b24;
+    --mint: #34d399;
+    --mintdim: #10b981;
+  }
+  html { scrollbar-gutter: stable; }
   body { background:#0a0f0d; color:#d1d5db; font-family:'Inter',sans-serif; overflow-x:hidden; }
   ::selection { background:#34d399; color:#0a0f0d; }
   ::-webkit-scrollbar { width:10px; }
@@ -35,23 +67,44 @@ tailwind.config = {
   ::-webkit-scrollbar-thumb { background:#1c2b24; border-radius:6px; }
   ::-webkit-scrollbar-thumb:hover { background:#34d399; }
 
+  :focus-visible { outline:2px solid #34d399; outline-offset:3px; border-radius:4px; }
+
+  /* ── Grid background with vignette ─────────────────── */
   .grid-bg {
     background-image:
-      linear-gradient(rgba(52,211,153,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(52,211,153,.04) 1px, transparent 1px);
+      linear-gradient(rgba(52,211,153,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(52,211,153,.045) 1px, transparent 1px);
     background-size: 44px 44px;
+    position:relative;
   }
+  .grid-bg::after {
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(ellipse 90% 60% at 50% 0%, transparent 40%, rgba(10,15,13,.55) 100%);
+  }
+
   .glow { text-shadow: 0 0 30px rgba(52,211,153,.45); }
   .card { background:#0e1512; border:1px solid #1c2b24; transition: all .35s cubic-bezier(.4,0,.2,1); }
   .card:hover { border-color:#34d399; transform:translateY(-4px); box-shadow:0 12px 40px -12px rgba(52,211,153,.25); }
 
-  .reveal { opacity:0; transform:translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.4,0,.2,1); }
-  .reveal.visible { opacity:1; transform:translateY(0); }
+  /* ── Directional reveals ──────────────────────────── */
+  .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur {
+    opacity:0; transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1), filter .8s ease;
+    will-change: opacity, transform, filter;
+  }
+  .reveal { transform:translateY(32px); }
+  .reveal-left { transform:translateX(-48px); }
+  .reveal-right { transform:translateX(48px); }
+  .reveal-scale { transform:scale(.92); }
+  .reveal-blur { transform:translateY(24px); filter:blur(8px); }
+  .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible, .reveal-blur.visible {
+    opacity:1; transform:translate(0,0) scale(1); filter:blur(0);
+  }
 
   .cursor-blink { animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity:0; } }
 
   .marquee { display:flex; width:max-content; animation: scroll 32s linear infinite; }
+  .marquee:hover { animation-play-state: paused; }
   @keyframes scroll { to { transform:translateX(-50%); } }
 
   .timeline-dot::before {
@@ -59,38 +112,48 @@ tailwind.config = {
     border-radius:50%; background:#0a0f0d; border:2px solid #34d399;
     box-shadow:0 0 12px rgba(52,211,153,.6);
   }
-  .chip { font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.2rem .55rem;
-    border:1px solid #1c2b24; border-radius:9999px; color:#6ee7b7; background:rgba(52,211,153,.06); white-space:nowrap; }
+  .timeline-dot::after {
+    content:''; position:absolute; left:-1.5px; top:20px; bottom:-20px; width:2px;
+    background:linear-gradient(180deg, rgba(52,211,153,.35), rgba(52,211,153,.02));
+    opacity:0; transition:opacity .6s ease;
+  }
+  .timeline-dot.visible::after { opacity:1; }
 
-  .btn-primary { background:#34d399; color:#0a0f0d; transition:all .3s; }
+  .chip { font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.2rem .55rem;
+    border:1px solid #1c2b24; border-radius:9999px; color:#6ee7b7; background:rgba(52,211,153,.06); white-space:nowrap;
+    transition:all .25s ease; }
+  .chip:hover { border-color:#34d399; background:rgba(52,211,153,.14); transform:translateY(-2px); }
+
+  .btn-primary { background:#34d399; color:#0a0f0d; transition:all .3s; position:relative; }
   .btn-primary:hover { background:#6ee7b7; box-shadow:0 0 30px rgba(52,211,153,.5); transform:translateY(-2px); }
+  .btn-primary:active { transform:translateY(0) scale(.97); }
   .btn-ghost { border:1px solid #1c2b24; transition:all .3s; }
-  .btn-ghost:hover { border-color:#34d399; color:#34d399; transform:translateY(-2px); }
+  .btn-ghost:hover { border-color:#34d399; color:#34d399; transform:translateY(-2px); box-shadow:0 8px 24px -12px rgba(52,211,153,.3); }
+  .btn-ghost:active { transform:translateY(0) scale(.97); }
 
   .nav-link { position:relative; }
   .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:#34d399; transition:width .3s; }
-  .nav-link:hover::after { width:100%; }
+  .nav-link:hover::after, .nav-link.active::after { width:100%; }
+  .nav-link.active { color:#34d399; }
 
   details.exp summary::-webkit-details-marker { display:none; }
   details.exp[open] .exp-arrow { transform:rotate(90deg); }
+  details.exp .exp-body { display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s cubic-bezier(.4,0,.2,1); }
+  details.exp[open] .exp-body { grid-template-rows:1fr; }
+  details.exp .exp-body > div { overflow:hidden; }
   .exp-arrow { transition:transform .3s; }
 
   #progressBar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,#10b981,#34d399); z-index:60; width:0%; box-shadow:0 0 10px rgba(52,211,153,.8); }
 
-  /* ── V4 enhancements ─────────────────────────────────── */
-  .aurora {
-    position:absolute; inset:0; pointer-events:none; overflow:hidden;
-  }
+  /* ── Aurora ──────────────────────────────────────── */
+  .aurora { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
   .aurora::before, .aurora::after {
     content:''; position:absolute; width:60vw; height:60vw; border-radius:50%;
     filter:blur(90px); opacity:.16; animation: drift 18s ease-in-out infinite alternate;
   }
   .aurora::before { background:#34d399; top:-20%; left:-10%; }
   .aurora::after { background:#10b981; bottom:-25%; right:-15%; animation-delay:-9s; }
-  @keyframes drift {
-    from { transform:translate(0,0) scale(1); }
-    to { transform:translate(8%,6%) scale(1.15); }
-  }
+  @keyframes drift { from { transform:translate(0,0) scale(1); } to { transform:translate(8%,6%) scale(1.15); } }
 
   .btn-shine { position:relative; overflow:hidden; }
   .btn-shine::after {
@@ -108,7 +171,11 @@ tailwind.config = {
   }
   .card-shine:hover::before { left:140%; }
 
-  /* ── Version submenu ─────────────────────────────────── */
+  /* ── Tilt 3D cards ───────────────────────────────── */
+  .tilt { transform-style:preserve-3d; transition:transform .25s ease-out; will-change:transform; }
+  .tilt .tilt-inner { transform:translateZ(24px); }
+
+  /* ── Version submenu ─────────────────────────────── */
   #version-popup { opacity:0; pointer-events:none; transition:opacity .25s ease; }
   #version-popup.open { opacity:1; pointer-events:auto; }
   #version-popup .version-panel {
@@ -132,23 +199,140 @@ tailwind.config = {
     color:#34d399; border:1px solid rgba(52,211,153,.3); white-space:nowrap;
   }
   .version-item:hover .v-badge { background:#34d399; color:#0a0f0d; }
+
+  /* ── Cursor glow ─────────────────────────────────── */
+  #cursor-glow {
+    position:fixed; top:0; left:0; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(52,211,153,.07), transparent 65%);
+    pointer-events:none; z-index:1; transform:translate(-50%,-50%);
+    transition:opacity .4s ease; will-change:transform;
+  }
+
+  /* ── Preloader ───────────────────────────────────── */
+  #preloader {
+    position:fixed; inset:0; z-index:100; background:#0a0f0d;
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  #preloader.done { opacity:0; visibility:hidden; }
+  .preloader-box {
+    font-family:'JetBrains Mono',monospace; font-size:.85rem; color:#6ee7b7;
+    border:1px solid #1c2b24; border-radius:12px; padding:1.4rem 1.6rem; min-width:min(84vw,26rem);
+    background:#0e1512; box-shadow:0 0 60px -20px rgba(52,211,153,.4);
+  }
+  .preloader-line { display:flex; gap:.6rem; align-items:center; }
+  .preloader-cursor { animation: blink 1s step-end infinite; color:#34d399; }
+
+  /* ── Back to top ─────────────────────────────────── */
+  #back-to-top {
+    position:fixed; bottom:1.5rem; right:1.5rem; z-index:55; width:3rem; height:3rem;
+    border-radius:50%; border:1px solid rgba(52,211,153,.35); background:rgba(14,21,18,.85);
+    backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center;
+    color:#34d399; cursor:pointer; opacity:0; pointer-events:none; transform:translateY(16px);
+    transition:all .4s cubic-bezier(.4,0,.2,1);
+  }
+  #back-to-top.show { opacity:1; pointer-events:auto; transform:translateY(0); }
+  #back-to-top:hover { box-shadow:0 0 24px rgba(52,211,153,.4); background:#34d399; color:#0a0f0d; }
+  #back-to-top svg { transition:transform .3s; }
+  #back-to-top:hover svg { transform:translateY(-3px); }
+
+  /* ── Section header number ───────────────────────── */
+  .section-num {
+    font-family:'JetBrains Mono',monospace; font-size:.8rem; color:#34d399;
+    border:1px solid rgba(52,211,153,.3); padding:.25rem .7rem; border-radius:9999px;
+    background:rgba(52,211,153,.06); letter-spacing:.05em;
+  }
+
+  /* ── Hero terminal ───────────────────────────────── */
+  .hero-terminal {
+    font-family:'JetBrains Mono',monospace; font-size:.8rem; line-height:1.7;
+  }
+  .type-caret { color:#34d399; animation:blink 1s step-end infinite; }
+
+  /* ── Floating chips ──────────────────────────────── */
+  .float-chip {
+    position:absolute; font-family:'JetBrains Mono',monospace; font-size:.68rem;
+    padding:.45rem .8rem; border-radius:.6rem; border:1px solid rgba(52,211,153,.25);
+    background:rgba(14,21,18,.8); backdrop-filter:blur(6px); color:#6ee7b7;
+    box-shadow:0 12px 32px -12px rgba(0,0,0,.6); white-space:nowrap;
+    animation:floaty 9s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-16px); }
+  }
+
+  /* ── Social icon buttons ─────────────────────────── */
+  .social-btn {
+    display:inline-flex; align-items:center; gap:.5rem; padding:.65rem 1.1rem;
+    border:1px solid #1c2b24; border-radius:.6rem; color:#9ca3af;
+    transition:all .3s cubic-bezier(.4,0,.2,1);
+  }
+  .social-btn:hover { border-color:#34d399; color:#34d399; transform:translateY(-3px); box-shadow:0 10px 24px -12px rgba(52,211,153,.35); }
+
+  /* ── Stats cards ─────────────────────────────────── */
+  .stat-card {
+    position:relative; overflow:hidden; border:1px solid #1c2b24; border-radius:1rem;
+    padding:1.5rem 1rem; text-align:center; background:#0e1512; transition:all .35s ease;
+  }
+  .stat-card::before {
+    content:''; position:absolute; top:-40%; left:-40%; width:80%; height:80%;
+    background:radial-gradient(circle, rgba(52,211,153,.15), transparent 70%);
+    opacity:0; transition:opacity .4s ease;
+  }
+  .stat-card:hover::before { opacity:1; }
+  .stat-card:hover { transform:translateY(-4px); border-color:rgba(52,211,153,.4); }
+
+  /* ── Bento contact card ──────────────────────────── */
+  .contact-tile {
+    display:flex; flex-direction:column; gap:.6rem; padding:1.4rem;
+    border:1px solid #1c2b24; border-radius:1rem; background:#0e1512;
+    transition:all .35s cubic-bezier(.4,0,.2,1); position:relative; overflow:hidden;
+  }
+  .contact-tile:hover { border-color:#34d399; transform:translateY(-4px) scale(1.02); box-shadow:0 16px 40px -16px rgba(52,211,153,.4); }
+  .contact-tile .tile-icon {
+    width:2.6rem; height:2.6rem; border-radius:.7rem; display:flex; align-items:center; justify-content:center;
+    background:rgba(52,211,153,.1); border:1px solid rgba(52,211,153,.25); font-size:1.2rem; transition:all .3s;
+  }
+  .contact-tile:hover .tile-icon { background:#34d399; color:#0a0f0d; transform:scale(1.08) rotate(-6deg); }
+
+  /* ── Footer ──────────────────────────────────────── */
+  .footer-link { color:#6b7280; transition:color .3s; }
+  .footer-link:hover { color:#34d399; }
+
+  /* ── Reduced motion ──────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    html { scroll-behavior:auto; }
+  }
 </style>
 </head>
 <body class="grid-bg antialiased">
 
+<!-- ══════════ PRELOADER ══════════ -->
+<div id="preloader" role="status" aria-label="Loading">
+  <div class="preloader-box">
+    <div class="preloader-line"><span class="text-gray-500">$</span> booting jeremy@live<span class="type-caret">▊</span></div>
+    <div class="preloader-line mt-1 text-gray-600" id="preloader-log">loading modules…</div>
+  </div>
+</div>
+
+<div id="cursor-glow" aria-hidden="true"></div>
 <div id="progressBar"></div>
 
 <!-- ══════════ NAV ══════════ -->
-<nav class="fixed top-0 w-full z-50 backdrop-blur-md bg-ink/80 border-b border-line">
+<nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-ink/80 border-b border-line transition-all duration-300">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="#top" class="font-mono font-bold text-mint text-lg tracking-tight">jeremy@live<span class="text-gray-500">:~$</span><span class="cursor-blink text-mint">▊</span></a>
+    <a href="#top" class="font-mono font-bold text-mint text-lg tracking-tight group">
+      jeremy@live<span class="text-gray-500">:~$</span><span class="cursor-blink text-mint">▊</span>
+    </a>
     <div class="hidden md:flex items-center gap-7 font-mono text-sm text-gray-400">
-      <a href="#about" class="nav-link hover:text-mint transition"><span class="text-mint">01.</span> about</a>
-      <a href="#experience" class="nav-link hover:text-mint transition"><span class="text-mint">02.</span> experience</a>
-      <a href="#projects" class="nav-link hover:text-mint transition"><span class="text-mint">03.</span> projects</a>
-      <a href="#hf" class="nav-link hover:text-mint transition"><span class="text-mint">04.</span> ai-lab</a>
-      <a href="#education" class="nav-link hover:text-mint transition"><span class="text-mint">05.</span> education</a>
-      <a href="#contact" class="nav-link hover:text-mint transition"><span class="text-mint">06.</span> contact</a>
+      <a href="#about" class="nav-link hover:text-mint transition" data-spy="about"><span class="text-mint">01.</span> about</a>
+      <a href="#experience" class="nav-link hover:text-mint transition" data-spy="experience"><span class="text-mint">02.</span> experience</a>
+      <a href="#projects" class="nav-link hover:text-mint transition" data-spy="projects"><span class="text-mint">03.</span> projects</a>
+      <a href="#hf" class="nav-link hover:text-mint transition" data-spy="hf"><span class="text-mint">04.</span> ai-lab</a>
+      <a href="#education" class="nav-link hover:text-mint transition" data-spy="education"><span class="text-mint">05.</span> education</a>
+      <a href="#contact" class="nav-link hover:text-mint transition" data-spy="contact"><span class="text-mint">06.</span> contact</a>
     </div>
     <div class="hidden md:flex items-center gap-3">
       <button id="version-btn" class="btn-ghost font-mono text-xs px-4 py-2 rounded text-gray-300 flex items-center gap-2 group" aria-haspopup="true" aria-expanded="false">
@@ -157,22 +341,24 @@ tailwind.config = {
       </button>
       <a href="#contact" class="btn-primary btn-shine font-mono text-xs font-semibold px-4 py-2 rounded">hire_me()</a>
     </div>
-    <button id="menuBtn" class="md:hidden text-mint text-2xl leading-none" aria-label="Open menu">☰</button>
+    <button id="menuBtn" class="md:hidden text-mint text-2xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
 
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-ink/95 backdrop-blur-md">
-    <div class="flex flex-col px-6 py-4 gap-4 font-mono text-sm text-gray-300">
-      <a href="#about" class="hover:text-mint"><span class="text-mint">01.</span> about</a>
-      <a href="#experience" class="hover:text-mint"><span class="text-mint">02.</span> experience</a>
-      <a href="#projects" class="hover:text-mint"><span class="text-mint">03.</span> projects</a>
-      <a href="#hf" class="hover:text-mint"><span class="text-mint">04.</span> ai-lab</a>
-      <a href="#education" class="hover:text-mint"><span class="text-mint">05.</span> education</a>
-      <a href="#contact" class="hover:text-mint"><span class="text-mint">06.</span> contact</a>
+  <!-- Mobile menu (slide-down) -->
+  <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-ink/95 backdrop-blur-md overflow-hidden">
+    <div class="flex flex-col px-6 py-4 gap-3 font-mono text-sm text-gray-300">
+      <a href="#about" class="hover:text-mint py-1"><span class="text-mint">01.</span> about</a>
+      <a href="#experience" class="hover:text-mint py-1"><span class="text-mint">02.</span> experience</a>
+      <a href="#projects" class="hover:text-mint py-1"><span class="text-mint">03.</span> projects</a>
+      <a href="#hf" class="hover:text-mint py-1"><span class="text-mint">04.</span> ai-lab</a>
+      <a href="#education" class="hover:text-mint py-1"><span class="text-mint">05.</span> education</a>
+      <a href="#contact" class="hover:text-mint py-1"><span class="text-mint">06.</span> contact</a>
+      <div class="border-t border-line my-2"></div>
+      <span class="text-[11px] text-gray-600 uppercase tracking-widest">previous versions</span>
       <a href="https://jeremylive-dev.netlify.app/" target="_blank" rel="noopener" class="text-gray-500 hover:text-mint">↗ v1 · classic navy</a>
       <a href="jeremy-live-portfolio-v2.html" class="text-gray-500 hover:text-mint">↗ v2 · glass navy</a>
       <a href="jeremy-live-portfolio-v3.html" class="text-gray-500 hover:text-mint">↗ v3 · terminal mint</a>
-      <a href="#contact" class="btn-primary font-mono text-xs font-semibold px-4 py-2.5 rounded text-center mt-2">hire_me()</a>
+      <a href="#contact" class="btn-primary font-mono text-xs font-semibold px-4 py-2.5 rounded text-center mt-3">hire_me()</a>
     </div>
   </div>
 </nav>
@@ -226,11 +412,22 @@ tailwind.config = {
 <header id="top" class="min-h-screen flex items-center relative pt-16 overflow-hidden">
   <div class="aurora"></div>
   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 20%, rgba(52,211,153,.08), transparent)"></div>
+
+  <!-- Floating tech chips -->
+  <div class="float-chip hidden lg:block" style="top:22%; right:8%; --rot:0deg;">🤖 agents</div>
+  <div class="float-chip hidden lg:block" style="top:38%; left:4%; --rot:0deg; animation-delay:-3s;">🛠️ mcp</div>
+  <div class="float-chip hidden lg:block" style="bottom:26%; right:14%; --rot:0deg; animation-delay:-6s;">🧠 rag</div>
+  <div class="float-chip hidden lg:block" style="bottom:20%; left:12%; --rot:0deg; animation-delay:-1.5s;">☁️ multi-cloud</div>
+
   <div class="max-w-6xl mx-auto px-6 w-full relative">
     <p class="font-mono text-mint mb-5 reveal">$ whoami<span class="cursor-blink">▊</span></p>
-    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white leading-none reveal">Jeremy Live<span class="text-mint">.</span></h1>
-    <h2 class="mt-4 text-2xl md:text-4xl font-bold text-gray-500 reveal">GenAI Software Engineer <span class="text-mint">&</span> Solutions Architect</h2>
-    <p class="mt-6 max-w-2xl text-gray-400 text-lg leading-relaxed reveal">
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white leading-none reveal">
+      Jeremy Live<span class="text-mint glow">.</span>
+    </h1>
+    <h2 class="mt-5 text-2xl md:text-4xl font-bold text-gray-500 reveal" id="type-role">
+      <span id="type-role-text"></span><span class="type-caret">▊</span>
+    </h2>
+    <p class="mt-6 max-w-2xl text-gray-400 text-lg leading-relaxed reveal-blur">
       I build <span class="text-mint font-medium">multi-agent AI systems</span>, MCP-powered tooling and
       cloud-native backends. 8+ years shipping software across health, finance, telecom & logistics —
       now focused on production-grade <span class="text-mint font-medium">LLM deployment patterns</span> across AWS, Azure, GCP & Cloudflare.
@@ -241,11 +438,16 @@ tailwind.config = {
       <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-ghost font-mono text-sm px-7 py-3.5 rounded text-gray-300">linkedin ↗</a>
     </div>
     <div class="mt-16 flex flex-wrap gap-x-10 gap-y-4 font-mono text-xs text-gray-500 reveal">
+      <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-mint animate-pulse"></span> available for remote work</span>
       <span>📍 San José, Costa Rica</span>
-      <span>🟢 available for remote work</span>
       <span>🤖 agents · mcp · rag · multi-cloud</span>
     </div>
   </div>
+
+  <a href="#about" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-600 hover:text-mint transition-colors hidden md:flex flex-col items-center gap-1 font-mono text-[10px] uppercase tracking-widest" aria-label="Scroll to about">
+    scroll
+    <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+  </a>
 </header>
 
 <!-- ══════════ MARQUEE ══════════ -->
@@ -263,37 +465,40 @@ tailwind.config = {
 <!-- ══════════ ABOUT ══════════ -->
 <section id="about" class="py-28">
   <div class="max-w-6xl mx-auto px-6">
-    <h3 class="font-mono text-mint text-sm mb-2 reveal">01.</h3>
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">01</span>
+      <span class="font-mono text-xs text-gray-500">~ about_me</span>
+    </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-14 reveal">About Me</h4>
     <div class="grid md:grid-cols-5 gap-12 items-start">
-      <div class="md:col-span-3 space-y-5 text-gray-400 leading-relaxed reveal">
+      <div class="md:col-span-3 space-y-5 text-gray-400 leading-relaxed reveal-left">
         <p>¡Pura vida! 👋 I'm Jeremy — a software engineer based in <span class="text-gray-200">San José, Costa Rica</span>. What started as a university passion became a career dedicated to building <span class="text-gray-200">innovative, scalable solutions</span>.</p>
         <p>I've had the privilege of working across <span class="text-gray-200">health, finance, telecom and logistics</span>. Today my focus is squarely on <span class="text-mint">AI agents, multi-agent architectures and cloud-native platforms</span> — designing systems where LLMs discover their own tools via MCP instead of hardcoding them.</p>
         <p>I also led <span class="text-gray-200">digital literacy initiatives at PANTEC (TEC, 2017–2019)</span>, bringing technology inclusion to underserved communities.</p>
         <div class="grid grid-cols-3 gap-4 pt-6">
-          <div class="card rounded-xl p-5 text-center">
+          <div class="stat-card reveal-scale">
             <div class="text-3xl font-extrabold text-mint glow" data-count="8">0</div>
             <div class="text-xs font-mono text-gray-500 mt-1">years exp.</div>
           </div>
-          <div class="card rounded-xl p-5 text-center">
+          <div class="stat-card reveal-scale" style="transition-delay:.1s">
             <div class="text-3xl font-extrabold text-mint glow" data-count="50">0</div>
             <div class="text-xs font-mono text-gray-500 mt-1">projects</div>
           </div>
-          <div class="card rounded-xl p-5 text-center">
+          <div class="stat-card reveal-scale" style="transition-delay:.2s">
             <div class="text-3xl font-extrabold text-mint glow" data-count="96">0</div>
             <div class="text-xs font-mono text-gray-500 mt-1">HF spaces</div>
           </div>
         </div>
       </div>
-      <div class="md:col-span-2 reveal">
-        <div class="card rounded-xl overflow-hidden card-shine">
+      <div class="md:col-span-2 reveal-right">
+        <div class="card rounded-xl overflow-hidden card-shine tilt">
           <div class="flex items-center gap-2 px-4 py-3 border-b border-line bg-ink/60">
             <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
             <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
             <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
             <span class="ml-3 font-mono text-xs text-gray-500">jeremy@dev ~ zsh</span>
           </div>
-          <pre class="p-5 font-mono text-[13px] leading-6 overflow-x-auto"><code><span class="text-mint">const</span> <span class="text-gray-200">developer</span> = {
+          <pre class="p-5 font-mono text-[13px] leading-6 overflow-x-auto tilt-inner"><code><span class="text-mint">const</span> <span class="text-gray-200">developer</span> = {
   <span class="text-emerald-300">name</span>: <span class="text-amber-200">'Jeremy Live'</span>,
   <span class="text-emerald-300">role</span>: <span class="text-amber-200">'AI Engineer'</span>,
   <span class="text-emerald-300">based</span>: <span class="text-amber-200">'San José, CR 🇨🇷'</span>,
@@ -304,6 +509,11 @@ tailwind.config = {
   <span class="text-emerald-300">status</span>: <span class="text-amber-200">'Building the future'</span>
 };</code></pre>
         </div>
+        <div class="mt-6 flex flex-wrap gap-3 justify-center">
+          <a href="https://github.com/developerjeremylive" target="_blank" rel="noopener" class="social-btn font-mono text-xs">🐙 github</a>
+          <a href="https://gitlab.com/jeremylive" target="_blank" rel="noopener" class="social-btn font-mono text-xs">🦊 gitlab</a>
+          <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="social-btn font-mono text-xs">🤗 huggingface</a>
+        </div>
       </div>
     </div>
   </div>
@@ -312,13 +522,16 @@ tailwind.config = {
 <!-- ══════════ EXPERIENCE ══════════ -->
 <section id="experience" class="py-28 bg-panel/40 border-y border-line">
   <div class="max-w-6xl mx-auto px-6">
-    <h3 class="font-mono text-mint text-sm mb-2 reveal">02.</h3>
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">02</span>
+      <span class="font-mono text-xs text-gray-500">~ work_history</span>
+    </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-14 reveal">Experience</h4>
     <div class="relative border-l-2 border-line ml-2 space-y-10">
 
-      <div class="relative pl-8 timeline-dot reveal">
-        <span class="font-mono text-xs text-mint">2026 — present</span>
-        <h5 class="text-xl font-bold text-white mt-1">GenAI Senior Software Engineer — Deep MCP Agents Integration</h5>
+      <div class="relative pl-8 timeline-dot reveal-left">
+        <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2026 — present</span>
+        <h5 class="text-xl font-bold text-white mt-2">GenAI Senior Software Engineer — Deep MCP Agents Integration</h5>
         <p class="font-mono text-sm text-gray-500 mt-1">EtherOI · Personal AI Products · Remote</p>
         <p class="text-gray-400 mt-3 leading-relaxed">Original AI products hosted on Cloudflare (R2 / D1 / KV / Workers AI / AI Gateway). Specialized in Generative AI architecture & multi-agent systems, with advanced deployment patterns for LLMs across AWS, Azure, GCP and Cloudflare.</p>
         <div class="flex flex-wrap gap-2 mt-4">
@@ -326,9 +539,9 @@ tailwind.config = {
         </div>
       </div>
 
-      <div class="relative pl-8 timeline-dot reveal">
-        <span class="font-mono text-xs text-mint">2025 — 2026</span>
-        <h5 class="text-xl font-bold text-white mt-1">Python Senior Software Engineer — AI Backend Specialist</h5>
+      <div class="relative pl-8 timeline-dot reveal-left">
+        <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2025 — 2026</span>
+        <h5 class="text-xl font-bold text-white mt-2">Python Senior Software Engineer — AI Backend Specialist</h5>
         <p class="font-mono text-sm text-gray-500 mt-1">Cobros CR · Fintech · Remote</p>
         <p class="text-gray-400 mt-3 leading-relaxed">Built three connected financial apps: an admin/client portal duo in PHP/Laravel, plus a Python app with Gemini AI & voice agents talking to a Cloudflare D1 relational database.</p>
         <div class="flex flex-wrap gap-2 mt-4">
@@ -336,9 +549,9 @@ tailwind.config = {
         </div>
       </div>
 
-      <div class="relative pl-8 timeline-dot reveal">
-        <span class="font-mono text-xs text-mint">2024 — 2025</span>
-        <h5 class="text-xl font-bold text-white mt-1">Python Senior Backend Engineer — AI & Multi-Cloud</h5>
+      <div class="relative pl-8 timeline-dot reveal-left">
+        <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2024 — 2025</span>
+        <h5 class="text-xl font-bold text-white mt-2">Python Senior Backend Engineer — AI & Multi-Cloud</h5>
         <p class="font-mono text-sm text-gray-500 mt-1">DeveloperCity · Remote</p>
         <p class="text-gray-400 mt-3 leading-relaxed">Advanced web solutions with agile practices; integrated AIOps features into KhayaCore. Scalable REST APIs, microservices with modern design patterns, CI/CD with Docker.</p>
         <div class="flex flex-wrap gap-2 mt-4">
@@ -346,9 +559,9 @@ tailwind.config = {
         </div>
       </div>
 
-      <div class="relative pl-8 timeline-dot reveal">
-        <span class="font-mono text-xs text-mint">2024 — 2025</span>
-        <h5 class="text-xl font-bold text-white mt-1">Python Senior Cloud Engineer</h5>
+      <div class="relative pl-8 timeline-dot reveal-left">
+        <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2024 — 2025</span>
+        <h5 class="text-xl font-bold text-white mt-2">Python Senior Cloud Engineer</h5>
         <p class="font-mono text-sm text-gray-500 mt-1">Ollin CR · Logistics · Remote</p>
         <p class="text-gray-400 mt-3 leading-relaxed">Real-time delivery platform on GCP with connected admin & driver portals, route optimization and public client forms. <span class="text-mint">−30% order processing time · +25% driver productivity · −20% operating costs.</span></p>
         <div class="flex flex-wrap gap-2 mt-4">
@@ -356,64 +569,74 @@ tailwind.config = {
         </div>
       </div>
 
-      <details class="exp relative pl-8 timeline-dot reveal group">
+      <details class="exp relative pl-8 timeline-dot reveal-left group">
         <summary class="cursor-pointer list-none">
-          <span class="font-mono text-xs text-mint">2024</span>
-          <h5 class="text-xl font-bold text-white mt-1 inline">.NET Technical Lead & Software Architect <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
+          <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2024</span>
+          <h5 class="text-xl font-bold text-white mt-2 inline-flex items-center gap-2">.NET Technical Lead & Software Architect <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
           <p class="font-mono text-sm text-gray-500 mt-1">Lievant · Remote</p>
         </summary>
-        <p class="text-gray-400 mt-3 leading-relaxed">Enterprise .NET 8 MVC app with public site + admin portal. Full Java API integration with business logic for client-facing forms. Projects included an insurance quoting system and a SHELL self-service system.</p>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <span class="chip">.NET 8</span><span class="chip">C#</span><span class="chip">ASP.NET Core</span><span class="chip">SQL Server</span><span class="chip">Microservices</span>
-        </div>
+        <div class="exp-body"><div>
+          <p class="text-gray-400 mt-3 leading-relaxed">Enterprise .NET 8 MVC app with public site + admin portal. Full Java API integration with business logic for client-facing forms. Projects included an insurance quoting system and a SHELL self-service system.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">.NET 8</span><span class="chip">C#</span><span class="chip">ASP.NET Core</span><span class="chip">SQL Server</span><span class="chip">Microservices</span>
+          </div>
+        </div></div>
       </details>
 
-      <details class="exp relative pl-8 timeline-dot reveal group">
+      <details class="exp relative pl-8 timeline-dot reveal-left group">
         <summary class="cursor-pointer list-none">
-          <span class="font-mono text-xs text-mint">2022 — 2023</span>
-          <h5 class="text-xl font-bold text-white mt-1 inline">Node.js Full-Stack & AWS Backend Developer <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
+          <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2022 — 2023</span>
+          <h5 class="text-xl font-bold text-white mt-2 inline-flex items-center gap-2">Node.js Full-Stack & AWS Backend Developer <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
           <p class="font-mono text-sm text-gray-500 mt-1">People Connection Technology · Remote</p>
         </summary>
-        <p class="text-gray-400 mt-3 leading-relaxed">SaaS platform with MariaDB, Node.js, React/Redux & TypeScript. Full payment system with Stripe + PayPal subscriptions & webhooks, GA4 analytics, multi-language/multi-region support, and Artillery stress testing.</p>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <span class="chip">Node.js</span><span class="chip">TypeScript</span><span class="chip">AWS</span><span class="chip">React/Redux</span><span class="chip">Stripe</span><span class="chip">Kubernetes</span>
-        </div>
+        <div class="exp-body"><div>
+          <p class="text-gray-400 mt-3 leading-relaxed">SaaS platform with MariaDB, Node.js, React/Redux & TypeScript. Full payment system with Stripe + PayPal subscriptions & webhooks, GA4 analytics, multi-language/multi-region support, and Artillery stress testing.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">Node.js</span><span class="chip">TypeScript</span><span class="chip">AWS</span><span class="chip">React/Redux</span><span class="chip">Stripe</span><span class="chip">Kubernetes</span>
+          </div>
+        </div></div>
       </details>
 
-      <details class="exp relative pl-8 timeline-dot reveal group">
+      <details class="exp relative pl-8 timeline-dot reveal-left group">
         <summary class="cursor-pointer list-none">
-          <span class="font-mono text-xs text-mint">2022</span>
-          <h5 class="text-xl font-bold text-white mt-1 inline">Microsoft ETL Data Engineer & Analyst <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
+          <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2022</span>
+          <h5 class="text-xl font-bold text-white mt-2 inline-flex items-center gap-2">Microsoft ETL Data Engineer & Analyst <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
           <p class="font-mono text-sm text-gray-500 mt-1">Grupo823 · Remote</p>
         </summary>
-        <p class="text-gray-400 mt-3 leading-relaxed">Designed and shipped <span class="text-mint">37 ETL pipelines</span> with creative solutions — complex SQL Server stored procedures, C# scripting inside SSIS and PowerShell automation.</p>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <span class="chip">SQL Server</span><span class="chip">SSIS</span><span class="chip">C#</span><span class="chip">PowerShell</span><span class="chip">ETL</span>
-        </div>
+        <div class="exp-body"><div>
+          <p class="text-gray-400 mt-3 leading-relaxed">Designed and shipped <span class="text-mint">37 ETL pipelines</span> with creative solutions — complex SQL Server stored procedures, C# scripting inside SSIS and PowerShell automation.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">SQL Server</span><span class="chip">SSIS</span><span class="chip">C#</span><span class="chip">PowerShell</span><span class="chip">ETL</span>
+          </div>
+        </div></div>
       </details>
 
-      <details class="exp relative pl-8 timeline-dot reveal group">
+      <details class="exp relative pl-8 timeline-dot reveal-left group">
         <summary class="cursor-pointer list-none">
-          <span class="font-mono text-xs text-mint">2021 — 2022</span>
-          <h5 class="text-xl font-bold text-white mt-1 inline">Node.js Full Stack & AWS Backend Developer <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
+          <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2021 — 2022</span>
+          <h5 class="text-xl font-bold text-white mt-2 inline-flex items-center gap-2">Node.js Full Stack & AWS Backend Developer <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
           <p class="font-mono text-sm text-gray-500 mt-1">SDC · Remote</p>
         </summary>
-        <p class="text-gray-400 mt-3 leading-relaxed">Responsive websites with improved design workflow; new features on the client's maintenance platform while juggling multiple concurrent tasks.</p>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">Vue.js</span><span class="chip">TypeScript</span><span class="chip">AWS</span><span class="chip">Docker</span>
-        </div>
+        <div class="exp-body"><div>
+          <p class="text-gray-400 mt-3 leading-relaxed">Responsive websites with improved design workflow; new features on the client's maintenance platform while juggling multiple concurrent tasks.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">Vue.js</span><span class="chip">TypeScript</span><span class="chip">AWS</span><span class="chip">Docker</span>
+          </div>
+        </div></div>
       </details>
 
-      <details class="exp relative pl-8 timeline-dot reveal group">
+      <details class="exp relative pl-8 timeline-dot reveal-left group">
         <summary class="cursor-pointer list-none">
-          <span class="font-mono text-xs text-mint">2018 — 2020</span>
-          <h5 class="text-xl font-bold text-white mt-1 inline">Python Full Stack & AWS Backend Developer <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
+          <span class="font-mono text-xs text-mint bg-mint/10 border border-mint/20 px-2.5 py-0.5 rounded-full inline-block">2018 — 2020</span>
+          <h5 class="text-xl font-bold text-white mt-2 inline-flex items-center gap-2">Python Full Stack & AWS Backend Developer <span class="exp-arrow inline-block text-mint font-mono text-sm">▸</span></h5>
           <p class="font-mono text-sm text-gray-500 mt-1">Camaleon Estudio · Remote · Part-time</p>
         </summary>
-        <p class="text-gray-400 mt-3 leading-relaxed">High-performance web apps with PHP/Laravel and Java/Spring; RESTful APIs in Python/Flask with PostgreSQL/MySQL/MongoDB. Responsive interfaces with Angular & Bootstrap, OAuth 2.0 / JWT auth, CI/CD with Docker & Kubernetes.</p>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <span class="chip">Python</span><span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">Java</span><span class="chip">Spring</span><span class="chip">Angular</span><span class="chip">AWS</span><span class="chip">Docker</span><span class="chip">Kubernetes</span>
-        </div>
+        <div class="exp-body"><div>
+          <p class="text-gray-400 mt-3 leading-relaxed">High-performance web apps with PHP/Laravel and Java/Spring; RESTful APIs in Python/Flask with PostgreSQL/MySQL/MongoDB. Responsive interfaces with Angular & Bootstrap, OAuth 2.0 / JWT auth, CI/CD with Docker & Kubernetes.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">Python</span><span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">Java</span><span class="chip">Spring</span><span class="chip">Angular</span><span class="chip">AWS</span><span class="chip">Docker</span><span class="chip">Kubernetes</span>
+          </div>
+        </div></div>
       </details>
 
     </div>
@@ -423,15 +646,18 @@ tailwind.config = {
 <!-- ══════════ EDUCATION ══════════ -->
 <section id="education" class="py-28">
   <div class="max-w-4xl mx-auto px-6">
-    <h3 class="font-mono text-mint text-sm mb-2 reveal">05.</h3>
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">05</span>
+      <span class="font-mono text-xs text-gray-500">~ education</span>
+    </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-14 reveal">Education</h4>
-    <div class="card rounded-xl p-8 reveal">
+    <div class="card rounded-xl p-8 reveal-scale">
       <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
         <div>
           <h5 class="text-xl font-bold text-white">Lic. Computer Engineering</h5>
           <p class="font-mono text-sm text-gray-500 mt-1">Instituto Tecnológico de Costa Rica (TEC) · Cartago</p>
         </div>
-        <span class="font-mono text-xs text-mint whitespace-nowrap">Feb 2015 — Sep 2022</span>
+        <span class="font-mono text-xs text-mint whitespace-nowrap bg-mint/10 border border-mint/20 px-2.5 py-1 rounded-full">Feb 2015 — Sep 2022</span>
       </div>
       <p class="text-gray-400 mt-4 leading-relaxed">Focus on algorithm analysis, computer science, artificial intelligence, machine learning and mathematics.</p>
       <div class="flex flex-wrap gap-3 mt-6">
@@ -453,97 +679,100 @@ tailwind.config = {
 </section>
 
 <!-- ══════════ PROJECTS ══════════ -->
-<section id="projects" class="py-28">
+<section id="projects" class="py-28 bg-panel/40 border-y border-line">
   <div class="max-w-6xl mx-auto px-6">
-    <h3 class="font-mono text-mint text-sm mb-2 reveal">03.</h3>
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">03</span>
+      <span class="font-mono text-xs text-gray-500">~ featured_projects</span>
+    </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">Featured Projects</h4>
     <p class="text-gray-500 mb-14 max-w-xl reveal">Production AI products from the <span class="font-mono text-mint">etheroi.com</span> ecosystem — all live, all built end-to-end.</p>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <a href="https://chat.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://chat.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">💬</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">MAaaS Multi-Cloud Chat</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">MAaaS Multi-Cloud Chat</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Multi-Agent-as-a-Service platform with LangChain — persistent chat sessions, workspaces, gallery storage in D1/R2, RAG deep-research across Azure, GCP & AWS.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">LangChain</span><span class="chip">MCP</span><span class="chip">Cloudflare</span></div>
       </a>
 
-      <a href="https://github.com/developerjeremylive/deepMCPAgent-WebUI" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://github.com/developerjeremylive/deepMCPAgent-WebUI" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">🤖</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ open source</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">DeepMCPAgent WebUI</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">DeepMCPAgent WebUI</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Model-agnostic LangChain/LangGraph agents powered entirely by MCP tools over HTTP/SSE. Zero manual tool wiring — agents discover and call tools dynamically.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">Python</span><span class="chip">LangGraph</span><span class="chip">Apache-2.0</span></div>
       </a>
 
-      <a href="https://etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">🌐</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">EtherOI Platform</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">EtherOI Platform</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Multi-page AI platform — the hub of a growing ecosystem of one-shot AI webapps: barber, dentist, seller, clean, tattoo, paynow, B2B WhatsApp and more.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">Workers AI</span><span class="chip">D1</span><span class="chip">R2</span></div>
       </a>
 
-      <a href="https://mktvoz.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://mktvoz.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">🎙️</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">AI Voice App</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">AI Voice App</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Voice-first AI application powered by Gemini — natural spoken interaction with intelligent agents.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">Gemini</span><span class="chip">Voice AI</span></div>
       </a>
 
-      <a href="https://liveaitranslate.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://liveaitranslate.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">🌍</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">Live AI Translate</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">Live AI Translate</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Multi-language AI translator — fast, contextual translation as a lightweight edge-hosted webapp.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">LLM</span><span class="chip">Edge</span></div>
       </a>
 
-      <a href="https://payment.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://payment.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">💳</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">Payment + AI Reports</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">Payment + AI Reports</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Fintech payment system with AI-generated reporting, connected to loan admin & client invoice portals for the Costa Rican market.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">Laravel</span><span class="chip">Python</span><span class="chip">D1</span></div>
       </a>
 
-      <a href="https://agent.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://agent.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">🧠</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">Agent Platform</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">Agent Platform</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Autonomous agent chat platform powered by multiple AI models — multi-modal assistants with agentic capabilities.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">AI Agents</span><span class="chip">Gemini</span><span class="chip">LangChain</span></div>
       </a>
 
-      <a href="https://nft.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal group">
-        <div class="flex items-center justify-between mb-4">
+      <a href="https://nft.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
+        <div class="flex items-center justify-between mb-4 tilt-inner">
           <span class="text-3xl">🖼️</span>
           <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
         </div>
-        <h5 class="text-lg font-bold text-white group-hover:text-mint transition">NFT Marketplace</h5>
+        <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">NFT Marketplace</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Next-gen NFT platform — create, collect and trade unique digital art with auctions, artist galleries and blockchain-backed ownership.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">Workers</span><span class="chip">D1</span><span class="chip">React</span></div>
       </a>
 
     </div>
 
-    <div class="mt-10 card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 reveal">
+    <div class="mt-10 card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 reveal-scale">
       <div>
         <h5 class="font-bold text-white">🧪 Plus 400+ repositories & custom client work</h5>
         <p class="text-sm text-gray-500 mt-1 font-mono">gaja-dev · contnowtax · app-b2b · ecommerce-ios · estudiobelleza …</p>
@@ -554,67 +783,70 @@ tailwind.config = {
 </section>
 
 <!-- ══════════ HUGGING FACE LAB ══════════ -->
-<section id="hf" class="py-28 bg-panel/40 border-y border-line">
+<section id="hf" class="py-28">
   <div class="max-w-6xl mx-auto px-6">
-    <h3 class="font-mono text-mint text-sm mb-2 reveal">04.</h3>
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">04</span>
+      <span class="font-mono text-xs text-gray-500">~ ai_lab</span>
+    </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">AI Lab — Hugging Face 🤗</h4>
     <p class="text-gray-500 mb-14 max-w-xl reveal">An active playground of demos, agents and models — from in-browser WebGPU agents to image & video generation.</p>
 
-    <div class="grid grid-cols-3 gap-4 mb-12 max-w-lg reveal">
-      <div class="card rounded-xl p-5 text-center">
-        <div class="text-3xl font-extrabold text-mint" data-count="96">0</div>
+    <div class="grid grid-cols-3 gap-4 mb-12 max-w-lg reveal-scale">
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow" data-count="96">0</div>
         <div class="text-xs font-mono text-gray-500 mt-1">spaces</div>
       </div>
-      <div class="card rounded-xl p-5 text-center">
-        <div class="text-3xl font-extrabold text-mint" data-count="40">0</div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow" data-count="40">0</div>
         <div class="text-xs font-mono text-gray-500 mt-1">models</div>
       </div>
-      <div class="card rounded-xl p-5 text-center">
-        <div class="text-3xl font-extrabold text-mint" data-count="403">0</div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow" data-count="403">0</div>
         <div class="text-xs font-mono text-gray-500 mt-1">git repos</div>
       </div>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <a href="https://huggingface.co/spaces/developerjeremylive/Pi-Agent-Soyuz" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal group">
-        <span class="text-2xl">🛰️</span>
-        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition">Pi Agent · Soyuz</h5>
+      <a href="https://huggingface.co/spaces/developerjeremylive/Pi-Agent-Soyuz" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
+        <span class="text-2xl tilt-inner">🛰️</span>
+        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Pi Agent · Soyuz</h5>
         <p class="text-sm text-gray-400 mt-2">In-browser coding agent — Soyuz 4B running fully client-side via llama.cpp WebGPU.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-mint">● running on zero</span>
       </a>
-      <a href="https://huggingface.co/spaces/developerjeremylive/Gemma-4-WebGPU-etheroi" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal group">
-        <span class="text-2xl">⚡</span>
-        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition">Gemma 4 WebGPU</h5>
+      <a href="https://huggingface.co/spaces/developerjeremylive/Gemma-4-WebGPU-etheroi" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
+        <span class="text-2xl tilt-inner">⚡</span>
+        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Gemma 4 WebGPU</h5>
         <p class="text-sm text-gray-400 mt-2">Gemma 4 inference directly in the browser with WebGPU acceleration — no server needed.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">★ 4 likes · static</span>
       </a>
-      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal group">
-        <span class="text-2xl">🎬</span>
-        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition">LLM Cinema</h5>
+      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
+        <span class="text-2xl tilt-inner">🎬</span>
+        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">LLM Cinema</h5>
         <p class="text-sm text-gray-400 mt-2">A small LLM writes, draws & directs original ASCII films — generative storytelling experiment.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">pinned space</span>
       </a>
-      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal group">
-        <span class="text-2xl">🛡️</span>
-        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition">OpenMythos</h5>
+      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
+        <span class="text-2xl tilt-inner">🛡️</span>
+        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">OpenMythos</h5>
         <p class="text-sm text-gray-400 mt-2">Open-source cybersecurity agent — autonomous security analysis in a Gradio interface.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">pinned space</span>
       </a>
-      <a href="https://huggingface.co/spaces/developerjeremylive/multi-agent_deep-research-etheroi" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal group">
-        <span class="text-2xl">🔬</span>
-        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition">Multi-Agent Deep Research</h5>
+      <a href="https://huggingface.co/spaces/developerjeremylive/multi-agent_deep-research-etheroi" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
+        <span class="text-2xl tilt-inner">🔬</span>
+        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Multi-Agent Deep Research</h5>
         <p class="text-sm text-gray-400 mt-2">Coordinated agent swarm performing deep research tasks with shared state.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">gradio</span>
       </a>
-      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal group">
-        <span class="text-2xl">🖼️</span>
-        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition">Z Image Turbo</h5>
+      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
+        <span class="text-2xl tilt-inner">🖼️</span>
+        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Z Image Turbo</h5>
         <p class="text-sm text-gray-400 mt-2">Lightning-fast image generation demo — part of the 2026 GPU demo collection.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">pinned space</span>
       </a>
     </div>
 
-    <div class="mt-10 text-center reveal">
+    <div class="mt-10 text-center reveal-scale">
       <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="btn-ghost inline-block font-mono text-sm px-8 py-3.5 rounded text-mint border-mint/40">explore all 96 spaces 🤗 ↗</a>
     </div>
   </div>
@@ -624,107 +856,270 @@ tailwind.config = {
 <section id="contact" class="py-32 relative overflow-hidden">
   <div class="aurora"></div>
   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 80%, rgba(52,211,153,.07), transparent)"></div>
-  <div class="max-w-3xl mx-auto px-6 text-center relative">
-    <h3 class="font-mono text-mint text-sm mb-2 reveal">06.</h3>
+  <div class="max-w-5xl mx-auto px-6 text-center relative">
+    <div class="flex items-center justify-center gap-4 mb-4 reveal">
+      <span class="section-num">06</span>
+      <span class="font-mono text-xs text-gray-500">~ contact</span>
+    </div>
     <h4 class="text-4xl md:text-5xl font-extrabold text-white reveal">Let's build something <span class="text-mint glow">intelligent</span>.</h4>
-    <p class="text-gray-400 mt-6 leading-relaxed reveal">Open to senior engineering roles, AI architecture consulting and ambitious collaborations — anywhere in the world, remotely.</p>
+    <p class="text-gray-400 mt-6 max-w-2xl mx-auto leading-relaxed reveal">Open to senior engineering roles, AI architecture consulting and ambitious collaborations — anywhere in the world, remotely.</p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12 text-left max-w-4xl mx-auto">
+      <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="contact-tile reveal-scale">
+        <span class="tile-icon">💼</span>
+        <div>
+          <div class="font-semibold text-white">LinkedIn</div>
+          <div class="text-xs font-mono text-gray-500 mt-0.5">in/jeremy-live</div>
+        </div>
+      </a>
+      <a href="https://github.com/developerjeremylive" target="_blank" rel="noopener" class="contact-tile reveal-scale" style="transition-delay:.06s">
+        <span class="tile-icon">🐙</span>
+        <div>
+          <div class="font-semibold text-white">GitHub</div>
+          <div class="text-xs font-mono text-gray-500 mt-0.5">developerjeremylive</div>
+        </div>
+      </a>
+      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="contact-tile reveal-scale" style="transition-delay:.12s">
+        <span class="tile-icon">🤗</span>
+        <div>
+          <div class="font-semibold text-white">Hugging Face</div>
+          <div class="text-xs font-mono text-gray-500 mt-0.5">96 spaces · 40 models</div>
+        </div>
+      </a>
+      <a href="https://agent.etheroi.com" target="_blank" rel="noopener" class="contact-tile reveal-scale" style="transition-delay:.18s">
+        <span class="tile-icon">🧠</span>
+        <div>
+          <div class="font-semibold text-white">Agent Platform</div>
+          <div class="text-xs font-mono text-gray-500 mt-0.5">agent.etheroi.com</div>
+        </div>
+      </a>
+    </div>
+
     <div class="mt-10 flex flex-wrap justify-center gap-4 reveal">
       <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-primary btn-shine font-mono text-sm font-semibold px-8 py-4 rounded">say_hello --linkedin ↗</a>
-      <a href="https://github.com/developerjeremylive" target="_blank" rel="noopener" class="btn-ghost font-mono text-sm px-8 py-4 rounded text-gray-300">github ↗</a>
-      <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="btn-ghost font-mono text-sm px-8 py-4 rounded text-gray-300">hugging face ↗</a>
-      <a href="https://agent.etheroi.com" target="_blank" rel="noopener" class="btn-ghost font-mono text-sm px-8 py-4 rounded text-gray-300">agent.etheroi ↗</a>
+      <a href="mailto:hello@jeremylive.dev" class="btn-ghost font-mono text-sm px-8 py-4 rounded text-gray-300">email_me()</a>
+    </div>
+
+    <div class="mt-8 inline-flex items-center gap-2.5 font-mono text-xs text-gray-500 reveal">
+      <span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+      currently available for remote work
     </div>
   </div>
 </section>
 
 <!-- ══════════ FOOTER ══════════ -->
 <footer class="border-t border-line py-8">
-  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-3 font-mono text-xs text-gray-600">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-600">
     <span>© 2026 Jeremy José Live González — San José, Costa Rica 🇨🇷</span>
-    <span class="flex items-center gap-3">
-      <span>designed & built with <span class="text-mint">♥</span> · jeremy@live:~$ exit</span>
-      <a href="jeremy-live-portfolio-v3.html" class="text-gray-600 hover:text-mint transition" title="previous version">[v3]</a>
-      <a href="jeremy-live-portfolio-v2.html" class="text-gray-600 hover:text-mint transition" title="previous version">[v2]</a>
-      <a href="https://jeremylive-dev.netlify.app/" target="_blank" rel="noopener" class="text-gray-600 hover:text-mint transition" title="previous version">[v1]</a>
-    </span>
+    <div class="flex items-center gap-4">
+      <span class="hidden sm:inline">designed &amp; built with <span class="text-mint">♥</span></span>
+      <span class="hidden sm:inline text-gray-700">|</span>
+      <span>jeremy@live:~$ exit</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="jeremy-live-portfolio-v3.html" class="footer-link hover:text-mint transition" title="previous version">[v3]</a>
+      <a href="jeremy-live-portfolio-v2.html" class="footer-link hover:text-mint transition" title="previous version">[v2]</a>
+      <a href="https://jeremylive-dev.netlify.app/" target="_blank" rel="noopener" class="footer-link hover:text-mint transition" title="previous version">[v1]</a>
+    </div>
   </div>
 </footer>
 
+<!-- ══════════ BACK TO TOP ══════════ -->
+<button id="back-to-top" aria-label="Back to top">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
+</button>
+
 <script>
-  // Scroll reveal
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  (function () {
+    'use strict';
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Animated counters
-  const counterIO = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target, target = +el.dataset.count, dur = 1400, t0 = performance.now();
-      const tick = now => {
-        const p = Math.min((now - t0) / dur, 1);
-        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + (p === 1 ? '+' : '');
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      counterIO.unobserve(el);
-    });
-  }, { threshold: 0.6 });
-  document.querySelectorAll('[data-count]').forEach(el => counterIO.observe(el));
-
-  // Progress bar
-  addEventListener('scroll', () => {
-    const h = document.documentElement;
-    document.getElementById('progressBar').style.width =
-      (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-  }, { passive: true });
-
-  // Mobile menu
-  const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
-  menuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-    menuBtn.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
-  });
-  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    mobileMenu.classList.add('hidden');
-    menuBtn.textContent = '☰';
-  }));
-
-  // ── Version submenu ─────────────────────────────
-  const versionBtn = document.getElementById('version-btn');
-  const versionPopup = document.getElementById('version-popup');
-  const versionBackdrop = document.getElementById('version-backdrop');
-  const versionClose = document.getElementById('version-close');
-
-  function openVersionPopup() {
-    versionPopup.classList.add('open');
-    versionBtn.setAttribute('aria-expanded', 'true');
-  }
-  function closeVersionPopup() {
-    versionPopup.classList.remove('open');
-    versionBtn.setAttribute('aria-expanded', 'false');
-  }
-
-  versionBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    versionPopup.classList.contains('open') ? closeVersionPopup() : openVersionPopup();
-  });
-  versionBackdrop.addEventListener('click', closeVersionPopup);
-  versionClose.addEventListener('click', closeVersionPopup);
-  versionPopup.querySelectorAll('.version-item').forEach(item => {
-    item.addEventListener('click', closeVersionPopup);
-  });
-  document.addEventListener('click', (e) => {
-    if (versionPopup.classList.contains('open') &&
-        !versionPopup.contains(e.target) &&
-        !versionBtn.contains(e.target)) {
-      closeVersionPopup();
+    /* ── Preloader ─────────────────────────────────── */
+    const preloader = document.getElementById('preloader');
+    const preloaderLog = document.getElementById('preloader-log');
+    const bootLines = [
+      'loading modules…',
+      'mounting css engine…',
+      'spawning agents…',
+      'connecting to cloud…',
+      'ready.',
+    ];
+    if (preloader) {
+      let i = 0;
+      const bootTimer = setInterval(() => {
+        i++;
+        if (preloaderLog && bootLines[i]) preloaderLog.textContent = '$ ' + bootLines[i];
+        if (i >= bootLines.length - 1) {
+          clearInterval(bootTimer);
+          setTimeout(() => preloader.classList.add('done'), 350);
+          setTimeout(() => preloader.remove(), 1200);
+        }
+      }, 260);
+      // Safety: never block the page
+      setTimeout(() => { preloader.classList.add('done'); setTimeout(() => preloader.remove(), 1200); }, 4000);
     }
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeVersionPopup();
-  });
+
+    /* ── Scroll reveal (directional) ───────────────── */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur');
+    const revealIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealIO.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealIO.observe(el));
+
+    /* ── Animated counters ─────────────────────────── */
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target, target = +el.dataset.count, dur = reduceMotion ? 0 : 1400, t0 = performance.now();
+        const tick = now => {
+          const p = Math.min((now - t0) / Math.max(dur, 1), 1);
+          el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + (p === 1 ? '+' : '');
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        counterIO.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-count]').forEach(el => counterIO.observe(el));
+
+    /* ── Progress bar + navbar shrink + scrollspy ──── */
+    const navbar = document.getElementById('navbar');
+    const progressBar = document.getElementById('progressBar');
+    const backToTop = document.getElementById('back-to-top');
+    const spyLinks = Array.from(document.querySelectorAll('[data-spy]'));
+    const sections = spyLinks.map(l => document.getElementById(l.dataset.spy)).filter(Boolean);
+
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const h = document.documentElement;
+        const y = h.scrollTop || document.body.scrollTop;
+        const max = h.scrollHeight - h.clientHeight;
+        if (progressBar) progressBar.style.width = (max > 0 ? (y / max * 100) : 0) + '%';
+        if (backToTop) backToTop.classList.toggle('show', y > 600);
+        if (navbar) navbar.classList.toggle('shadow-lg', y > 40);
+        // Scrollspy
+        let current = sections[0];
+        sections.forEach(sec => {
+          if (sec && sec.offsetTop - 120 <= y) current = sec;
+        });
+        spyLinks.forEach(l => l.classList.toggle('active', current && l.dataset.spy === current.id));
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+    /* ── Cursor glow ───────────────────────────────── */
+    const cursorGlow = document.getElementById('cursor-glow');
+    if (cursorGlow && window.matchMedia('(pointer: fine)').matches && !reduceMotion) {
+      let cx = innerWidth / 2, cy = innerHeight / 3, tx = cx, ty = cy;
+      document.addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; });
+      (function loop() {
+        cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+        cursorGlow.style.transform = 'translate(' + (cx - 210) + 'px,' + (cy - 210) + 'px)';
+        requestAnimationFrame(loop);
+      })();
+    } else if (cursorGlow) {
+      cursorGlow.style.display = 'none';
+    }
+
+    /* ── Tilt 3D cards ─────────────────────────────── */
+    if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+      document.querySelectorAll('.tilt').forEach(card => {
+        card.addEventListener('pointermove', (e) => {
+          const r = card.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - 0.5;
+          const py = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = 'perspective(900px) rotateY(' + (px * 8).toFixed(2) + 'deg) rotateX(' + (-py * 8).toFixed(2) + 'deg)';
+        });
+        card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+      });
+    }
+
+    /* ── Typewriter role in hero ───────────────────── */
+    const typeEl = document.getElementById('type-role-text');
+    if (typeEl && !reduceMotion) {
+      const phrases = [
+        'GenAI Software Engineer & Solutions Architect',
+        'AI Agents · MCP · RAG · Multi-Cloud',
+        'Python · TypeScript · .NET · Cloud Native',
+      ];
+      let pi = 0, ci = 0, deleting = false;
+      const typeSpeed = 55, deleteSpeed = 28, holdTime = 2000;
+      function typeLoop() {
+        const current = phrases[pi];
+        if (!deleting) {
+          ci++;
+          typeEl.textContent = current.slice(0, ci);
+          if (ci === current.length) { deleting = true; setTimeout(typeLoop, holdTime); return; }
+          setTimeout(typeLoop, typeSpeed);
+        } else {
+          ci--;
+          typeEl.textContent = current.slice(0, ci);
+          if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(typeLoop, 300); return; }
+          setTimeout(typeLoop, deleteSpeed);
+        }
+      }
+      setTimeout(typeLoop, 900);
+    } else if (typeEl) {
+      typeEl.textContent = 'GenAI Software Engineer & Solutions Architect';
+    }
+
+    /* ── Mobile menu ───────────────────────────────── */
+    const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.textContent = open ? '✕' : '☰';
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.textContent = '☰';
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }));
+
+    /* ── Version submenu ───────────────────────────── */
+    const versionBtn = document.getElementById('version-btn');
+    const versionPopup = document.getElementById('version-popup');
+    const versionBackdrop = document.getElementById('version-backdrop');
+    const versionClose = document.getElementById('version-close');
+
+    function openVersionPopup() {
+      versionPopup.classList.add('open');
+      versionBtn.setAttribute('aria-expanded', 'true');
+    }
+    function closeVersionPopup() {
+      versionPopup.classList.remove('open');
+      versionBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    versionBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      versionPopup.classList.contains('open') ? closeVersionPopup() : openVersionPopup();
+    });
+    versionBackdrop.addEventListener('click', closeVersionPopup);
+    versionClose.addEventListener('click', closeVersionPopup);
+    versionPopup.querySelectorAll('.version-item').forEach(item => {
+      item.addEventListener('click', closeVersionPopup);
+    });
+    document.addEventListener('click', (e) => {
+      if (versionPopup.classList.contains('open') &&
+          !versionPopup.contains(e.target) &&
+          !versionBtn.contains(e.target)) {
+        closeVersionPopup();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeVersionPopup();
+    });
+  })();
 </script>
 </body>
 </html>
