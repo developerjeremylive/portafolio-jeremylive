@@ -82,6 +82,8 @@ tailwind.config = {
     background:radial-gradient(ellipse 90% 60% at 50% 0%, transparent 40%, rgba(10,15,13,.55) 100%);
   }
 
+  html, body { overflow-x:clip; }
+
   .glow { text-shadow: 0 0 30px rgba(52,211,153,.45); }
   .card { background:#0e1512; border:1px solid #1c2b24; transition: all .35s cubic-bezier(.4,0,.2,1); }
   .card:hover { border-color:#34d399; transform:translateY(-4px); box-shadow:0 12px 40px -12px rgba(52,211,153,.25); }
@@ -174,6 +176,68 @@ tailwind.config = {
   /* ── Tilt 3D cards ───────────────────────────────── */
   .tilt { transform-style:preserve-3d; transition:transform .25s ease-out; will-change:transform; }
   .tilt .tilt-inner { transform:translateZ(24px); }
+
+  /* ── Card UI/UX scale ────────────────────────────── */
+  .card {
+    position:relative; background:linear-gradient(180deg, rgba(20,29,25,.92), rgba(14,21,18,.97));
+    border:1px solid #1c2b24; transition:all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .card::after {
+    content:''; position:absolute; top:-1px; left:1.5rem; right:1.5rem; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(52,211,153,.55), transparent);
+    opacity:0; transition:opacity .35s ease;
+  }
+  .card:hover {
+    border-color:rgba(52,211,153,.45); transform:translateY(-6px);
+    box-shadow:0 16px 48px -16px rgba(52,211,153,.35), 0 0 0 1px rgba(52,211,153,.08);
+  }
+  .card:hover::after { opacity:1; }
+  .card-icon {
+    width:3rem; height:3rem; border-radius:.8rem; display:flex; align-items:center; justify-content:center;
+    background:rgba(52,211,153,.08); border:1px solid rgba(52,211,153,.22); font-size:1.5rem;
+    transition:all .35s cubic-bezier(.4,0,.2,1); flex-shrink:0;
+  }
+  .card:hover .card-icon { background:rgba(52,211,153,.16); border-color:rgba(52,211,153,.5); transform:scale(1.06) rotate(-4deg); box-shadow:0 0 24px -6px rgba(52,211,153,.5); }
+  .card-tag {
+    font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:.2rem .55rem; border-radius:9999px; border:1px solid #1c2b24; color:#6ee7b7;
+    background:rgba(52,211,153,.06); white-space:nowrap; transition:all .3s;
+  }
+  .card:hover .card-tag { border-color:rgba(52,211,153,.4); color:#34d399; }
+
+  /* ── Mobile card carousel ────────────────────────── */
+  .carousel-wrap { position:relative; }
+  .carousel-track {
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+    gap:1.25rem; scrollbar-width:none; padding:.25rem .25rem 1rem;
+  }
+  .carousel-track::-webkit-scrollbar { display:none; }
+  .carousel-track > * {
+    scroll-snap-align:start; flex:0 0 85%; min-width:0; max-width:85%;
+  }
+  .carousel-arrow {
+    position:absolute; top:42%; transform:translateY(-50%); z-index:20;
+    width:2.5rem; height:2.5rem; border-radius:50%; cursor:pointer;
+    border:1px solid rgba(52,211,153,.4); background:rgba(10,15,13,.85); color:#34d399;
+    backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center;
+    transition:all .25s ease; font-size:1.1rem; line-height:1;
+  }
+  .carousel-arrow:hover { background:#34d399; color:#0a0f0d; box-shadow:0 0 24px rgba(52,211,153,.5); }
+  .carousel-arrow.prev { left:-.9rem; }
+  .carousel-arrow.next { right:-.9rem; }
+  .carousel-arrow:disabled { opacity:.25; pointer-events:none; }
+  .carousel-dots { display:flex; justify-content:center; gap:.5rem; margin-top:.5rem; }
+  .carousel-dots button {
+    width:.45rem; height:.45rem; border-radius:9999px; border:none; padding:0; cursor:pointer;
+    background:rgba(110,231,183,.25); transition:all .3s ease;
+  }
+  .carousel-dots button.active { background:#34d399; width:1.4rem; }
+  @media (min-width:768px) {
+    .carousel-track { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; overflow:visible; padding:0; }
+    .carousel-track > * { flex:0 0 auto; max-width:none; }
+    .carousel-arrow, .carousel-dots { display:none; }
+  }
+  @media (min-width:1024px) { .carousel-track { grid-template-columns:repeat(3,1fr); } }
 
   /* ── Version submenu ─────────────────────────────── */
   #version-popup { opacity:0; pointer-events:none; transition:opacity .25s ease; }
@@ -326,32 +390,32 @@ tailwind.config = {
     <a href="#top" class="font-mono font-bold text-mint text-lg tracking-tight group">
       jeremy@live<span class="text-gray-500">:~$</span><span class="cursor-blink text-mint">▊</span>
     </a>
-    <div class="hidden md:flex items-center gap-7 font-mono text-sm text-gray-400">
+    <div class="hidden lg:flex items-center gap-7 font-mono text-sm text-gray-400">
       <a href="#about" class="nav-link hover:text-mint transition" data-spy="about"><span class="text-mint">01.</span> about</a>
       <a href="#experience" class="nav-link hover:text-mint transition" data-spy="experience"><span class="text-mint">02.</span> experience</a>
-      <a href="#projects" class="nav-link hover:text-mint transition" data-spy="projects"><span class="text-mint">03.</span> projects</a>
-      <a href="#hf" class="nav-link hover:text-mint transition" data-spy="hf"><span class="text-mint">04.</span> ai-lab</a>
-      <a href="#education" class="nav-link hover:text-mint transition" data-spy="education"><span class="text-mint">05.</span> education</a>
+      <a href="#education" class="nav-link hover:text-mint transition" data-spy="education"><span class="text-mint">03.</span> education</a>
+      <a href="#projects" class="nav-link hover:text-mint transition" data-spy="projects"><span class="text-mint">04.</span> projects</a>
+      <a href="#hf" class="nav-link hover:text-mint transition" data-spy="hf"><span class="text-mint">05.</span> ai-lab</a>
       <a href="#contact" class="nav-link hover:text-mint transition" data-spy="contact"><span class="text-mint">06.</span> contact</a>
     </div>
-    <div class="hidden md:flex items-center gap-3">
+    <div class="hidden lg:flex items-center gap-3">
       <button id="version-btn" class="btn-ghost font-mono text-xs px-4 py-2 rounded text-gray-300 flex items-center gap-2 group" aria-haspopup="true" aria-expanded="false">
         <svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[-90deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
         <span>previous_site()</span>
       </button>
       <a href="#contact" class="btn-primary btn-shine font-mono text-xs font-semibold px-4 py-2 rounded">hire_me()</a>
     </div>
-    <button id="menuBtn" class="md:hidden text-mint text-2xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Open menu" aria-expanded="false">☰</button>
+    <button id="menuBtn" class="lg:hidden text-mint text-2xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
 
   <!-- Mobile menu (slide-down) -->
-  <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-ink/95 backdrop-blur-md overflow-hidden">
+  <div id="mobileMenu" class="hidden lg:hidden border-t border-line bg-ink/95 backdrop-blur-md overflow-hidden">
     <div class="flex flex-col px-6 py-4 gap-3 font-mono text-sm text-gray-300">
       <a href="#about" class="hover:text-mint py-1"><span class="text-mint">01.</span> about</a>
       <a href="#experience" class="hover:text-mint py-1"><span class="text-mint">02.</span> experience</a>
-      <a href="#projects" class="hover:text-mint py-1"><span class="text-mint">03.</span> projects</a>
-      <a href="#hf" class="hover:text-mint py-1"><span class="text-mint">04.</span> ai-lab</a>
-      <a href="#education" class="hover:text-mint py-1"><span class="text-mint">05.</span> education</a>
+      <a href="#education" class="hover:text-mint py-1"><span class="text-mint">03.</span> education</a>
+      <a href="#projects" class="hover:text-mint py-1"><span class="text-mint">04.</span> projects</a>
+      <a href="#hf" class="hover:text-mint py-1"><span class="text-mint">05.</span> ai-lab</a>
       <a href="#contact" class="hover:text-mint py-1"><span class="text-mint">06.</span> contact</a>
       <div class="border-t border-line my-2"></div>
       <span class="text-[11px] text-gray-600 uppercase tracking-widest">previous versions</span>
@@ -647,7 +711,7 @@ tailwind.config = {
 <section id="education" class="py-28">
   <div class="max-w-4xl mx-auto px-6">
     <div class="flex items-center gap-4 mb-4 reveal">
-      <span class="section-num">05</span>
+      <span class="section-num">03</span>
       <span class="font-mono text-xs text-gray-500">~ education</span>
     </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-14 reveal">Education</h4>
@@ -682,18 +746,19 @@ tailwind.config = {
 <section id="projects" class="py-28 bg-panel/40 border-y border-line">
   <div class="max-w-6xl mx-auto px-6">
     <div class="flex items-center gap-4 mb-4 reveal">
-      <span class="section-num">03</span>
+      <span class="section-num">04</span>
       <span class="font-mono text-xs text-gray-500">~ featured_projects</span>
     </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">Featured Projects</h4>
     <p class="text-gray-500 mb-14 max-w-xl reveal">Production AI products from the <span class="font-mono text-mint">etheroi.com</span> ecosystem — all live, all built end-to-end.</p>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="carousel-wrap" data-carousel="projects">
+      <div class="carousel-track">
 
       <a href="https://chat.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">💬</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
+          <span class="card-icon text-3xl">💬</span>
+          <span class="card-tag">↗ live</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">MAaaS Multi-Cloud Chat</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Multi-Agent-as-a-Service platform with LangChain — persistent chat sessions, workspaces, gallery storage in D1/R2, RAG deep-research across Azure, GCP & AWS.</p>
@@ -702,8 +767,8 @@ tailwind.config = {
 
       <a href="https://github.com/developerjeremylive/deepMCPAgent-WebUI" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">🤖</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ open source</span>
+          <span class="card-icon text-3xl">🤖</span>
+          <span class="card-tag">↗ open source</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">DeepMCPAgent WebUI</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Model-agnostic LangChain/LangGraph agents powered entirely by MCP tools over HTTP/SSE. Zero manual tool wiring — agents discover and call tools dynamically.</p>
@@ -712,8 +777,8 @@ tailwind.config = {
 
       <a href="https://etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">🌐</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
+          <span class="card-icon text-3xl">🌐</span>
+          <span class="card-tag">↗ live</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">EtherOI Platform</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Multi-page AI platform — the hub of a growing ecosystem of one-shot AI webapps: barber, dentist, seller, clean, tattoo, paynow, B2B WhatsApp and more.</p>
@@ -722,8 +787,8 @@ tailwind.config = {
 
       <a href="https://mktvoz.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">🎙️</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
+          <span class="card-icon text-3xl">🎙️</span>
+          <span class="card-tag">↗ live</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">AI Voice App</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Voice-first AI application powered by Gemini — natural spoken interaction with intelligent agents.</p>
@@ -732,8 +797,8 @@ tailwind.config = {
 
       <a href="https://liveaitranslate.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">🌍</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
+          <span class="card-icon text-3xl">🌍</span>
+          <span class="card-tag">↗ live</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">Live AI Translate</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Multi-language AI translator — fast, contextual translation as a lightweight edge-hosted webapp.</p>
@@ -742,8 +807,8 @@ tailwind.config = {
 
       <a href="https://payment.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">💳</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
+          <span class="card-icon text-3xl">💳</span>
+          <span class="card-tag">↗ live</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">Payment + AI Reports</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Fintech payment system with AI-generated reporting, connected to loan admin & client invoice portals for the Costa Rican market.</p>
@@ -752,8 +817,8 @@ tailwind.config = {
 
       <a href="https://agent.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">🧠</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
+          <span class="card-icon text-3xl">🧠</span>
+          <span class="card-tag">↗ live</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">Agent Platform</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Autonomous agent chat platform powered by multiple AI models — multi-modal assistants with agentic capabilities.</p>
@@ -762,14 +827,18 @@ tailwind.config = {
 
       <a href="https://nft.etheroi.com" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 flex flex-col reveal-scale tilt group">
         <div class="flex items-center justify-between mb-4 tilt-inner">
-          <span class="text-3xl">🖼️</span>
-          <span class="font-mono text-xs text-gray-600 group-hover:text-mint transition">↗ live</span>
+          <span class="card-icon text-3xl">🖼️</span>
+          <span class="card-tag">↗ live</span>
         </div>
         <h5 class="text-lg font-bold text-white group-hover:text-mint transition tilt-inner">NFT Marketplace</h5>
         <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">Next-gen NFT platform — create, collect and trade unique digital art with auctions, artist galleries and blockchain-backed ownership.</p>
         <div class="flex flex-wrap gap-2 mt-4"><span class="chip">Workers</span><span class="chip">D1</span><span class="chip">React</span></div>
       </a>
 
+      </div>
+      <button class="carousel-arrow prev" data-carousel-prev="projects" aria-label="Previous projects">‹</button>
+      <button class="carousel-arrow next" data-carousel-next="projects" aria-label="Next projects">›</button>
+      <div class="carousel-dots" data-carousel-dots="projects"></div>
     </div>
 
     <div class="mt-10 card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 reveal-scale">
@@ -786,7 +855,7 @@ tailwind.config = {
 <section id="hf" class="py-28">
   <div class="max-w-6xl mx-auto px-6">
     <div class="flex items-center gap-4 mb-4 reveal">
-      <span class="section-num">04</span>
+      <span class="section-num">05</span>
       <span class="font-mono text-xs text-gray-500">~ ai_lab</span>
     </div>
     <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">AI Lab — Hugging Face 🤗</h4>
@@ -807,43 +876,66 @@ tailwind.config = {
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="carousel-wrap" data-carousel="hf">
+      <div class="carousel-track">
       <a href="https://huggingface.co/spaces/developerjeremylive/Pi-Agent-Soyuz" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
-        <span class="text-2xl tilt-inner">🛰️</span>
-        <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Pi Agent · Soyuz</h5>
+        <div class="flex items-center justify-between mb-3 tilt-inner">
+          <span class="card-icon text-2xl">🛰️</span>
+          <span class="card-tag">zero-gpu</span>
+        </div>
+        <h5 class="font-bold text-white group-hover:text-mint transition tilt-inner">Pi Agent · Soyuz</h5>
         <p class="text-sm text-gray-400 mt-2">In-browser coding agent — Soyuz 4B running fully client-side via llama.cpp WebGPU.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-mint">● running on zero</span>
       </a>
       <a href="https://huggingface.co/spaces/developerjeremylive/Gemma-4-WebGPU-etheroi" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
-        <span class="text-2xl tilt-inner">⚡</span>
+        <div class="flex items-center justify-between mb-3 tilt-inner">
+          <span class="card-icon text-2xl">⚡</span>
+          <span class="card-tag">webgpu</span>
+        </div>
         <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Gemma 4 WebGPU</h5>
         <p class="text-sm text-gray-400 mt-2">Gemma 4 inference directly in the browser with WebGPU acceleration — no server needed.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">★ 4 likes · static</span>
       </a>
       <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
-        <span class="text-2xl tilt-inner">🎬</span>
+        <div class="flex items-center justify-between mb-3 tilt-inner">
+          <span class="card-icon text-2xl">🎬</span>
+          <span class="card-tag">demo</span>
+        </div>
         <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">LLM Cinema</h5>
         <p class="text-sm text-gray-400 mt-2">A small LLM writes, draws & directs original ASCII films — generative storytelling experiment.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">pinned space</span>
       </a>
       <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
-        <span class="text-2xl tilt-inner">🛡️</span>
+        <div class="flex items-center justify-between mb-3 tilt-inner">
+          <span class="card-icon text-2xl">🛡️</span>
+          <span class="card-tag">security</span>
+        </div>
         <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">OpenMythos</h5>
         <p class="text-sm text-gray-400 mt-2">Open-source cybersecurity agent — autonomous security analysis in a Gradio interface.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">pinned space</span>
       </a>
       <a href="https://huggingface.co/spaces/developerjeremylive/multi-agent_deep-research-etheroi" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
-        <span class="text-2xl tilt-inner">🔬</span>
+        <div class="flex items-center justify-between mb-3 tilt-inner">
+          <span class="card-icon text-2xl">🔬</span>
+          <span class="card-tag">agents</span>
+        </div>
         <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Multi-Agent Deep Research</h5>
         <p class="text-sm text-gray-400 mt-2">Coordinated agent swarm performing deep research tasks with shared state.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">gradio</span>
       </a>
       <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
-        <span class="text-2xl tilt-inner">🖼️</span>
+        <div class="flex items-center justify-between mb-3 tilt-inner">
+          <span class="card-icon text-2xl">🖼️</span>
+          <span class="card-tag">gpu</span>
+        </div>
         <h5 class="font-bold text-white mt-3 group-hover:text-mint transition tilt-inner">Z Image Turbo</h5>
         <p class="text-sm text-gray-400 mt-2">Lightning-fast image generation demo — part of the 2026 GPU demo collection.</p>
         <span class="inline-block mt-3 font-mono text-[11px] text-gray-500">pinned space</span>
       </a>
+      </div>
+      <button class="carousel-arrow prev" data-carousel-prev="hf" aria-label="Previous spaces">‹</button>
+      <button class="carousel-arrow next" data-carousel-next="hf" aria-label="Next spaces">›</button>
+      <div class="carousel-dots" data-carousel-dots="hf"></div>
     </div>
 
     <div class="mt-10 text-center reveal-scale">
@@ -1118,6 +1210,54 @@ tailwind.config = {
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeVersionPopup();
+    });
+
+    /* ── Card carousels (mobile) ────────────────────── */
+    document.querySelectorAll('[data-carousel]').forEach(wrap => {
+      const track = wrap.querySelector('.carousel-track');
+      const prevBtn = wrap.querySelector('[data-carousel-prev]');
+      const nextBtn = wrap.querySelector('[data-carousel-next]');
+      const dotsBox = wrap.querySelector('[data-carousel-dots]');
+      const cards = Array.from(track.children);
+      if (!track || cards.length === 0) return;
+
+      // Build dots
+      if (dotsBox) {
+        cards.forEach((_, i) => {
+          const d = document.createElement('button');
+          d.setAttribute('aria-label', 'Go to card ' + (i + 1));
+          d.addEventListener('click', () => {
+            const card = cards[i];
+            track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
+          });
+          dotsBox.appendChild(d);
+        });
+      }
+
+      function carouselStep() {
+        const card = cards[0];
+        return Math.round(card.getBoundingClientRect().width) + 20; // card + gap
+      }
+
+      function updateCarouselState() {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
+        if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
+        if (dotsBox) {
+          const idx = Math.round(track.scrollLeft / carouselStep());
+          Array.from(dotsBox.children).forEach((d, i) => d.classList.toggle('active', i === Math.min(idx, cards.length - 1)));
+        }
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -carouselStep(), behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+      if (nextBtn) nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: carouselStep(), behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+      track.addEventListener('scroll', updateCarouselState, { passive: true });
+      window.addEventListener('resize', updateCarouselState);
+      updateCarouselState();
     });
   })();
 </script>
