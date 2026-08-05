@@ -1095,10 +1095,16 @@ tailwind.config = {
         if (backToTop) backToTop.classList.toggle('show', y > 600);
         if (navbar) navbar.classList.toggle('shadow-lg', y > 40);
         // Scrollspy
+        const navH = 110;
         let current = sections[0];
-        sections.forEach(sec => {
-          if (sec && sec.offsetTop - 120 <= y) current = sec;
-        });
+        if (max - y <= 2 && sections.length) {
+          // Bottom of page → force last section active (contact)
+          current = sections[sections.length - 1];
+        } else {
+          sections.forEach(sec => {
+            if (sec && sec.getBoundingClientRect().top <= navH) current = sec;
+          });
+        }
         spyLinks.forEach(l => l.classList.toggle('active', current && l.dataset.spy === current.id));
         ticking = false;
       });
