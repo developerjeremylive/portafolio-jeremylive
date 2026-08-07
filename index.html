@@ -474,7 +474,7 @@ tailwind.config = {
 
 <!-- ══════════ NAV ══════════ -->
 <nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-ink/80 border-b border-line transition-all duration-300">
-  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+  <div class="max-w-6xl mx-auto px-6 h-16 lg:h-20 flex items-center justify-between">
     <a href="#top" class="font-mono font-bold text-mint text-base lg:text-lg tracking-tight group flex items-center gap-1.5">
       <span class="relative flex w-2 h-2">
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-60"></span>
@@ -490,14 +490,14 @@ tailwind.config = {
       <a href="#projects" class="nav-link hover:text-mint transition" data-spy="projects"><span class="text-mint">04.</span> projects</a>
       <a href="#hf" class="nav-link hover:text-mint transition" data-spy="hf"><span class="text-mint">05.</span> ai-lab</a>
       <a href="#contact" class="nav-link hover:text-mint transition" data-spy="contact"><span class="text-mint">06.</span> contact</a>
-      <a href="leadership-course.html" class="btn-primary btn-shine font-mono text-xs font-semibold px-3 py-1.5 rounded">leadership course ↗</a>
     </div>
-    <div class="hidden lg:flex items-center gap-3">
-      <button id="version-btn" class="btn-ghost font-mono text-xs px-4 py-2 rounded text-gray-300 flex items-center gap-2 group" aria-haspopup="true" aria-expanded="false">
+    <div class="hidden lg:flex items-center gap-2.5 lg:gap-3">
+      <a href="leadership-course.html" class="btn-primary btn-shine font-mono text-sm font-semibold px-4 md:px-5 py-2.5 rounded-full">📘 leadership course ↗</a>
+      <button id="version-btn" class="btn-ghost font-mono text-sm px-4 py-2.5 rounded text-gray-300 flex items-center gap-2 group" aria-haspopup="true" aria-expanded="false">
         <svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[-90deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
         <span>previous_site()</span>
       </button>
-      <a href="#contact" class="btn-primary btn-shine font-mono text-xs font-semibold px-4 py-2 rounded">hire_me()</a>
+      <a href="#contact" class="btn-primary btn-shine font-mono text-sm font-semibold px-4 md:px-5 py-2.5 rounded">hire_me()</a>
     </div>
     <button id="menuBtn" class="lg:hidden text-mint text-2xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
