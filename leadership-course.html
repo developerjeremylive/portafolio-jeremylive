@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leadership Development — 6-Week Intensive | Jeremy Live</title>
+<meta name="description" content="The 6-Week Leadership Intensive with Jeremy Live — a systems-first leadership development program for founders and small-business leaders. Management, communication, strategy, sales & culture. $2,000 flat, 50/50 terms.">
+<meta name="theme-color" content="#0a0f0d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0f0d'/><text y='.9em' font-size='80' font-family='monospace' fill='%2334d399'>⌘</text></svg>">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink: '#0a0f0d',
+        panel: '#0e1512',
+        line: '#1c2b24',
+        mint: '#34d399',
+        mintdim: '#10b981',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      animation: {
+        'float-slow': 'floaty 8s ease-in-out infinite',
+        'float-slower': 'floaty 11s ease-in-out infinite reverse',
+        'spin-slow': 'spin 24s linear infinite',
+        'pulse-glow': 'pulseGlow 2.4s ease-in-out infinite',
+        'gradient-x': 'gradientX 8s ease infinite',
+      },
+      keyframes: {
+        floaty: {
+          '0%,100%': { transform: 'translateY(0) rotate(var(--rot,0deg))' },
+          '50%': { transform: 'translateY(-18px) rotate(var(--rot,0deg))' },
+        },
+        pulseGlow: {
+          '0%,100%': { boxShadow: '0 0 0 0 rgba(52,211,153,.35)' },
+          '50%': { boxShadow: '0 0 0 10px rgba(52,211,153,0)' },
+        },
+        gradientX: {
+          '0%,100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+      },
+    }
+  }
+}
+</script>
+<style>
+  :root {
+    --ink: #0a0f0d;
+    --panel: #0e1512;
+    --line: #1c2b24;
+    --mint: #34d399;
+    --mintdim: #10b981;
+  }
+  html { scrollbar-gutter: stable; }
+  body { background:#0a0f0d; color:#d1d5db; font-family:'Inter',sans-serif; overflow-x:hidden; }
+  ::selection { background:#34d399; color:#0a0f0d; }
+  ::-webkit-scrollbar { width:10px; }
+  ::-webkit-scrollbar-track { background:#0a0f0d; }
+  ::-webkit-scrollbar-thumb { background:#1c2b24; border-radius:6px; }
+  ::-webkit-scrollbar-thumb:hover { background:#34d399; }
+
+  :focus-visible { outline:2px solid #34d399; outline-offset:3px; border-radius:4px; }
+
+  /* ── Grid background with vignette ─────────────────── */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(52,211,153,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(52,211,153,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    position:relative;
+  }
+  .grid-bg::after {
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(ellipse 90% 60% at 50% 0%, transparent 40%, rgba(10,15,13,.55) 100%);
+  }
+
+  html, body { overflow-x:clip; }
+
+  .glow { text-shadow: 0 0 30px rgba(52,211,153,.45); }
+  .card { background:#0e1512; border:1px solid #1c2b24; transition: all .35s cubic-bezier(.4,0,.2,1); }
+  .card:hover { border-color:#34d399; transform:translateY(-4px); box-shadow:0 12px 40px -12px rgba(52,211,153,.25); }
+
+  /* ── Directional reveals ──────────────────────────── */
+  .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur {
+    opacity:0; transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1), filter .8s ease;
+    will-change: opacity, transform, filter;
+  }
+  .reveal { transform:translateY(32px); }
+  .reveal-left { transform:translateX(-48px); }
+  .reveal-right { transform:translateX(48px); }
+  .reveal-scale { transform:scale(.92); }
+  .reveal-blur { transform:translateY(24px); filter:blur(8px); }
+  .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible, .reveal-blur.visible {
+    opacity:1; transform:translate(0,0) scale(1); filter:blur(0);
+  }
+
+  .cursor-blink { animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+
+  .marquee { display:flex; width:max-content; animation: scroll 32s linear infinite; }
+  .marquee:hover { animation-play-state: paused; }
+  @keyframes scroll { to { transform:translateX(-50%); } }
+
+  .chip { font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.2rem .55rem;
+    border:1px solid #1c2b24; border-radius:9999px; color:#6ee7b7; background:rgba(52,211,153,.06); white-space:nowrap;
+    transition:all .25s ease; }
+  .chip:hover { border-color:#34d399; background:rgba(52,211,153,.14); transform:translateY(-2px); }
+
+  .btn-primary { background:#34d399; color:#0a0f0d; transition:all .3s; position:relative; }
+  .btn-primary:hover { background:#6ee7b7; box-shadow:0 0 30px rgba(52,211,153,.5); transform:translateY(-2px); }
+  .btn-primary:active { transform:translateY(0) scale(.97); }
+  .btn-ghost { border:1px solid #1c2b24; transition:all .3s; }
+  .btn-ghost:hover { border-color:#34d399; color:#34d399; transform:translateY(-2px); box-shadow:0 8px 24px -12px rgba(52,211,153,.3); }
+  .btn-ghost:active { transform:translateY(0) scale(.97); }
+
+  .nav-link { position:relative; }
+  .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:#34d399; transition:width .3s; }
+  .nav-link:hover::after, .nav-link.active::after { width:100%; }
+  .nav-link.active { color:#34d399; }
+
+  #progressBar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,#10b981,#34d399); z-index:60; width:0%; box-shadow:0 0 10px rgba(52,211,153,.8); }
+
+  /* ── Aurora ──────────────────────────────────────── */
+  .aurora { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .aurora::before, .aurora::after {
+    content:''; position:absolute; width:60vw; height:60vw; border-radius:50%;
+    filter:blur(90px); opacity:.16; animation: drift 18s ease-in-out infinite alternate;
+  }
+  .aurora::before { background:#34d399; top:-20%; left:-10%; }
+  .aurora::after { background:#10b981; bottom:-25%; right:-15%; animation-delay:-9s; }
+  @keyframes drift { from { transform:translate(0,0) scale(1); } to { transform:translate(8%,6%) scale(1.15); } }
+
+  .btn-shine { position:relative; overflow:hidden; }
+  .btn-shine::after {
+    content:''; position:absolute; top:0; left:-120%; width:60%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+    transform:skewX(-20deg); transition:left .6s ease;
+  }
+  .btn-shine:hover::after { left:140%; }
+
+  .card-shine { position:relative; overflow:hidden; }
+  .card-shine::before {
+    content:''; position:absolute; top:0; left:-120%; width:50%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(52,211,153,.07), transparent);
+    transform:skewX(-20deg); transition:left .7s ease;
+  }
+  .card-shine:hover::before { left:140%; }
+
+  /* ── Card UI/UX scale ────────────────────────────── */
+  .card {
+    position:relative; background:linear-gradient(180deg, rgba(20,29,25,.92), rgba(14,21,18,.97));
+    border:1px solid #1c2b24; transition:all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .card::after {
+    content:''; position:absolute; top:-1px; left:1.5rem; right:1.5rem; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(52,211,153,.55), transparent);
+    opacity:0; transition:opacity .35s ease;
+  }
+  .card:hover {
+    border-color:rgba(52,211,153,.45); transform:translateY(-6px);
+    box-shadow:0 16px 48px -16px rgba(52,211,153,.35), 0 0 0 1px rgba(52,211,153,.08);
+  }
+  .card:hover::after { opacity:1; }
+  .card-icon {
+    width:3rem; height:3rem; border-radius:.8rem; display:flex; align-items:center; justify-content:center;
+    background:rgba(52,211,153,.08); border:1px solid rgba(52,211,153,.22); font-size:1.5rem;
+    transition:all .35s cubic-bezier(.4,0,.2,1); flex-shrink:0;
+  }
+  .card:hover .card-icon { background:rgba(52,211,153,.16); border-color:rgba(52,211,153,.5); transform:scale(1.06) rotate(-4deg); box-shadow:0 0 24px -6px rgba(52,211,153,.5); }
+  .card-tag {
+    font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:.2rem .55rem; border-radius:9999px; border:1px solid #1c2b24; color:#6ee7b7;
+    background:rgba(52,211,153,.06); white-space:nowrap; transition:all .3s;
+  }
+  .card:hover .card-tag { border-color:rgba(52,211,153,.4); color:#34d399; }
+
+  /* ── Terminal window frame ───────────────────────── */
+  .term-window {
+    border:1px solid #1c2b24; border-radius:1rem; overflow:hidden;
+    background:rgba(14,21,18,.7); backdrop-filter:blur(6px);
+    box-shadow:0 24px 60px -30px rgba(0,0,0,.7);
+  }
+  .term-bar {
+    display:flex; align-items:center; gap:.45rem; padding:.7rem 1rem;
+    border-bottom:1px solid #1c2b24; background:rgba(10,15,13,.85);
+  }
+  .term-dot { width:.7rem; height:.7rem; border-radius:50%; flex-shrink:0; }
+  .term-dot.r { background:#f87171; }
+  .term-dot.y { background:#fbbf24; }
+  .term-dot.g { background:#34d399; }
+  .term-title { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:#6b7280; margin-left:.4rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .term-body { padding:1.25rem 1.25rem 1.5rem; }
+  .term-prompt { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:#6b7280; margin-bottom:1rem; }
+  .term-prompt .ps { color:#34d399; }
+
+  /* ── Experience cards ────────────────────────────── */
+  .exp-card {
+    position:relative; padding:1.25rem 1.5rem; border:1px solid #1c2b24; border-radius:.9rem;
+    background:linear-gradient(180deg, rgba(20,29,25,.85), rgba(14,21,18,.95));
+    transition:all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .exp-card::before {
+    content:''; position:absolute; left:-1px; top:1.25rem; bottom:1.25rem; width:2px;
+    background:linear-gradient(180deg, #34d399, rgba(52,211,153,.1));
+    border-radius:2px; opacity:.5; transition:opacity .3s;
+  }
+  .exp-card:hover { border-color:rgba(52,211,153,.4); transform:translateY(-3px); box-shadow:0 14px 40px -16px rgba(52,211,153,.3); }
+  .exp-card:hover::before { opacity:1; }
+  .exp-tag {
+    font-family:'JetBrains Mono',monospace; font-size:.68rem; color:#34d399;
+    border:1px solid rgba(52,211,153,.25); background:rgba(52,211,153,.08);
+    padding:.3rem .7rem; border-radius:9999px; white-space:nowrap;
+  }
+  .exp-role { font-size:1.05rem; font-weight:700; color:#fff; line-height:1.3; }
+  .exp-role .exp-arrow { color:#34d399; font-family:'JetBrains Mono',monospace; font-size:.85rem; transition:transform .3s; }
+  .exp-company { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#9ca3af; margin-top:.4rem; }
+  .exp-company .sep { color:#374151; }
+  .exp-desc { color:#9ca3af; font-size:.92rem; line-height:1.65; margin-top:.75rem; }
+
+  /* ── Contact ─────────────────────────────────────── */
+  .contact-mail-row {
+    display:flex; align-items:center; justify-content:center; gap:.9rem;
+    margin-top:1.6rem; flex-wrap:wrap;
+  }
+  .mail-chip {
+    font-family:'JetBrains Mono',monospace; font-size:.9rem; color:#6ee7b7;
+    border:1px solid rgba(52,211,153,.3); background:rgba(52,211,153,.07);
+    padding:.65rem 1.1rem; border-radius:.7rem; display:inline-flex; align-items:center; gap:.55rem;
+  }
+  .copy-mail-btn {
+    font-family:'JetBrains Mono',monospace; font-size:.7rem; color:#34d399; cursor:pointer;
+    border:1px solid rgba(52,211,153,.35); background:rgba(52,211,153,.08);
+    padding:.65rem 1.1rem; border-radius:.7rem; transition:all .3s;
+  }
+  .copy-mail-btn:hover { background:#34d399; color:#0a0f0d; box-shadow:0 0 24px rgba(52,211,153,.5); }
+  .copy-mail-btn.copied { background:#34d399; color:#0a0f0d; }
+
+  /* ── Cursor glow ─────────────────────────────────── */
+  #cursor-glow {
+    position:fixed; top:0; left:0; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(52,211,153,.07), transparent 65%);
+    pointer-events:none; z-index:1; transform:translate(-50%,-50%);
+    transition:opacity .4s ease; will-change:transform;
+  }
+
+  /* ── Back to top ─────────────────────────────────── */
+  #back-to-top {
+    position:fixed; bottom:1.5rem; right:1.5rem; z-index:55; width:3rem; height:3rem;
+    border-radius:50%; border:1px solid rgba(52,211,153,.35); background:rgba(14,21,18,.85);
+    backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center;
+    color:#34d399; cursor:pointer; opacity:0; pointer-events:none; transform:translateY(16px);
+    transition:all .4s cubic-bezier(.4,0,.2,1);
+  }
+  #back-to-top.show { opacity:1; pointer-events:auto; transform:translateY(0); }
+  #back-to-top:hover { box-shadow:0 0 24px rgba(52,211,153,.4); background:#34d399; color:#0a0f0d; }
+  #back-to-top svg { transition:transform .3s; }
+  #back-to-top:hover svg { transform:translateY(-3px); }
+
+  /* ── Section header number ───────────────────────── */
+  .section-num {
+    font-family:'JetBrains Mono',monospace; font-size:.8rem; color:#34d399;
+    border:1px solid rgba(52,211,153,.3); padding:.25rem .7rem; border-radius:9999px;
+    background:rgba(52,211,153,.06); letter-spacing:.05em;
+  }
+
+  /* ── Floating chips ──────────────────────────────── */
+  .float-chip {
+    position:absolute; font-family:'JetBrains Mono',monospace; font-size:.68rem;
+    padding:.45rem .8rem; border-radius:.6rem; border:1px solid rgba(52,211,153,.25);
+    background:rgba(14,21,18,.8); backdrop-filter:blur(6px); color:#6ee7b7;
+    box-shadow:0 12px 32px -12px rgba(0,0,0,.6); white-space:nowrap;
+    animation:floaty 9s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-16px); }
+  }
+
+  /* ── Stats cards ─────────────────────────────────── */
+  .stat-card {
+    position:relative; overflow:hidden; border:1px solid #1c2b24; border-radius:1rem;
+    padding:1.5rem 1rem; text-align:center; background:#0e1512; transition:all .35s ease;
+  }
+  .stat-card::before {
+    content:''; position:absolute; top:-40%; left:-40%; width:80%; height:80%;
+    background:radial-gradient(circle, rgba(52,211,153,.15), transparent 70%);
+    opacity:0; transition:opacity .4s ease;
+  }
+  .stat-card:hover::before { opacity:1; }
+  .stat-card:hover { transform:translateY(-4px); border-color:rgba(52,211,153,.4); }
+
+  /* ── Bento contact card ──────────────────────────── */
+  .contact-tile {
+    display:flex; flex-direction:column; gap:.6rem; padding:1.4rem;
+    border:1px solid #1c2b24; border-radius:1rem; background:#0e1512;
+    transition:all .35s cubic-bezier(.4,0,.2,1); position:relative; overflow:hidden;
+  }
+  .contact-tile:hover { border-color:#34d399; transform:translateY(-4px) scale(1.02); box-shadow:0 16px 40px -16px rgba(52,211,153,.4); }
+  .contact-tile .tile-icon {
+    width:2.6rem; height:2.6rem; border-radius:.7rem; display:flex; align-items:center; justify-content:center;
+    background:rgba(52,211,153,.1); border:1px solid rgba(52,211,153,.25); font-size:1.2rem; transition:all .3s;
+  }
+  .contact-tile:hover .tile-icon { background:#34d399; color:#0a0f0d; transform:scale(1.08) rotate(-6deg); }
+
+  /* ── Footer ──────────────────────────────────────── */
+  .footer-link { color:#6b7280; transition:color .3s, text-shadow .3s; }
+  .footer-link:hover { color:#34d399; text-shadow:0 0 12px rgba(52,211,153,.4); }
+  .footer-mail { transition:all .3s; }
+  .footer-mail:hover { text-shadow:0 0 14px rgba(52,211,153,.4); }
+
+
+  .footer-ver {
+    font-family:'JetBrains Mono',monospace; font-size:.75rem; color:#6b7280;
+    border:1px solid #1c2b24; padding:.35rem .7rem; border-radius:.5rem;
+    background:rgba(14,21,18,.6); transition:all .3s cubic-bezier(.4,0,.2,1);
+  }
+  .footer-ver:hover { border-color:#34d399; color:#34d399; transform:translateY(-2px); box-shadow:0 8px 20px -10px rgba(52,211,153,.4); }
+
+  /* ── Navbar polish ───────────────────────────────── */
+  #navbar .nav-link { transition:color .3s, text-shadow .3s; }
+  #navbar .nav-link:hover { text-shadow:0 0 12px rgba(52,211,153,.45); }
+
+  /* ── Reduced motion ──────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    html { scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body class="grid-bg antialiased">
+<div id="cursor-glow" aria-hidden="true"></div>
+<div id="progressBar"></div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-ink/80 border-b border-line transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="font-mono font-bold text-mint text-base lg:text-lg tracking-tight group flex items-center gap-1.5">
+      <span class="relative flex w-2 h-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-60"></span>
+        <span class="relative inline-flex rounded-full w-2 h-2 bg-mint"></span>
+      </span>
+      <span>jeremylive<span class="text-gray-500">@live.com</span></span>
+      <span class="cursor-blink text-mint">▊</span>
+    </a>
+    <div class="hidden lg:flex items-center gap-7 font-mono text-sm text-gray-400">
+      <a href="index.html" class="nav-link hover:text-mint transition"><span class="text-mint">00.</span> portfolio</a>
+      <a href="#system" class="nav-link hover:text-mint transition" data-spy="system"><span class="text-mint">01.</span> system</a>
+      <a href="#curriculum" class="nav-link hover:text-mint transition" data-spy="curriculum"><span class="text-mint">02.</span> curriculum</a>
+      <a href="#audience" class="nav-link hover:text-mint transition" data-spy="audience"><span class="text-mint">03.</span> audience</a>
+      <a href="#invest" class="nav-link hover:text-mint transition" data-spy="invest"><span class="text-mint">04.</span> invest</a>
+      <a href="#contact" class="nav-link hover:text-mint transition" data-spy="contact"><span class="text-mint">05.</span> contact</a>
+    </div>
+    <div class="hidden lg:flex items-center gap-3">
+      <a href="#invest" class="btn-primary btn-shine font-mono text-xs font-semibold px-4 py-2 rounded">enroll()</a>
+    </div>
+    <button id="menuBtn" class="lg:hidden text-mint text-2xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+
+  <!-- Mobile menu (slide-down) -->
+  <div id="mobileMenu" class="hidden lg:hidden border-t border-line bg-ink/95 backdrop-blur-md overflow-hidden">
+    <div class="flex flex-col px-6 py-4 gap-3 font-mono text-sm text-gray-300">
+      <a href="index.html" class="hover:text-mint py-1"><span class="text-mint">00.</span> portfolio</a>
+      <a href="#system" class="hover:text-mint py-1"><span class="text-mint">01.</span> system</a>
+      <a href="#curriculum" class="hover:text-mint py-1"><span class="text-mint">02.</span> curriculum</a>
+      <a href="#audience" class="hover:text-mint py-1"><span class="text-mint">03.</span> audience</a>
+      <a href="#invest" class="hover:text-mint py-1"><span class="text-mint">04.</span> invest</a>
+      <a href="#contact" class="hover:text-mint py-1"><span class="text-mint">05.</span> contact</a>
+      <div class="border-t border-line my-2"></div>
+      <a href="#invest" class="btn-primary font-mono text-xs font-semibold px-4 py-2.5 rounded text-center mt-3">enroll()</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header id="top" class="min-h-screen flex items-center relative pt-16 overflow-hidden">
+  <div class="aurora"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 20%, rgba(52,211,153,.08), transparent)"></div>
+
+  <!-- Floating chips -->
+  <div class="float-chip hidden lg:block" style="top:24%; right:8%; --rot:0deg;">⚙️ management</div>
+  <div class="float-chip hidden lg:block" style="top:40%; left:4%; --rot:0deg; animation-delay:-3s;">🗣️ communication</div>
+  <div class="float-chip hidden lg:block" style="bottom:28%; right:14%; --rot:0deg; animation-delay:-6s;">📈 strategy</div>
+  <div class="float-chip hidden lg:block" style="bottom:22%; left:12%; --rot:0deg; animation-delay:-1.5s;">🧭 culture</div>
+
+  <div class="max-w-6xl mx-auto px-6 w-full relative">
+    <p class="font-mono text-mint mb-5 reveal">$ ./leadership --intensive<span class="cursor-blink">▊</span></p>
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] reveal">
+      Leadership Development<span class="text-mint glow">.</span>
+    </h1>
+    <h2 class="mt-4 text-2xl md:text-4xl font-bold text-gray-500 reveal">
+      The <span class="text-mint">6-Week Leadership Intensive</span>
+    </h2>
+    <p class="mt-6 max-w-2xl text-gray-400 text-lg leading-relaxed reveal-blur">
+      Leadership isn't a title. It's a <span class="text-mint font-medium">system</span>.
+      I'm not a generic leadership coach — I'm a software engineer who builds systems,
+      and leadership is just another system. Six weeks to architect yours.
+    </p>
+    <div class="mt-10 flex flex-wrap gap-4 reveal">
+      <a href="#invest" class="btn-primary btn-shine font-mono text-sm font-semibold px-7 py-3.5 rounded">./start_intensive</a>
+      <a href="#curriculum" class="btn-ghost font-mono text-sm px-7 py-3.5 rounded text-gray-300">./read_curriculum</a>
+      <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-ghost font-mono text-sm px-7 py-3.5 rounded text-gray-300">linkedin ↗</a>
+    </div>
+
+    <!-- Stat row -->
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl reveal-scale">
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">6</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">weeks</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">1:1</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">coaching sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">50/50</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">payment terms</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">∞</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">playbooks</div>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-x-10 gap-y-4 font-mono text-xs text-gray-500 reveal">
+      <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-mint animate-pulse"></span> accepting new clients</span>
+      <span>📍 San José, Costa Rica · remote worldwide</span>
+      <span>⚙️ management · communication · strategy · sales · culture</span>
+    </div>
+  </div>
+
+  <a href="#system" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-600 hover:text-mint transition-colors hidden md:flex flex-col items-center gap-1 font-mono text-[10px] uppercase tracking-widest" aria-label="Scroll to system">
+    scroll
+    <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+  </a>
+</header>
+
+<!-- ══════════ MARQUEE ══════════ -->
+<div class="border-y border-line py-4 overflow-hidden bg-panel/50">
+  <div class="marquee font-mono text-sm text-gray-500 gap-10">
+    <div class="flex gap-10 shrink-0">
+      <span>Management</span><span class="text-mint">✦</span><span>Communication</span><span class="text-mint">✦</span><span>Strategy</span><span class="text-mint">✦</span><span>Sales</span><span class="text-mint">✦</span><span>Culture</span><span class="text-mint">✦</span><span>1:1 Structures</span><span class="text-mint">✦</span><span>Accountability</span><span class="text-mint">✦</span><span>Playbooks</span><span class="text-mint">✦</span><span>Scaling</span><span class="text-mint">✦</span>
+    </div>
+    <div class="flex gap-10 shrink-0" aria-hidden="true">
+      <span>Management</span><span class="text-mint">✦</span><span>Communication</span><span class="text-mint">✦</span><span>Strategy</span><span class="text-mint">✦</span><span>Sales</span><span class="text-mint">✦</span><span>Culture</span><span class="text-mint">✦</span><span>1:1 Structures</span><span class="text-mint">✦</span><span>Accountability</span><span class="text-mint">✦</span><span>Playbooks</span><span class="text-mint">✦</span><span>Scaling</span><span class="text-mint">✦</span>
+    </div>
+  </div>
+</div>
+<!-- ══════════ THE SYSTEM ══════════ -->
+<section id="system" class="py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">01</span>
+      <span class="font-mono text-xs text-gray-500">~ the_system</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-6 reveal">Leadership isn't a title. It's a system.</h4>
+    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">
+      Most leadership coaching hands you a list of soft skills and hopes for the best.
+      I do the opposite. As a software engineer, I've spent a decade architecting
+      systems that run reliably under load — and leadership is just another system.
+      We'll design yours the same way: <span class="text-mint font-medium">processes, feedback loops, and clear interfaces</span>.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-6 mt-12">
+      <div class="card card-shine rounded-xl p-6 reveal-left">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">⚙️</span>
+          <span class="card-tag">differentiator</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">I'm not a generic leadership coach.</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">I build systems — and leadership is just another system. Every framework you get is a repeatable process, not a personality lecture.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-right" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🧠</span>
+          <span class="card-tag">process architecture</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">Systems thinking, applied to people.</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Information flow, decision paths, accountability chains — the same architecture that keeps software running keeps teams running.</p>
+      </div>
+    </div>
+
+    <div class="mt-12 grid grid-cols-2 md:grid-cols-5 gap-4 reveal-scale">
+      <div class="stat-card"><div class="text-sm font-bold text-mint">Management</div><div class="text-xs font-mono text-gray-500 mt-1">pillar</div></div>
+      <div class="stat-card"><div class="text-sm font-bold text-mint">Communication</div><div class="text-xs font-mono text-gray-500 mt-1">pillar</div></div>
+      <div class="stat-card"><div class="text-sm font-bold text-mint">Strategy</div><div class="text-xs font-mono text-gray-500 mt-1">pillar</div></div>
+      <div class="stat-card"><div class="text-sm font-bold text-mint">Sales</div><div class="text-xs font-mono text-gray-500 mt-1">pillar</div></div>
+      <div class="stat-card"><div class="text-sm font-bold text-mint">Culture</div><div class="text-xs font-mono text-gray-500 mt-1">pillar</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ THE PROBLEM ══════════ -->
+<section id="problem" class="py-28 bg-panel/40 border-y border-line">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">02</span>
+      <span class="font-mono text-xs text-gray-500">~ why_leadership_fails</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-6 reveal">Why leadership fails</h4>
+    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">It's rarely a talent problem. It's almost always a <span class="text-mint font-medium">systems problem</span> — and systems can be fixed.</p>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="card card-shine rounded-xl p-6 reveal-scale">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">👻</span>
+          <span class="card-tag">handoff</span>
+        </div>
+        <h5 class="font-bold text-white">"My last developer ghosted at 80%."</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Work stalls at the finish line because there's no ownership interface — no clear definition of done, no accountability chain.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🔀</span>
+          <span class="card-tag">handoff</span>
+        </div>
+        <h5 class="font-bold text-white">Handoffs between crews &amp; PMs break.</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Information dies in transit. Field leaders and project managers speak different languages because there's no shared protocol.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">📉</span>
+          <span class="card-tag">scale</span>
+        </div>
+        <h5 class="font-bold text-white">Leadership systems don't scale.</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">What worked with 3 people collapses at 30. The founder's habits become the bottleneck — and the company culture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ══════════ CURRICULUM ══════════ -->
+<section id="curriculum" class="py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">03</span>
+      <span class="font-mono text-xs text-gray-500">~ curriculum</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">The 3-Phase Curriculum</h4>
+    <p class="text-gray-500 mb-14 max-w-xl reveal">Six weeks. Three phases. One documented, scalable leadership system.</p>
+
+    <div class="term-window reveal">
+      <div class="term-bar">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+        <span class="term-title">jeremylive@live.com: ~/leadership_roadmap.log</span>
+      </div>
+      <div class="term-body space-y-5">
+        <div class="term-prompt"><span class="ps">$</span> cat leadership_roadmap.log</div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Phase 1 · Week 1</span>
+            <span class="font-mono text-xs text-gray-600">Leadership Audit</span>
+          </div>
+          <h5 class="exp-role mt-3">Map your current system before you change it.</h5>
+          <p class="exp-desc">A 1:1 deep-dive mapping your current management style, communication bottlenecks and strategic gaps. For teams under 50, the founder's leadership <span class="text-mint font-mono text-xs">is</span> the company culture — so we audit it like production code before refactoring.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">management style</span><span class="chip">bottlenecks</span><span class="chip">strategic gaps</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Phase 2 · Weeks 2-3</span>
+            <span class="font-mono text-xs text-gray-600">Communication &amp; Culture Framework</span>
+          </div>
+          <h5 class="exp-role mt-3">Repeatable systems for how your team runs.</h5>
+          <p class="exp-desc">How information flows, how decisions get made, team communication protocols, 1:1 structures, conflict de-escalation, and daily huddle structures that take <span class="text-mint font-mono text-xs">10 minutes</span> but prevent <span class="text-mint font-mono text-xs">4-hour delays</span> — plus the accountability chains that make it stick.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">info flow</span><span class="chip">decision-making</span><span class="chip">1:1 structures</span><span class="chip">conflict de-escalation</span><span class="chip">daily huddles</span><span class="chip">accountability</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Phase 3 · Weeks 4-6</span>
+            <span class="font-mono text-xs text-gray-600">Strategy &amp; Sales Alignment Playbook</span>
+          </div>
+          <h5 class="exp-role mt-3">Connect revenue to reality.</h5>
+          <p class="exp-desc">Connect revenue goals to operational reality, optimize your sales process, and walk away with a documented, scalable leadership playbook that works whether you're on-site or not.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">revenue alignment</span><span class="chip">sales optimization</span><span class="chip">scalable playbook</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHAT'S INCLUDED ══════════ -->
+<section id="included" class="py-28 bg-panel/40 border-y border-line">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">04</span>
+      <span class="font-mono text-xs text-gray-500">~ whats_included</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-14 reveal">What's included</h4>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card card-shine rounded-xl p-6 reveal-scale">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🎯</span>
+          <span class="card-tag">1:1</span>
+        </div>
+        <h5 class="font-bold text-white">Six 60-min coaching sessions</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Direct, weekly 1:1 sessions with you — the leader. Not a group webinar, not a video library.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.06s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🧭</span>
+          <span class="card-tag">framework</span>
+        </div>
+        <h5 class="font-bold text-white">Team leadership framework</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">A repeatable operating model your whole team can adopt — not a one-off pep talk.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.12s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🛠️</span>
+          <span class="card-tag">workshops</span>
+        </div>
+        <h5 class="font-bold text-white">Workshops</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Hands-on sessions to put the frameworks into practice with your real team and real situations.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.18s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">📘</span>
+          <span class="card-tag">playbooks</span>
+        </div>
+        <h5 class="font-bold text-white">Actionable playbooks &amp; templates</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Custom playbooks and templates you can deploy immediately — documented, not vague.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.24s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">💬</span>
+          <span class="card-tag">access</span>
+        </div>
+        <h5 class="font-bold text-white">Direct access between sessions</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Reach me directly via Slack or LinkedIn between sessions when a real decision comes up.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.3s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">📈</span>
+          <span class="card-tag">outcome</span>
+        </div>
+        <h5 class="font-bold text-white">A documented leadership system</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">You leave with a written, scalable playbook that works whether you're on-site or not.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ══════════ AUDIENCE ══════════ -->
+<section id="audience" class="py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">05</span>
+      <span class="font-mono text-xs text-gray-500">~ who_its_for</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-6 reveal">Who it's for</h4>
+    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">If you're leading people and your systems haven't caught up with your ambition, this program is for you.</p>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="card card-shine rounded-xl p-6 reveal-scale">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🚀</span>
+          <span class="card-tag">founders</span>
+        </div>
+        <h5 class="font-bold text-white">Founders &amp; small-business leaders</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Your leadership is your company culture. Build systems so the business runs without you in every room.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🏗️</span>
+          <span class="card-tag">field leaders</span>
+        </div>
+        <h5 class="font-bold text-white">Project Foreman-style field leaders</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">The people who run crews on the ground — where handoffs between crews and PMs decide whether projects ship on time.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">📈</span>
+          <span class="card-tag">scaling teams</span>
+        </div>
+        <h5 class="font-bold text-white">Teams scaling past their first hires</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">The moment your playbook stops working is the moment you need one. If you're hiring your 2nd or your 50th, systems scale — charisma doesn't.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 grid md:grid-cols-3 gap-4 reveal-scale">
+      <div class="stat-card">
+        <div class="text-2xl font-extrabold text-mint glow">1</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">leader · yourself</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-2xl font-extrabold text-mint glow">&lt;50</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">employees · small business</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-2xl font-extrabold text-mint glow">&gt;50</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">employees · large business</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INVESTMENT ══════════ -->
+<section id="invest" class="py-28 bg-panel/40 border-y border-line relative overflow-hidden">
+  <div class="aurora"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 30%, rgba(52,211,153,.07), transparent)"></div>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">06</span>
+      <span class="font-mono text-xs text-gray-500">~ investment</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-6 reveal">Investment</h4>
+
+    <div class="grid md:grid-cols-2 gap-8 mt-10 items-start">
+      <!-- Primary pricing card -->
+      <div class="card card-shine rounded-xl p-8 reveal-left border-mint/30">
+        <div class="flex items-center justify-between mb-5">
+          <span class="card-icon text-3xl">⚡</span>
+          <span class="card-tag">the intensive</span>
+        </div>
+        <h5 class="text-xl font-bold text-white">6-Week Leadership Intensive</h5>
+        <p class="font-mono text-sm text-gray-500 mt-1">leadership_intensive · 6 weeks · 1:1</p>
+        <div class="mt-6 flex items-end gap-2">
+          <span class="text-5xl md:text-6xl font-extrabold text-mint glow">$2,000</span>
+          <span class="font-mono text-sm text-gray-500 mb-2">flat</span>
+        </div>
+        <div class="mt-6 space-y-3">
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Six 1:1 60-min coaching sessions with the leader</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Team leadership framework &amp; workshops</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Custom playbooks &amp; templates</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Direct access via Slack / LinkedIn between sessions</span>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-line pt-5">
+          <div class="font-mono text-xs text-gray-500 mb-2">payment terms</div>
+          <div class="flex flex-wrap gap-3 font-mono text-xs">
+            <span class="chip">50% upfront to begin</span>
+            <span class="chip">50% at week 3</span>
+          </div>
+        </div>
+        <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-primary btn-shine font-mono text-sm font-semibold px-7 py-3.5 rounded inline-flex items-center justify-center mt-8 w-full">start the intensive ↗</a>
+      </div>
+
+      <!-- Retainer card -->
+      <div class="card card-shine rounded-xl p-8 reveal-right">
+        <div class="flex items-center justify-between mb-5">
+          <span class="card-icon text-3xl">🛰️</span>
+          <span class="card-tag">optional</span>
+        </div>
+        <h5 class="text-xl font-bold text-white">Monthly Leadership Advisory Retainer</h5>
+        <p class="font-mono text-sm text-gray-500 mt-1">keep the momentum going</p>
+        <div class="mt-6 flex items-end gap-2">
+          <span class="text-5xl md:text-6xl font-extrabold text-mint">$1,200</span>
+          <span class="font-mono text-sm text-gray-500 mb-2">/mo</span>
+        </div>
+        <div class="mt-6 space-y-3">
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Fractional leadership advisor on call</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Ongoing system tuning as you scale</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>New hires · new phases · new problems</span>
+          </div>
+        </div>
+        <p class="mt-8 text-sm text-gray-500 leading-relaxed">Graduates of the Intensive can continue with advisory support to keep the leadership system running as the business grows.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center reveal">
+      <p class="font-mono text-base md:text-lg text-mint glow">"This isn't an expense — it's infrastructure for your management system."</p>
+    </div>
+
+    <div class="mt-12 text-center reveal-scale">
+      <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-primary btn-shine font-mono text-base font-semibold px-10 py-4 rounded inline-flex items-center gap-2">book a 20-min diagnostic call — no pitch. just diagnosis. ↗</a>
+    </div>
+  </div>
+</section>
+<!-- ══════════ CLOSING CTA / CONTACT ══════════ -->
+<section id="contact" class="py-32 relative overflow-hidden">
+  <div class="aurora"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 80%, rgba(52,211,153,.07), transparent)"></div>
+  <div class="max-w-5xl mx-auto px-6 text-center relative">
+    <div class="flex items-center justify-center gap-4 mb-4 reveal">
+      <span class="section-num">07</span>
+      <span class="font-mono text-xs text-gray-500">~ start</span>
+    </div>
+    <h4 class="text-4xl md:text-5xl font-extrabold text-white reveal">Let's architect your <span class="text-mint glow">leadership system</span>.</h4>
+    <p class="text-gray-400 mt-6 max-w-2xl mx-auto leading-relaxed reveal">Book a 20-minute diagnostic call. No pitch — just a diagnosis of where your leadership system is leaking, and whether the Intensive is the right fit.</p>
+
+    <div class="mt-12 flex flex-wrap justify-center gap-4 reveal">
+      <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-primary btn-shine font-mono text-sm font-semibold px-8 py-4 rounded">book_diagnostic --linkedin ↗</a>
+      <a href="index.html#contact" class="btn-ghost font-mono text-sm px-8 py-4 rounded text-gray-300">portfolio_contact</a>
+    </div>
+
+    <div class="mt-12 inline-flex items-center gap-2.5 font-mono text-xs text-gray-500 reveal">
+      <span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+      accepting new clients · limited slots
+    </div>
+
+    <div class="mt-10 card rounded-xl p-6 max-w-xl mx-auto text-left reveal-scale">
+      <div class="flex items-center gap-3">
+        <span class="card-icon text-2xl">🧑‍💻</span>
+        <div>
+          <div class="font-semibold text-white">Your instructor</div>
+          <div class="text-xs font-mono text-gray-500 mt-0.5">Jeremy Live · Software Engineer building leadership systems</div>
+        </div>
+      </div>
+      <p class="text-sm text-gray-400 mt-4 leading-relaxed">I'm not a generic leadership coach. I build systems — and leadership is just another system. Let's build yours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="relative border-t border-line pt-14 pb-10 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 100%, rgba(52,211,153,.06), transparent)"></div>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="grid md:grid-cols-3 gap-10 md:gap-8">
+
+      <div>
+        <a href="#top" class="font-mono font-bold text-mint text-base tracking-tight inline-flex items-center gap-1.5">
+          <span class="relative flex w-2 h-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-60"></span>
+            <span class="relative inline-flex rounded-full w-2 h-2 bg-mint"></span>
+          </span>
+          jeremylive<span class="text-gray-500">@live.com</span>
+        </a>
+        <p class="text-sm text-gray-500 mt-4 leading-relaxed max-w-xs">Leadership Development — the 6-Week Leadership Intensive. Systems-first leadership coaching from San José, Costa Rica 🇨🇷</p>
+        <a href="mailto:jeremylive@live.com" class="footer-mail inline-flex items-center gap-2 mt-5 font-mono text-sm text-gray-400 hover:text-mint transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          jeremylive@live.com
+        </a>
+      </div>
+
+      <div class="md:justify-self-center">
+        <div class="font-mono text-[11px] uppercase tracking-widest text-gray-600 mb-5">$ ls ./sections</div>
+        <nav class="grid grid-cols-2 gap-x-8 gap-y-3 font-mono text-sm">
+          <a href="index.html" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">00.</span> portfolio</a>
+          <a href="#system" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">01.</span> system</a>
+          <a href="#curriculum" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">02.</span> curriculum</a>
+          <a href="#audience" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">03.</span> audience</a>
+          <a href="#invest" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">04.</span> invest</a>
+          <a href="#contact" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">05.</span> contact</a>
+        </nav>
+      </div>
+
+      <div class="md:justify-self-end">
+        <div class="font-mono text-[11px] uppercase tracking-widest text-gray-600 mb-5">$ ls --programs</div>
+        <div class="flex items-center gap-3">
+          <a href="#invest" class="footer-ver group" title="6-Week Intensive">[intensive]</a>
+          <a href="#invest" class="footer-ver group" title="Monthly Advisory Retainer">[retainer]</a>
+        </div>
+        <div class="mt-6 inline-flex items-center gap-2.5 font-mono text-xs text-gray-500">
+          <span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+          accepting new clients
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-gray-600">
+      <span>© 2026 Jeremy José Live González — San José, Costa Rica</span>
+      <div class="flex items-center gap-4">
+        <span>leadership is a <span class="text-mint">system</span></span>
+        <span class="text-gray-700 hidden sm:inline">|</span>
+        <a href="mailto:jeremylive@live.com" class="hover:text-mint transition">jeremylive@live.com</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ BACK TO TOP ══════════ -->
+<button id="back-to-top" aria-label="Back to top">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
+</button>
+
+<script>
+  (function () {
+    'use strict';
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── Scroll reveal (directional) ───────────────── */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur');
+    const revealIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealIO.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealIO.observe(el));
+
+    /* ── Progress bar + navbar shrink + scrollspy ──── */
+    const navbar = document.getElementById('navbar');
+    const progressBar = document.getElementById('progressBar');
+    const backToTop = document.getElementById('back-to-top');
+    const spyLinks = Array.from(document.querySelectorAll('[data-spy]'));
+    const sections = spyLinks.map(l => document.getElementById(l.dataset.spy)).filter(Boolean);
+
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const h = document.documentElement;
+        const y = h.scrollTop || document.body.scrollTop;
+        const max = h.scrollHeight - h.clientHeight;
+        if (progressBar) progressBar.style.width = (max > 0 ? (y / max * 100) : 0) + '%';
+        if (backToTop) backToTop.classList.toggle('show', y > 600);
+        if (navbar) navbar.classList.toggle('shadow-lg', y > 40);
+        const navH = 110;
+        let current = sections[0];
+        if (max - y <= 2 && sections.length) {
+          current = sections[sections.length - 1];
+        } else {
+          sections.forEach(sec => {
+            if (sec && sec.getBoundingClientRect().top <= navH) current = sec;
+          });
+        }
+        spyLinks.forEach(l => l.classList.toggle('active', current && l.dataset.spy === current.id));
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+    /* ── Cursor glow ───────────────────────────────── */
+    const cursorGlow = document.getElementById('cursor-glow');
+    if (cursorGlow && window.matchMedia('(pointer: fine)').matches && !reduceMotion) {
+      let cx = innerWidth / 2, cy = innerHeight / 3, tx = cx, ty = cy;
+      document.addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; });
+      (function loop() {
+        cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+        cursorGlow.style.transform = 'translate(' + (cx - 210) + 'px,' + (cy - 210) + 'px)';
+        requestAnimationFrame(loop);
+      })();
+    } else if (cursorGlow) {
+      cursorGlow.style.display = 'none';
+    }
+
+    /* ── Mobile menu ───────────────────────────────── */
+    const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.textContent = open ? '✕' : '☰';
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.textContent = '☰';
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }));
+  })();
+</script>
+</body>
+</html>
+
