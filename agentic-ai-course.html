@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI in Production — The 4 Open-Source Projects Course | Jeremy Live</title>
+<meta name="description" content="Learn to build production-grade agentic AI products — not MVPs — with 4 open-source agentic projects: opencode, openclaw-etheroi, hermes-agent-etheroi and openclaude. Full syllabus, hands-on modules and a production capstone. Taught by Jeremy Live (etheroi.com, 2026).">
+<meta name="theme-color" content="#0a0f0d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0f0d'/><text y='.9em' font-size='80' font-family='monospace' fill='%2334d399'>⌘</text></svg>">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink: '#0a0f0d',
+        panel: '#0e1512',
+        line: '#1c2b24',
+        mint: '#34d399',
+        mintdim: '#10b981',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      animation: {
+        'float-slow': 'floaty 8s ease-in-out infinite',
+        'float-slower': 'floaty 11s ease-in-out infinite reverse',
+        'spin-slow': 'spin 24s linear infinite',
+        'pulse-glow': 'pulseGlow 2.4s ease-in-out infinite',
+        'gradient-x': 'gradientX 8s ease infinite',
+      },
+      keyframes: {
+        floaty: {
+          '0%,100%': { transform: 'translateY(0) rotate(var(--rot,0deg))' },
+          '50%': { transform: 'translateY(-18px) rotate(var(--rot,0deg))' },
+        },
+        pulseGlow: {
+          '0%,100%': { boxShadow: '0 0 0 0 rgba(52,211,153,.35)' },
+          '50%': { boxShadow: '0 0 0 10px rgba(52,211,153,0)' },
+        },
+        gradientX: {
+          '0%,100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+      },
+    }
+  }
+}
+</script>
+<style>
+  :root {
+    --ink: #0a0f0d;
+    --panel: #0e1512;
+    --line: #1c2b24;
+    --mint: #34d399;
+    --mintdim: #10b981;
+  }
+  html { scrollbar-gutter: stable; }
+  body { background:#0a0f0d; color:#d1d5db; font-family:'Inter',sans-serif; overflow-x:hidden; }
+  ::selection { background:#34d399; color:#0a0f0d; }
+  ::-webkit-scrollbar { width:10px; }
+  ::-webkit-scrollbar-track { background:#0a0f0d; }
+  ::-webkit-scrollbar-thumb { background:#1c2b24; border-radius:6px; }
+  ::-webkit-scrollbar-thumb:hover { background:#34d399; }
+
+  :focus-visible { outline:2px solid #34d399; outline-offset:3px; border-radius:4px; }
+
+  /* ── Grid background with vignette ─────────────────── */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(52,211,153,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(52,211,153,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    position:relative;
+  }
+  .grid-bg::after {
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(ellipse 90% 60% at 50% 0%, transparent 40%, rgba(10,15,13,.55) 100%);
+  }
+
+  html, body { overflow-x:clip; }
+
+  .glow { text-shadow: 0 0 30px rgba(52,211,153,.45); }
+  .card { background:#0e1512; border:1px solid #1c2b24; transition: all .35s cubic-bezier(.4,0,.2,1); }
+  .card:hover { border-color:#34d399; transform:translateY(-4px); box-shadow:0 12px 40px -12px rgba(52,211,153,.25); }
+
+  /* ── Directional reveals ──────────────────────────── */
+  .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur {
+    opacity:0; transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1), filter .8s ease;
+    will-change: opacity, transform, filter;
+  }
+  .reveal { transform:translateY(32px); }
+  .reveal-left { transform:translateX(-48px); }
+  .reveal-right { transform:translateX(48px); }
+  .reveal-scale { transform:scale(.92); }
+  .reveal-blur { transform:translateY(24px); filter:blur(8px); }
+  .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible, .reveal-blur.visible {
+    opacity:1; transform:translate(0,0) scale(1); filter:blur(0);
+  }
+
+  .cursor-blink { animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+
+  .marquee { display:flex; width:max-content; animation: scroll 32s linear infinite; }
+  .marquee:hover { animation-play-state: paused; }
+  @keyframes scroll { to { transform:translateX(-50%); } }
+
+  .chip { font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:.2rem .55rem;
+    border:1px solid #1c2b24; border-radius:9999px; color:#6ee7b7; background:rgba(52,211,153,.06); white-space:nowrap;
+    transition:all .25s ease; }
+  .chip:hover { border-color:#34d399; background:rgba(52,211,153,.14); transform:translateY(-2px); }
+
+  .btn-primary { background:#34d399; color:#0a0f0d; transition:all .3s; position:relative; }
+  .btn-primary:hover { background:#6ee7b7; box-shadow:0 0 30px rgba(52,211,153,.5); transform:translateY(-2px); }
+  .btn-primary:active { transform:translateY(0) scale(.97); }
+  .btn-ghost { border:1px solid #1c2b24; transition:all .3s; }
+  .btn-ghost:hover { border-color:#34d399; color:#34d399; transform:translateY(-2px); box-shadow:0 8px 24px -12px rgba(52,211,153,.3); }
+  .btn-ghost:active { transform:translateY(0) scale(.97); }
+
+  .nav-link { position:relative; }
+  .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:#34d399; transition:width .3s; }
+  .nav-link:hover::after, .nav-link.active::after { width:100%; }
+  .nav-link.active { color:#34d399; }
+
+  #progressBar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,#10b981,#34d399); z-index:60; width:0%; box-shadow:0 0 10px rgba(52,211,153,.8); }
+
+  /* ── Aurora ──────────────────────────────────────── */
+  .aurora { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .aurora::before, .aurora::after {
+    content:''; position:absolute; width:60vw; height:60vw; border-radius:50%;
+    filter:blur(90px); opacity:.16; animation: drift 18s ease-in-out infinite alternate;
+  }
+  .aurora::before { background:#34d399; top:-20%; left:-10%; }
+  .aurora::after { background:#10b981; bottom:-25%; right:-15%; animation-delay:-9s; }
+  @keyframes drift { from { transform:translate(0,0) scale(1); } to { transform:translate(8%,6%) scale(1.15); } }
+
+  .btn-shine { position:relative; overflow:hidden; }
+  .btn-shine::after {
+    content:''; position:absolute; top:0; left:-120%; width:60%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+    transform:skewX(-20deg); transition:left .6s ease;
+  }
+  .btn-shine:hover::after { left:140%; }
+
+  .card-shine { position:relative; overflow:hidden; }
+  .card-shine::before {
+    content:''; position:absolute; top:0; left:-120%; width:50%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(52,211,153,.07), transparent);
+    transform:skewX(-20deg); transition:left .7s ease;
+  }
+  .card-shine:hover::before { left:140%; }
+
+  /* ── Card UI/UX scale ────────────────────────────── */
+  .card {
+    position:relative; background:linear-gradient(180deg, rgba(20,29,25,.92), rgba(14,21,18,.97));
+    border:1px solid #1c2b24; transition:all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .card::after {
+    content:''; position:absolute; top:-1px; left:1.5rem; right:1.5rem; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(52,211,153,.55), transparent);
+    opacity:0; transition:opacity .35s ease;
+  }
+  .card:hover {
+    border-color:rgba(52,211,153,.45); transform:translateY(-6px);
+    box-shadow:0 16px 48px -16px rgba(52,211,153,.35), 0 0 0 1px rgba(52,211,153,.08);
+  }
+  .card:hover::after { opacity:1; }
+  .card-icon {
+    width:3rem; height:3rem; border-radius:.8rem; display:flex; align-items:center; justify-content:center;
+    background:rgba(52,211,153,.08); border:1px solid rgba(52,211,153,.22); font-size:1.5rem;
+    transition:all .35s cubic-bezier(.4,0,.2,1); flex-shrink:0;
+  }
+  .card:hover .card-icon { background:rgba(52,211,153,.16); border-color:rgba(52,211,153,.5); transform:scale(1.06) rotate(-4deg); box-shadow:0 0 24px -6px rgba(52,211,153,.5); }
+  .card-tag {
+    font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:.2rem .55rem; border-radius:9999px; border:1px solid #1c2b24; color:#6ee7b7;
+    background:rgba(52,211,153,.06); white-space:nowrap; transition:all .3s;
+  }
+  .card:hover .card-tag { border-color:rgba(52,211,153,.4); color:#34d399; }
+
+  /* ── Terminal window frame ───────────────────────── */
+  .term-window {
+    border:1px solid #1c2b24; border-radius:1rem; overflow:hidden;
+    background:rgba(14,21,18,.7); backdrop-filter:blur(6px);
+    box-shadow:0 24px 60px -30px rgba(0,0,0,.7);
+  }
+  .term-bar {
+    display:flex; align-items:center; gap:.45rem; padding:.7rem 1rem;
+    border-bottom:1px solid #1c2b24; background:rgba(10,15,13,.85);
+  }
+  .term-dot { width:.7rem; height:.7rem; border-radius:50%; flex-shrink:0; }
+  .term-dot.r { background:#f87171; }
+  .term-dot.y { background:#fbbf24; }
+  .term-dot.g { background:#34d399; }
+  .term-title { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:#6b7280; margin-left:.4rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .term-body { padding:1.25rem 1.25rem 1.5rem; }
+  .term-prompt { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:#6b7280; margin-bottom:1rem; }
+  .term-prompt .ps { color:#34d399; }
+
+  /* ── Experience cards ────────────────────────────── */
+  .exp-card {
+    position:relative; padding:1.25rem 1.5rem; border:1px solid #1c2b24; border-radius:.9rem;
+    background:linear-gradient(180deg, rgba(20,29,25,.85), rgba(14,21,18,.95));
+    transition:all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .exp-card::before {
+    content:''; position:absolute; left:-1px; top:1.25rem; bottom:1.25rem; width:2px;
+    background:linear-gradient(180deg, #34d399, rgba(52,211,153,.1));
+    border-radius:2px; opacity:.5; transition:opacity .3s;
+  }
+  .exp-card:hover { border-color:rgba(52,211,153,.4); transform:translateY(-3px); box-shadow:0 14px 40px -16px rgba(52,211,153,.3); }
+  .exp-card:hover::before { opacity:1; }
+  .exp-tag {
+    font-family:'JetBrains Mono',monospace; font-size:.68rem; color:#34d399;
+    border:1px solid rgba(52,211,153,.25); background:rgba(52,211,153,.08);
+    padding:.3rem .7rem; border-radius:9999px; white-space:nowrap;
+  }
+  .exp-role { font-size:1.05rem; font-weight:700; color:#fff; line-height:1.3; }
+  .exp-company { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#9ca3af; margin-top:.4rem; }
+  .exp-company .sep { color:#374151; }
+  .exp-desc { color:#9ca3af; font-size:.92rem; line-height:1.65; margin-top:.75rem; }
+
+  /* ── Contact ─────────────────────────────────────── */
+  .contact-mail-row {
+    display:flex; align-items:center; justify-content:center; gap:.9rem;
+    margin-top:1.6rem; flex-wrap:wrap;
+  }
+  .mail-chip {
+    font-family:'JetBrains Mono',monospace; font-size:.9rem; color:#6ee7b7;
+    border:1px solid rgba(52,211,153,.3); background:rgba(52,211,153,.07);
+    padding:.65rem 1.1rem; border-radius:.7rem; display:inline-flex; align-items:center; gap:.55rem;
+  }
+  .copy-mail-btn {
+    font-family:'JetBrains Mono',monospace; font-size:.7rem; color:#34d399; cursor:pointer;
+    border:1px solid rgba(52,211,153,.35); background:rgba(52,211,153,.08);
+    padding:.65rem 1.1rem; border-radius:.7rem; transition:all .3s;
+  }
+  .copy-mail-btn:hover { background:#34d399; color:#0a0f0d; box-shadow:0 0 24px rgba(52,211,153,.5); }
+  .copy-mail-btn.copied { background:#34d399; color:#0a0f0d; }
+
+  /* ── Cursor glow ─────────────────────────────────── */
+  #cursor-glow {
+    position:fixed; top:0; left:0; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(52,211,153,.07), transparent 65%);
+    pointer-events:none; z-index:1; transform:translate(-50%,-50%);
+    transition:opacity .4s ease; will-change:transform;
+  }
+
+  /* ── Back to top ─────────────────────────────────── */
+  #back-to-top {
+    position:fixed; bottom:1.5rem; right:1.5rem; z-index:55; width:3rem; height:3rem;
+    border-radius:50%; border:1px solid rgba(52,211,153,.35); background:rgba(14,21,18,.85);
+    backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center;
+    color:#34d399; cursor:pointer; opacity:0; pointer-events:none; transform:translateY(16px);
+    transition:all .4s cubic-bezier(.4,0,.2,1);
+  }
+  #back-to-top.show { opacity:1; pointer-events:auto; transform:translateY(0); }
+  #back-to-top:hover { box-shadow:0 0 24px rgba(52,211,153,.4); background:#34d399; color:#0a0f0d; }
+  #back-to-top svg { transition:transform .3s; }
+  #back-to-top:hover svg { transform:translateY(-3px); }
+
+  /* ── Section header number ───────────────────────── */
+  .section-num {
+    font-family:'JetBrains Mono',monospace; font-size:.8rem; color:#34d399;
+    border:1px solid rgba(52,211,153,.3); padding:.25rem .7rem; border-radius:9999px;
+    background:rgba(52,211,153,.06); letter-spacing:.05em;
+  }
+
+  /* ── Floating chips ──────────────────────────────── */
+  .float-chip {
+    position:absolute; font-family:'JetBrains Mono',monospace; font-size:.68rem;
+    padding:.45rem .8rem; border-radius:.6rem; border:1px solid rgba(52,211,153,.25);
+    background:rgba(14,21,18,.8); backdrop-filter:blur(6px); color:#6ee7b7;
+    box-shadow:0 12px 32px -12px rgba(0,0,0,.6); white-space:nowrap;
+    animation:floaty 9s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-16px); }
+  }
+
+  /* ── Stats cards ─────────────────────────────────── */
+  .stat-card {
+    position:relative; overflow:hidden; border:1px solid #1c2b24; border-radius:1rem;
+    padding:1.5rem 1rem; text-align:center; background:#0e1512; transition:all .35s ease;
+  }
+  .stat-card::before {
+    content:''; position:absolute; top:-40%; left:-40%; width:80%; height:80%;
+    background:radial-gradient(circle, rgba(52,211,153,.15), transparent 70%);
+    opacity:0; transition:opacity .4s ease;
+  }
+  .stat-card:hover::before { opacity:1; }
+  .stat-card:hover { transform:translateY(-4px); border-color:rgba(52,211,153,.4); }
+
+  /* ── Bento contact card ──────────────────────────── */
+  .contact-tile {
+    display:flex; flex-direction:column; gap:.6rem; padding:1.4rem;
+    border:1px solid #1c2b24; border-radius:1rem; background:#0e1512;
+    transition:all .35s cubic-bezier(.4,0,.2,1); position:relative; overflow:hidden;
+  }
+  .contact-tile:hover { border-color:#34d399; transform:translateY(-4px) scale(1.02); box-shadow:0 16px 40px -16px rgba(52,211,153,.4); }
+  .contact-tile .tile-icon {
+    width:2.6rem; height:2.6rem; border-radius:.7rem; display:flex; align-items:center; justify-content:center;
+    background:rgba(52,211,153,.1); border:1px solid rgba(52,211,153,.25); font-size:1.2rem; transition:all .3s;
+  }
+  .contact-tile:hover .tile-icon { background:#34d399; color:#0a0f0d; transform:scale(1.08) rotate(-6deg); }
+
+  /* ── Footer ──────────────────────────────────────── */
+  .footer-link { color:#6b7280; transition:color .3s, text-shadow .3s; }
+  .footer-link:hover { color:#34d399; text-shadow:0 0 12px rgba(52,211,153,.4); }
+  .footer-mail { transition:all .3s; }
+  .footer-mail:hover { text-shadow:0 0 14px rgba(52,211,153,.4); }
+
+  .footer-ver {
+    font-family:'JetBrains Mono',monospace; font-size:.75rem; color:#6b7280;
+    border:1px solid #1c2b24; padding:.35rem .7rem; border-radius:.5rem;
+    background:rgba(14,21,18,.6); transition:all .3s cubic-bezier(.4,0,.2,1);
+  }
+  .footer-ver:hover { border-color:#34d399; color:#34d399; transform:translateY(-2px); box-shadow:0 8px 20px -10px rgba(52,211,153,.4); }
+
+  /* ── Navbar polish ───────────────────────────────── */
+  #navbar .nav-link { transition:color .3s, text-shadow .3s; }
+  #navbar .nav-link:hover { text-shadow:0 0 12px rgba(52,211,153,.45); }
+
+  /* ── GitHub-ish repo pill ────────────────────────── */
+  .repo-link {
+    font-family:'JetBrains Mono',monospace; font-size:.72rem; color:#6ee7b7;
+    display:inline-flex; align-items:center; gap:.45rem;
+    border:1px solid rgba(52,211,153,.3); background:rgba(52,211,153,.06);
+    padding:.4rem .75rem; border-radius:.55rem; transition:all .3s cubic-bezier(.4,0,.2,1);
+    max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .repo-link:hover { background:#34d399; color:#0a0f0d; box-shadow:0 0 24px rgba(52,211,153,.45); transform:translateY(-2px); }
+
+  /* ── Reduced motion ──────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    html { scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body class="grid-bg antialiased">
+<div id="cursor-glow" aria-hidden="true"></div>
+<div id="progressBar"></div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-ink/80 border-b border-line transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="font-mono font-bold text-mint text-base lg:text-lg tracking-tight group flex items-center gap-1.5">
+      <span class="relative flex w-2 h-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-60"></span>
+        <span class="relative inline-flex rounded-full w-2 h-2 bg-mint"></span>
+      </span>
+      <span>agentic<span class="text-gray-500">@production</span></span>
+      <span class="cursor-blink text-mint">▊</span>
+    </a>
+    <div class="hidden lg:flex items-center gap-5 xl:gap-6 font-mono text-sm text-gray-400">
+      <a href="index.html" class="nav-link hover:text-mint transition"><span class="text-mint">00.</span> portfolio</a>
+      <a href="#pillars" class="nav-link hover:text-mint transition" data-spy="pillars"><span class="text-mint">01.</span> projects</a>
+      <a href="#syllabus" class="nav-link hover:text-mint transition" data-spy="syllabus"><span class="text-mint">02.</span> syllabus</a>
+      <a href="#models" class="nav-link hover:text-mint transition" data-spy="models"><span class="text-mint">03.</span> models</a>
+      <a href="#audience" class="nav-link hover:text-mint transition" data-spy="audience"><span class="text-mint">04.</span> audience</a>
+      <a href="#contact" class="nav-link hover:text-mint transition" data-spy="contact"><span class="text-mint">05.</span> contact</a>
+    </div>
+    <div class="hidden lg:flex items-center gap-3">
+      <a href="#contact" class="btn-primary btn-shine font-mono text-xs font-semibold px-4 py-2 rounded">enroll()</a>
+    </div>
+    <button id="menuBtn" class="lg:hidden text-mint text-2xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+
+  <!-- Mobile menu (slide-down) -->
+  <div id="mobileMenu" class="hidden lg:hidden border-t border-line bg-ink/95 backdrop-blur-md overflow-hidden">
+    <div class="flex flex-col px-6 py-4 gap-3 font-mono text-sm text-gray-300">
+      <a href="index.html" class="hover:text-mint py-1"><span class="text-mint">00.</span> portfolio</a>
+      <a href="#pillars" class="hover:text-mint py-1"><span class="text-mint">01.</span> projects</a>
+      <a href="#syllabus" class="hover:text-mint py-1"><span class="text-mint">02.</span> syllabus</a>
+      <a href="#models" class="hover:text-mint py-1"><span class="text-mint">03.</span> models</a>
+      <a href="#audience" class="hover:text-mint py-1"><span class="text-mint">04.</span> audience</a>
+      <a href="#contact" class="hover:text-mint py-1"><span class="text-mint">05.</span> contact</a>
+      <div class="border-t border-line my-2"></div>
+      <a href="#contact" class="btn-primary font-mono text-xs font-semibold px-4 py-2.5 rounded text-center mt-3">enroll()</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header id="top" class="min-h-screen flex items-center relative pt-16 overflow-hidden">
+  <div class="aurora"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 20%, rgba(52,211,153,.08), transparent)"></div>
+
+  <!-- Floating chips -->
+  <div class="float-chip hidden lg:block" style="top:22%; right:8%; --rot:0deg;">⌘ opencode</div>
+  <div class="float-chip hidden lg:block" style="top:40%; left:4%; --rot:0deg; animation-delay:-3s;">🦞 openclaw</div>
+  <div class="float-chip hidden lg:block" style="bottom:26%; right:14%; --rot:0deg; animation-delay:-6s;">🧠 hermes-agent</div>
+  <div class="float-chip hidden lg:block" style="bottom:20%; left:12%; --rot:0deg; animation-delay:-1.5s;">🖥️ openclaude</div>
+
+  <div class="max-w-6xl mx-auto px-6 w-full relative">
+    <p class="font-mono text-mint mb-5 reveal">$ ./agentic --production<span class="cursor-blink">▊</span></p>
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] reveal">
+      Agentic AI in <span class="text-mint glow">Production</span>.
+    </h1>
+    <h2 class="mt-4 text-2xl md:text-4xl font-bold text-gray-500 reveal">
+      One course. <span class="text-mint">Four open-source agentic projects.</span> A complete product — not an MVP.
+    </h2>
+    <p class="mt-6 max-w-2xl text-gray-400 text-lg leading-relaxed reveal-blur">
+      Learn to design, build and ship a <span class="text-mint font-medium">production-grade agentic software product</span>
+      your client actually wants — using <span class="text-mint font-medium">opencode</span>,
+      <span class="text-mint font-medium">openclaw-etheroi</span>, <span class="text-mint font-medium">hermes-agent-etheroi</span>
+      and <span class="text-mint font-medium">openclaude</span>. No throwaway demos, no "hello world" agents.
+      You leave with a real, deployable, monetizable product.
+    </p>
+    <div class="mt-10 flex flex-wrap gap-4 reveal">
+      <a href="#contact" class="btn-primary btn-shine font-mono text-sm font-semibold px-7 py-3.5 rounded">./start_course</a>
+      <a href="#syllabus" class="btn-ghost font-mono text-sm px-7 py-3.5 rounded text-gray-300">./read_syllabus</a>
+      <a href="#pillars" class="btn-ghost font-mono text-sm px-7 py-3.5 rounded text-gray-300">./view_projects</a>
+    </div>
+
+    <!-- Stat row -->
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl reveal-scale">
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">4</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">open-source projects</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">1</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">production product</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">0</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">MVPs. ever.</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-extrabold text-mint glow">$0</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">start — free model tiers</div>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-x-10 gap-y-4 font-mono text-xs text-gray-500 reveal">
+      <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-mint animate-pulse"></span> limited cohort · applying now</span>
+      <span>📍 San José, Costa Rica · remote worldwide</span>
+      <span>🤖 agents · mcp · production · multi-provider</span>
+    </div>
+  </div>
+
+  <a href="#promise" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-600 hover:text-mint transition-colors hidden md:flex flex-col items-center gap-1 font-mono text-[10px] uppercase tracking-widest" aria-label="Scroll to promise">
+    scroll
+    <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+  </a>
+</header>
+
+<!-- ══════════ MARQUEE ══════════ -->
+<div class="border-y border-line py-4 overflow-hidden bg-panel/50">
+  <div class="marquee font-mono text-sm text-gray-500 gap-10">
+    <div class="flex gap-10 shrink-0">
+      <span>opencode</span><span class="text-mint">✦</span><span>openclaw-etheroi</span><span class="text-mint">✦</span><span>hermes-agent-etheroi</span><span class="text-mint">✦</span><span>openclaude</span><span class="text-mint">✦</span><span>MCP</span><span class="text-mint">✦</span><span>Multi-Agent</span><span class="text-mint">✦</span><span>Production</span><span class="text-mint">✦</span><span>LLM Routing</span><span class="text-mint">✦</span><span>Cloudflare</span><span class="text-mint">✦</span><span>Self-Improving Agents</span><span class="text-mint">✦</span><span>20+ Channels</span><span class="text-mint">✦</span>
+    </div>
+    <div class="flex gap-10 shrink-0" aria-hidden="true">
+      <span>opencode</span><span class="text-mint">✦</span><span>openclaw-etheroi</span><span class="text-mint">✦</span><span>hermes-agent-etheroi</span><span class="text-mint">✦</span><span>openclaude</span><span class="text-mint">✦</span><span>MCP</span><span class="text-mint">✦</span><span>Multi-Agent</span><span class="text-mint">✦</span><span>Production</span><span class="text-mint">✦</span><span>LLM Routing</span><span class="text-mint">✦</span><span>Cloudflare</span><span class="text-mint">✦</span><span>Self-Improving Agents</span><span class="text-mint">✦</span><span>20+ Channels</span><span class="text-mint">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ THE PROMISE ══════════ -->
+<section id="promise" class="py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">01</span>
+      <span class="font-mono text-xs text-gray-500">~ the_promise</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-6 reveal">Everyone builds demos. <span class="text-mint glow">We build products.</span></h4>
+    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">
+      The market is flooded with tutorials that end at a chatbot that answers three questions.
+      This course exists because of a gap I kept hitting in 2026 while shipping real GenAI products
+      at <span class="text-mint font-medium">etheroi.com</span>: nobody teaches the <span class="text-mint font-medium">production path</span> —
+      how to take four powerful open-source agentic projects and turn them into a complete, client-ready,
+      deployable software product with users, billing, observability and a real business model.
+    </p>
+    <p class="text-gray-400 max-w-2xl leading-relaxed mt-4 reveal">
+      You bring the <span class="text-mint font-medium">product idea</span> (or pick one from the course catalog).
+      I bring the architecture, the codebase patterns and the deployment playbook.
+      Together we ship <span class="text-mint font-medium">a production app of an agentic software product the client wants</span> — not a proof of concept.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="card card-shine rounded-xl p-6 reveal-scale">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🎯</span>
+          <span class="card-tag">outcome</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">A deployable product, not a demo</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Auth, data, multi-agent orchestration, monitoring, billing — everything a real product needs, nothing a demo skips.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🧩</span>
+          <span class="card-tag">stack</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">Four real open-source projects</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">opencode, openclaw-etheroi, hermes-agent-etheroi and openclaude — maintained forks of battle-tested upstream tools, taught end-to-end.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">💰</span>
+          <span class="card-tag">cost</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">Start with $0 model costs</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">All LLMs run through API keys from providers with daily free tiers — build and ship before spending a cent on tokens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ THE 4 PROJECTS / PILLARS ══════════ -->
+<section id="pillars" class="py-28 bg-panel/40 border-y border-line">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">02</span>
+      <span class="font-mono text-xs text-gray-500">~ the_four_projects</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">The four open-source projects</h4>
+    <p class="text-gray-500 mb-14 max-w-xl reveal">
+      Four pillars. Each one contributes a critical capability to your production agentic stack.
+      Every project is open source, MIT-licensed at its core, and maintained by the instructor's account —
+      so you fork it, read it, and make it yours.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- opencode -->
+      <div class="card card-shine rounded-xl p-6 flex flex-col reveal-left">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">⌘</span>
+          <span class="card-tag">pillar 1 · coding agent</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">opencode</h5>
+        <p class="font-mono text-xs text-gray-500 mt-1 mb-3">The open-source AI coding agent — build &amp; plan agents, LSP, MCP, 20+ providers.</p>
+        <a href="https://github.com/developerjeremylive/opencode" target="_blank" rel="noopener" class="repo-link mb-4">github.com/developerjeremylive/opencode ↗</a>
+        <p class="text-sm text-gray-400 leading-relaxed flex-1">The terminal-native coding agent that builds your product's codebase. A client/server runtime (TypeScript, Bun, Hono, SolidJS) where a <span class="text-mint">build</span> agent with full tool access and a read-only <span class="text-mint">plan</span> agent work side by side.</p>
+        <div class="mt-4 space-y-2 text-sm text-gray-400">
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Generates and refactors your entire product codebase</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Built-in LSP support for real code intelligence</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>MCP integration + plugin &amp; custom subagent authoring</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Client/server design — drive it remotely</span></div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="chip">TypeScript</span><span class="chip">Bun</span><span class="chip">MCP</span><span class="chip">LSP</span><span class="chip">MIT</span>
+        </div>
+      </div>
+
+      <!-- openclaw-etheroi -->
+      <div class="card card-shine rounded-xl p-6 flex flex-col reveal-right" style="transition-delay:.06s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🦞</span>
+          <span class="card-tag">pillar 2 · assistant gateway</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">openclaw-etheroi</h5>
+        <p class="font-mono text-xs text-gray-500 mt-1 mb-3">Your own personal AI assistant — 20+ channels, voice, canvas, skills.</p>
+        <a href="https://github.com/developerjeremylive/openclaw-etheroi" target="_blank" rel="noopener" class="repo-link mb-4">github.com/developerjeremylive/openclaw-etheroi ↗</a>
+        <p class="text-sm text-gray-400 leading-relaxed flex-1">The channel-agnostic control plane for your product's assistant. A TypeScript/pnpm monorepo (Node ≥ 22) that runs one assistant across <span class="text-mint">WhatsApp, Telegram, Slack, Discord, iMessage, Signal</span> and more from a single gateway.</p>
+        <div class="mt-4 space-y-2 text-sm text-gray-400">
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Multi-channel delivery — meet users where they already chat</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Voice in/out + live Canvas rendering</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Skills system, cron scheduling, MCP server integration</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Deploy via npm/pnpm/bun, Docker or Nix</span></div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="chip">TypeScript</span><span class="chip">pnpm</span><span class="chip">20+ channels</span><span class="chip">voice</span><span class="chip">MIT</span>
+        </div>
+      </div>
+
+      <!-- hermes-agent-etheroi -->
+      <div class="card card-shine rounded-xl p-6 flex flex-col reveal-left" style="transition-delay:.1s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🧠</span>
+          <span class="card-tag">pillar 3 · self-improving agent</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">hermes-agent-etheroi</h5>
+        <p class="font-mono text-xs text-gray-500 mt-1 mb-3">The self-improving AI agent — a built-in learning loop.</p>
+        <a href="https://github.com/developerjeremylive/hermes-agent-etheroi" target="_blank" rel="noopener" class="repo-link mb-4">github.com/developerjeremylive/hermes-agent-etheroi ↗</a>
+        <p class="text-sm text-gray-400 leading-relaxed flex-1">The brain that <span class="text-mint">grows while it works</span>. A Python 3.11–3.13 agent runtime (uv, pydantic, httpx, fastapi) that creates skills from experience, persists memory across sessions, and delegates to subagents.</p>
+        <div class="mt-4 space-y-2 text-sm text-gray-400">
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Learning loop — turns every session into reusable skills</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Memory: FTS5 session search + LLM summarization</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>6 terminal backends: local, Docker, SSH, Modal, Daytona…</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Subagent delegation &amp; parallel execution</span></div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="chip">Python</span><span class="chip">uv</span><span class="chip">learning loop</span><span class="chip">memory</span><span class="chip">MIT</span>
+        </div>
+      </div>
+
+      <!-- openclaude -->
+      <div class="card card-shine rounded-xl p-6 flex flex-col reveal-right" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🖥️</span>
+          <span class="card-tag">pillar 4 · agent CLI router</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">openclaude</h5>
+        <p class="font-mono text-xs text-gray-500 mt-1 mb-3">Open-source coding-agent CLI for cloud &amp; local model providers.</p>
+        <a href="https://github.com/developerjeremylive/openclaude" target="_blank" rel="noopener" class="repo-link mb-4">github.com/developerjeremylive/openclaude ↗</a>
+        <p class="text-sm text-gray-400 leading-relaxed flex-1">The <span class="text-mint">model gateway</span> of your product. A TypeScript/Bun CLI that routes one workflow across 20+ backends — OpenAI-compatible, Gemini, GitHub Models, Ollama, Bedrock/Vertex — with a PageRank <span class="text-mint">Repo Map</span> for codebase intelligence.</p>
+        <div class="mt-4 space-y-2 text-sm text-gray-400">
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Provider profiles + smart auto-routing per agent</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Tool-driven workflows: bash, files, grep/glob, tasks, MCP, web</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Repo Map — auto-injected codebase context</span></div>
+          <div class="flex items-start gap-2"><span class="text-mint mt-0.5">▸</span><span>Headless gRPC server + background sessions</span></div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="chip">TypeScript</span><span class="chip">Bun</span><span class="chip">20+ providers</span><span class="chip">Repo Map</span><span class="chip">MIT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2026 etheroi narrative -->
+    <div class="mt-14 card rounded-xl p-6 md:p-8 reveal-scale border-mint/20">
+      <div class="flex flex-col md:flex-row md:items-center gap-6">
+        <span class="card-icon text-3xl shrink-0" style="width:4rem;height:4rem;">🚀</span>
+        <div class="flex-1">
+          <div class="font-mono text-xs text-mint mb-1">field-tested · 2026</div>
+          <h5 class="text-xl font-bold text-white">Proven in production on etheroi.com — all through 2026</h5>
+          <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+            This isn't theory. Throughout 2026 I've been building different GenAI applications on
+            <a href="https://etheroi.com" target="_blank" rel="noopener" class="text-mint hover:underline">etheroi.com</a>
+            using exactly these four open-source agentic projects — chat platforms, agent platforms, voice apps,
+            translators, fintech AI reporting and more, hosted on Cloudflare. The course is the distillation of
+            what actually worked in production: the architectures, the failure modes, the deployment patterns.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">chat.etheroi.com</span><span class="chip">agent.etheroi.com</span><span class="chip">mktvoz.etheroi.com</span><span class="chip">liveaitranslate.etheroi.com</span><span class="chip">Cloudflare</span>
+          </div>
+        </div>
+        <a href="https://etheroi.com" target="_blank" rel="noopener" class="btn-ghost font-mono text-sm px-6 py-3 rounded text-mint border-mint/40 shrink-0 text-center">explore etheroi ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FULL SYLLABUS ══════════ -->
+<section id="syllabus" class="py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">03</span>
+      <span class="font-mono text-xs text-gray-500">~ full_syllabus</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">The complete curriculum</h4>
+    <p class="text-gray-500 mb-14 max-w-xl reveal">Eight modules. One production product. Every topic below is taught hands-on — you build as you learn.</p>
+
+    <div class="term-window reveal">
+      <div class="term-bar">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+        <span class="term-title">jeremylive@live.com: ~/agentic_production_roadmap.log</span>
+      </div>
+      <div class="term-body space-y-5">
+        <div class="term-prompt"><span class="ps">$</span> cat agentic_production_roadmap.log</div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 0 · Foundations</span>
+            <span class="font-mono text-xs text-gray-600">agentic_101</span>
+          </div>
+          <h5 class="exp-role mt-3">Agentic AI fundamentals &amp; the production mindset</h5>
+          <p class="exp-desc">What an agent actually is (and isn't), tool calling, the agentic loop, and how multi-agent systems are structured in production. We define the difference between a demo and a product: users, state, observability, failure handling, security and cost control from day one.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">agentic loop</span><span class="chip">tool calling</span><span class="chip">multi-agent patterns</span><span class="chip">production mindset</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 1 · opencode</span>
+            <span class="font-mono text-xs text-gray-600">the_coding_agent</span>
+          </div>
+          <h5 class="exp-role mt-3">Build your product's codebase with a coding agent</h5>
+          <p class="exp-desc">Install, configure and master opencode: the build vs plan agent workflow, LSP-powered code intelligence, MCP tool integration, custom subagents, and the client/server architecture. You'll scaffold and iteratively build the full product codebase with the agent — learning to direct it like a senior engineer, not babysit it.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">opencode</span><span class="chip">build/plan agents</span><span class="chip">LSP</span><span class="chip">custom subagents</span><span class="chip">client/server</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 2 · openclaw-etheroi</span>
+            <span class="font-mono text-xs text-gray-600">the_assistant_gateway</span>
+          </div>
+          <h5 class="exp-role mt-3">Deploy your product's assistant on 20+ channels</h5>
+          <p class="exp-desc">Turn your agent into a product users can reach anywhere. Configure openclaw-etheroi's gateway, connect WhatsApp/Telegram/Slack/Discord, add voice in/out and Canvas rendering, build skills, schedule cron tasks and integrate MCP servers. You'll deploy a multi-channel assistant that persists state and answers on the channels your clients already use.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">openclaw</span><span class="chip">gateway</span><span class="chip">whatsapp/telegram/slack</span><span class="chip">voice</span><span class="chip">skills</span><span class="chip">cron</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 3 · hermes-agent-etheroi</span>
+            <span class="font-mono text-xs text-gray-600">the_learning_agent</span>
+          </div>
+          <h5 class="exp-role mt-3">Give your product a self-improving brain</h5>
+          <p class="exp-desc">Implement the learning loop: hermes-agent's skill creation from experience, memory persistence with FTS5 search and LLM summarization, subagent delegation and parallel execution, and choosing among 6 terminal backends. Your product will get measurably better the more your users use it.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">hermes-agent</span><span class="chip">learning loop</span><span class="chip">memory</span><span class="chip">subagents</span><span class="chip">parallel execution</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 4 · openclaude</span>
+            <span class="font-mono text-xs text-gray-600">the_model_router</span>
+          </div>
+          <h5 class="exp-role mt-3">Route models like a production infrastructure engineer</h5>
+          <p class="exp-desc">Master openclaude's provider profiles and auto-routing: OpenAI-compatible APIs, Gemini, GitHub Models, Ollama, Bedrock/Vertex — plus the Repo Map codebase intelligence, tool-driven workflows and the headless gRPC server. Learn to pick the cheapest capable model for every task and fail over when a provider drops.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">openclaude</span><span class="chip">provider routing</span><span class="chip">Repo Map</span><span class="chip">failover</span><span class="chip">gRPC</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 5 · System Design</span>
+            <span class="font-mono text-xs text-gray-600">production_architecture</span>
+          </div>
+          <h5 class="exp-role mt-3">Architect the complete agentic product</h5>
+          <p class="exp-desc">Requirements discovery for agentic products, defining the client's desired product, component design, data models, API contracts and how the four projects fit together into one system. We design for scale, security and cost — deciding what runs on Cloudflare (Workers/D1/R2/KV) vs Docker vs dedicated servers.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">architecture</span><span class="chip">data modeling</span><span class="chip">api contracts</span><span class="chip">cloudflare</span><span class="chip">cost design</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 6 · Production Hardening</span>
+            <span class="font-mono text-xs text-gray-600">making_it_real</span>
+          </div>
+          <h5 class="exp-role mt-3">Auth, security, observability &amp; reliability</h5>
+          <p class="exp-desc">Authentication and authorization for agent products, API key management, prompt-injection defense, rate limiting, structured logging, tracing, error budgets, retries with backoff, and data persistence (D1/SQLite/Postgres). The boring stuff that separates products from demos.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">auth</span><span class="chip">security</span><span class="chip">observability</span><span class="chip">rate limiting</span><span class="chip">retries</span><span class="chip">persistence</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 7 · Deployment &amp; Launch</span>
+            <span class="font-mono text-xs text-gray-600">ship_it</span>
+          </div>
+          <h5 class="exp-role mt-3">Deploy, monitor and monetize</h5>
+          <p class="exp-desc">End-to-end deployment: CI/CD, containerization, Cloudflare Workers + Pages + R2 + D1, environment management, secrets, monitoring dashboards and alerting. Then the business layer: usage tracking, billing integration, a landing page for the product, and a launch checklist.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">ci/cd</span><span class="chip">docker</span><span class="chip">cloudflare workers</span><span class="chip">monitoring</span><span class="chip">billing</span><span class="chip">launch</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal-left">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="exp-tag">Module 8 · Capstone</span>
+            <span class="font-mono text-xs text-gray-600">your_production_product</span>
+          </div>
+          <h5 class="exp-role mt-3">Build YOUR agentic product in production</h5>
+          <p class="exp-desc">The capstone: take the product you (or your client) want — an agentic software product — and ship it as a complete production app using all four projects. Weekly 1:1 reviews, architecture feedback, code reviews and a final demo day. You graduate with a deployed product, not a certificate.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">capstone</span><span class="chip">1:1 reviews</span><span class="chip">code review</span><span class="chip">demo day</span><span class="chip">deployed product</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MODELS / FREE TIERS ══════════ -->
+<section id="models" class="py-28 bg-panel/40 border-y border-line">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">04</span>
+      <span class="font-mono text-xs text-gray-500">~ models_and_free_tiers</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">LLMs with a free daily tier</h4>
+    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">
+      You don't need a big ML budget to ship an agentic product. All models in this course run through
+      <span class="text-mint font-medium">API keys from providers that include a daily free tier</span> —
+      so you build, test and even launch your first users without paying for tokens.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="card card-shine rounded-xl p-6 reveal-scale">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">⌘</span>
+          <span class="card-tag">provider</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">OpenCode models</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">The provider-agnostic stack behind opencode and openclaude — plug in free-tier models directly and route across providers from one key system.</p>
+        <div class="flex flex-wrap gap-2 mt-4"><span class="chip">api key</span><span class="chip">free tier</span><span class="chip">multi-provider</span></div>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">✨</span>
+          <span class="card-tag">provider</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">Google Gemini</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Gemini's free daily tier gives you generous quotas for text, vision and voice — ideal for production prototypes and lean startups shipping their first agentic product.</p>
+        <div class="flex flex-wrap gap-2 mt-4"><span class="chip">api key</span><span class="chip">daily free tier</span><span class="chip">text · vision · voice</span></div>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🔀</span>
+          <span class="card-tag">provider</span>
+        </div>
+        <h5 class="text-lg font-bold text-white">OpenRouter</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">One key, hundreds of models — including free models with daily limits. The ultimate routing layer: pick the best model for each task and switch without changing code.</p>
+        <div class="flex flex-wrap gap-2 mt-4"><span class="chip">api key</span><span class="chip">100+ models</span><span class="chip">free models</span></div>
+      </div>
+    </div>
+
+    <div class="mt-10 card rounded-xl p-6 reveal-scale">
+      <div class="flex items-start gap-4">
+        <span class="card-icon text-2xl">🧭</span>
+        <div>
+          <h5 class="font-bold text-white">How we use them</h5>
+          <p class="text-sm text-gray-400 mt-2 leading-relaxed">In every module you'll wire real API keys from these providers through openclaude's router and opencode's provider layer. You'll learn cost tracking, rate-limit handling, retries and model selection — the exact skills you need to keep a production product profitable.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="chip">api key setup</span><span class="chip">cost tracking</span><span class="chip">rate limits</span><span class="chip">retries</span><span class="chip">model selection</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHO IT'S FOR ══════════ -->
+<section id="audience" class="py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">05</span>
+      <span class="font-mono text-xs text-gray-500">~ who_its_for</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-6 reveal">Who it's for</h4>
+    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">If you can read code and you're serious about shipping agentic products, this course was built for you.</p>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="card card-shine rounded-xl p-6 reveal-scale">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">💼</span>
+          <span class="card-tag">developers</span>
+        </div>
+        <h5 class="font-bold text-white">Developers going agentic</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Engineers who want to add production agentic products to their skillset — and their portfolio. Bring your own product idea or take one from the catalog.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🚀</span>
+          <span class="card-tag">founders</span>
+        </div>
+        <h5 class="font-bold text-white">Founders &amp; indie hackers</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Launch a real agentic product with near-zero model costs and battle-tested open-source infrastructure. Skip the MVP graveyard — ship something people pay for.</p>
+      </div>
+      <div class="card card-shine rounded-xl p-6 reveal-scale" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-4">
+          <span class="card-icon text-2xl">🏗️</span>
+          <span class="card-tag">agencies</span>
+        </div>
+        <h5 class="font-bold text-white">Agencies &amp; consultancies</h5>
+        <p class="text-sm text-gray-400 mt-2 leading-relaxed">Deliver client projects that aren't demos. Learn the architecture and deployment patterns to quote, build and hand over production agentic products profitably.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 grid md:grid-cols-3 gap-4 reveal-scale">
+      <div class="stat-card">
+        <div class="text-2xl font-extrabold text-mint glow">8</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">modules · full syllabus</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-2xl font-extrabold text-mint glow">1:1</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">mentoring &amp; code reviews</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-2xl font-extrabold text-mint glow">100%</div>
+        <div class="text-xs font-mono text-gray-500 mt-1">production — zero MVPs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INVESTMENT ══════════ -->
+<section id="invest" class="py-28 bg-panel/40 border-y border-line relative overflow-hidden">
+  <div class="aurora"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 30%, rgba(52,211,153,.07), transparent)"></div>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">06</span>
+      <span class="font-mono text-xs text-gray-500">~ investment</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-6 reveal">Investment</h4>
+
+    <div class="grid md:grid-cols-2 gap-8 mt-10 items-start">
+      <!-- Primary pricing card -->
+      <div class="card card-shine rounded-xl p-8 reveal-left border-mint/30">
+        <div class="flex items-center justify-between mb-5">
+          <span class="card-icon text-3xl">⚡</span>
+          <span class="card-tag">the program</span>
+        </div>
+        <h5 class="text-xl font-bold text-white">Agentic AI in Production — Private Program</h5>
+        <p class="font-mono text-sm text-gray-500 mt-1">8 modules · 1:1 · production capstone</p>
+        <div class="mt-6 flex items-end gap-2">
+          <span class="text-5xl md:text-6xl font-extrabold text-mint glow">$3,500</span>
+          <span class="font-mono text-sm text-gray-500 mb-2">flat</span>
+        </div>
+        <div class="mt-6 space-y-3">
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>All 8 modules — the full production syllabus</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Weekly 1:1 mentoring &amp; architecture reviews</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>All 4 open-source projects, configured for your product</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Production capstone: your product, deployed &amp; launched</span>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-line pt-5">
+          <div class="font-mono text-xs text-gray-500 mb-2">payment terms</div>
+          <div class="flex flex-wrap gap-3 font-mono text-xs">
+            <span class="chip">50% to begin</span>
+            <span class="chip">50% at module 5</span>
+          </div>
+        </div>
+        <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-primary btn-shine font-mono text-sm font-semibold px-7 py-3.5 rounded inline-flex items-center justify-center mt-8 w-full">start the program ↗</a>
+      </div>
+
+      <!-- Team/agency card -->
+      <div class="card card-shine rounded-xl p-8 reveal-right">
+        <div class="flex items-center justify-between mb-5">
+          <span class="card-icon text-3xl">🛰️</span>
+          <span class="card-tag">optional</span>
+        </div>
+        <h5 class="text-xl font-bold text-white">Team Cohort / Agency Track</h5>
+        <p class="font-mono text-sm text-gray-500 mt-1">for teams shipping agentic products</p>
+        <div class="mt-6 flex items-end gap-2">
+          <span class="text-5xl md:text-6xl font-extrabold text-mint">custom</span>
+          <span class="font-mono text-sm text-gray-500 mb-2">/team</span>
+        </div>
+        <div class="mt-6 space-y-3">
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Up to 5 engineers, one shared product goal</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Architecture blueprint for your client's product</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Deployment &amp; launch support for the finished product</span>
+          </div>
+          <div class="flex items-start gap-3 text-sm text-gray-300">
+            <span class="text-mint mt-0.5">▸</span>
+            <span>Direct access between sessions</span>
+          </div>
+        </div>
+        <p class="mt-8 text-sm text-gray-500 leading-relaxed">Agencies and product teams shipping agentic software for clients get a tailored track with a shared architecture review and delivery support.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center reveal">
+      <p class="font-mono text-base md:text-lg text-mint glow">"Not an expense — infrastructure for your agentic product."</p>
+    </div>
+
+    <div class="mt-12 text-center reveal-scale">
+      <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-primary btn-shine font-mono text-base font-semibold px-10 py-4 rounded inline-flex items-center gap-2">book a 20-min call — bring your product idea ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CLOSING CTA / CONTACT ══════════ -->
+<section id="contact" class="py-32 relative overflow-hidden">
+  <div class="aurora"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 80%, rgba(52,211,153,.07), transparent)"></div>
+  <div class="max-w-5xl mx-auto px-6 text-center relative">
+    <div class="flex items-center justify-center gap-4 mb-4 reveal">
+      <span class="section-num">07</span>
+      <span class="font-mono text-xs text-gray-500">~ start</span>
+    </div>
+    <h4 class="text-4xl md:text-5xl font-extrabold text-white reveal">Let's ship your agentic product <span class="text-mint glow">in production</span>.</h4>
+    <p class="text-gray-400 mt-6 max-w-2xl mx-auto leading-relaxed reveal">Book a 20-minute call. Tell me the product you want to build — I'll tell you the architecture, the stack and the path to production. No pitch, just engineering.</p>
+
+    <div class="mt-12 flex flex-wrap justify-center gap-4 reveal">
+      <a href="https://www.linkedin.com/in/jeremy-live/" target="_blank" rel="noopener" class="btn-primary btn-shine font-mono text-sm font-semibold px-8 py-4 rounded">book_call --linkedin ↗</a>
+      <a href="mailto:jeremylive@live.com" class="btn-ghost font-mono text-sm px-8 py-4 rounded text-gray-300">email_me()</a>
+    </div>
+
+    <div class="mt-12 inline-flex items-center gap-2.5 font-mono text-xs text-gray-500 reveal">
+      <span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+      accepting new students · limited slots
+    </div>
+
+    <div class="mt-10 card rounded-xl p-6 max-w-2xl mx-auto text-left reveal-scale">
+      <div class="flex items-center gap-3">
+        <span class="card-icon text-2xl">🧑‍💻</span>
+        <div>
+          <div class="font-semibold text-white">Your instructor</div>
+          <div class="text-xs font-mono text-gray-500 mt-0.5">Jeremy Live · GenAI Senior Software Engineer</div>
+        </div>
+      </div>
+      <p class="text-sm text-gray-300 mt-4 leading-relaxed">
+        I'm a computer science engineer with 8+ years shipping software across health, finance, telecom and logistics —
+        and throughout <span class="text-mint font-medium">2026</span> I've been building different GenAI applications at
+        <a href="https://etheroi.com" target="_blank" rel="noopener" class="text-mint hover:underline">etheroi.com</a>
+        using these <span class="text-mint font-medium">four open-source agentic projects</span>.
+        Multi-agent systems, MCP-powered tooling, voice apps and edge-hosted AI on Cloudflare — all in production, all real.
+      </p>
+      <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+        No fluff, no toy projects. I take the same client-first, production-first rigor I use to ship software
+        and apply it to your product — so you graduate with something deployed, not something demonstrated.
+      </p>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <span class="chip">agents</span><span class="chip">MCP</span><span class="chip">production</span><span class="chip">cloudflare</span><span class="chip">etheroi.com</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="relative border-t border-line pt-14 pb-10 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 100%, rgba(52,211,153,.06), transparent)"></div>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="grid md:grid-cols-3 gap-10 md:gap-8">
+
+      <div>
+        <a href="index.html" class="font-mono font-bold text-mint text-base tracking-tight inline-flex items-center gap-1.5">
+          <span class="relative flex w-2 h-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-60"></span>
+            <span class="relative inline-flex rounded-full w-2 h-2 bg-mint"></span>
+          </span>
+          agentic<span class="text-gray-500">@production</span>
+        </a>
+        <p class="text-sm text-gray-500 mt-4 leading-relaxed max-w-xs">Agentic AI in Production — the four open-source projects course. Build complete agentic products, not MVPs. From San José, Costa Rica 🇨🇷</p>
+        <a href="mailto:jeremylive@live.com" class="footer-mail inline-flex items-center gap-2 mt-5 font-mono text-sm text-gray-400 hover:text-mint transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          jeremylive@live.com
+        </a>
+      </div>
+
+      <div class="md:justify-self-center">
+        <div class="font-mono text-[11px] uppercase tracking-widest text-gray-600 mb-5">$ ls ./sections</div>
+        <nav class="grid grid-cols-2 gap-x-8 gap-y-3 font-mono text-sm">
+          <a href="index.html" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">00.</span> portfolio</a>
+          <a href="#pillars" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">01.</span> projects</a>
+          <a href="#syllabus" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">02.</span> syllabus</a>
+          <a href="#models" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">03.</span> models</a>
+          <a href="#audience" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">04.</span> audience</a>
+          <a href="#contact" class="footer-link text-gray-500 hover:text-mint transition"><span class="text-mint">05.</span> contact</a>
+        </nav>
+      </div>
+
+      <div class="md:justify-self-end">
+        <div class="font-mono text-[11px] uppercase tracking-widest text-gray-600 mb-5">$ ls --projects</div>
+        <div class="flex flex-col items-start gap-2">
+          <a href="https://github.com/developerjeremylive/opencode" target="_blank" rel="noopener" class="footer-ver group" title="opencode">[opencode]</a>
+          <a href="https://github.com/developerjeremylive/openclaw-etheroi" target="_blank" rel="noopener" class="footer-ver group" title="openclaw-etheroi">[openclaw]</a>
+          <a href="https://github.com/developerjeremylive/hermes-agent-etheroi" target="_blank" rel="noopener" class="footer-ver group" title="hermes-agent-etheroi">[hermes-agent]</a>
+          <a href="https://github.com/developerjeremylive/openclaude" target="_blank" rel="noopener" class="footer-ver group" title="openclaude">[openclaude]</a>
+        </div>
+        <div class="mt-6 inline-flex items-center gap-2.5 font-mono text-xs text-gray-500">
+          <span class="w-2 h-2 rounded-full bg-mint animate-pulse"></span>
+          accepting new students
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-gray-600">
+      <span>© 2026 Jeremy José Live González — San José, Costa Rica</span>
+      <div class="flex items-center gap-4">
+        <span>build in <span class="text-mint">production</span>, not demos</span>
+        <span class="text-gray-700 hidden sm:inline">|</span>
+        <a href="mailto:jeremylive@live.com" class="hover:text-mint transition">jeremylive@live.com</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ BACK TO TOP ══════════ -->
+<button id="back-to-top" aria-label="Back to top">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
+</button>
+
+<script>
+  (function () {
+    'use strict';
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── Scroll reveal (directional) ───────────────── */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur');
+    const revealIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealIO.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealIO.observe(el));
+
+    /* ── Progress bar + navbar shrink + scrollspy ──── */
+    const navbar = document.getElementById('navbar');
+    const progressBar = document.getElementById('progressBar');
+    const backToTop = document.getElementById('back-to-top');
+    const spyLinks = Array.from(document.querySelectorAll('[data-spy]'));
+    const sections = spyLinks.map(l => document.getElementById(l.dataset.spy)).filter(Boolean);
+
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const h = document.documentElement;
+        const y = h.scrollTop || document.body.scrollTop;
+        const max = h.scrollHeight - h.clientHeight;
+        if (progressBar) progressBar.style.width = (max > 0 ? (y / max * 100) : 0) + '%';
+        if (backToTop) backToTop.classList.toggle('show', y > 600);
+        if (navbar) navbar.classList.toggle('shadow-lg', y > 40);
+        const navH = 110;
+        let current = sections[0];
+        if (max - y <= 2 && sections.length) {
+          current = sections[sections.length - 1];
+        } else {
+          sections.forEach(sec => {
+            if (sec && sec.getBoundingClientRect().top <= navH) current = sec;
+          });
+        }
+        spyLinks.forEach(l => l.classList.toggle('active', current && l.dataset.spy === current.id));
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+    /* ── Cursor glow ───────────────────────────────── */
+    const cursorGlow = document.getElementById('cursor-glow');
+    if (cursorGlow && window.matchMedia('(pointer: fine)').matches && !reduceMotion) {
+      let cx = innerWidth / 2, cy = innerHeight / 3, tx = cx, ty = cy;
+      document.addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; });
+      (function loop() {
+        cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+        cursorGlow.style.transform = 'translate(' + (cx - 210) + 'px,' + (cy - 210) + 'px)';
+        requestAnimationFrame(loop);
+      })();
+    } else if (cursorGlow) {
+      cursorGlow.style.display = 'none';
+    }
+
+    /* ── Mobile menu ───────────────────────────────── */
+    const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.textContent = open ? '✕' : '☰';
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.textContent = '☰';
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }));
+  })();
+</script>
+</body>
+</html>
