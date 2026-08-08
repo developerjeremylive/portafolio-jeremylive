@@ -822,66 +822,6 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ══════════ PROGRAMS (banner carousel) ══════════ -->
-<section id="programs" class="py-28 bg-panel/40 border-y border-line relative overflow-hidden">
-  <div class="aurora"></div>
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 50%, rgba(52,211,153,.07), transparent)"></div>
-  <div class="max-w-6xl mx-auto px-6 relative">
-    <div class="flex items-center gap-4 mb-4 reveal">
-      <span class="section-num">🗂️</span>
-      <span class="font-mono text-xs text-gray-500">~ programs</span>
-    </div>
-    <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">Three programs. <span class="text-mint glow">One path to production.</span></h4>
-    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">
-      Leadership, agentic AI and full game development — each one a system, not a talk.
-      Tap a banner to open the full program.
-    </p>
-
-    <div class="banner-carousel mt-12" data-banner="programs">
-      <div class="banner-track">
-        <div class="prog-banner" data-popup-open="popup-leadership" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open leadership program">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="prog-orb"><span class="ico-anim anim-bob" aria-hidden="true">🎓</span></span>
-              <span class="card-tag">leadership</span>
-            </div>
-            <h5 class="text-xl font-bold text-white mt-4 leading-snug">Leadership isn't a title. <span class="text-mint">It's a system.</span></h5>
-            <p class="text-sm text-gray-400 mt-3 leading-relaxed">A 6-week intensive that turns leadership into a measurable, repeatable playbook for founders &amp; small-team leaders.</p>
-          </div>
-          <span class="prog-go">open_program <span aria-hidden="true">↗</span></span>
-        </div>
-
-        <div class="prog-banner" data-popup-open="popup-agentic" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open agentic AI program">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="prog-orb"><span class="ico-anim anim-float" aria-hidden="true">🤖</span></span>
-              <span class="card-tag">agentic ai</span>
-            </div>
-            <h5 class="text-xl font-bold text-white mt-4 leading-snug">Agentic AI in <span class="text-mint">Production</span>.</h5>
-            <p class="text-sm text-gray-400 mt-3 leading-relaxed">Build a complete production agentic product with four open-source agentic projects. Free-tier LLMs.</p>
-          </div>
-          <span class="prog-go">open_program <span aria-hidden="true">↗</span></span>
-        </div>
-
-        <div class="prog-banner" data-popup-open="popup-game" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open game dev program">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="prog-orb"><span class="ico-anim anim-wiggle" aria-hidden="true">🎮</span></span>
-              <span class="card-tag">game dev</span>
-            </div>
-            <h5 class="text-xl font-bold text-white mt-4 leading-snug">Ship your video game with a <span class="text-mint">multi-agent</span> team.</h5>
-            <p class="text-sm text-gray-400 mt-3 leading-relaxed">Orchestrate multiple open-source AI agents to build &amp; ship a playable game — 14 sessions, free-tier LLMs.</p>
-          </div>
-          <span class="prog-go">open_program <span aria-hidden="true">↗</span></span>
-        </div>
-      </div>
-      <button class="banner-arrow prev" data-banner-prev="programs" aria-label="Previous program">‹</button>
-      <button class="banner-arrow next" data-banner-next="programs" aria-label="Next program">›</button>
-      <div class="banner-dots" data-banner-dots="programs"></div>
-    </div>
-  </div>
-</section>
-
 <!-- ══════════ PROGRAM POPUPS ══════════ -->
 <div id="popup-leadership" class="fullscreen-popup" role="dialog" aria-modal="true" aria-label="Leadership program">
   <div class="popup-backdrop" data-popup-close="popup-leadership"></div>
@@ -1469,7 +1409,7 @@ tailwind.config = {
 
     <div class="carousel-wrap" data-carousel="hf">
       <div class="carousel-track">
-      <a href="https://huggingface.co/spaces/developerjeremylive/Pi-Agent-Soyuz" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
+      <a href="https://huggingface.co/spaces/developerjeremylive/pi-agent-etheroi" target="_blank" rel="noopener" class="card card-shine rounded-xl p-6 reveal-scale tilt group">
         <div class="flex items-center justify-between mb-3 tilt-inner">
           <span class="card-icon text-2xl">🛰️</span>
           <span class="card-tag">zero-gpu</span>
@@ -1531,6 +1471,66 @@ tailwind.config = {
 
     <div class="mt-10 text-center reveal-scale">
       <a href="https://huggingface.co/developerjeremylive" target="_blank" rel="noopener" class="btn-ghost inline-block font-mono text-sm px-8 py-3.5 rounded text-mint border-mint/40">explore all 96 spaces 🤗 ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROGRAMS (banner carousel) ══════════ -->
+<section id="programs" class="py-28 bg-panel/40 border-y border-line relative overflow-hidden">
+  <div class="aurora"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 50%, rgba(52,211,153,.07), transparent)"></div>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="flex items-center gap-4 mb-4 reveal">
+      <span class="section-num">🗂️</span>
+      <span class="font-mono text-xs text-gray-500">~ programs</span>
+    </div>
+    <h4 class="text-3xl md:text-4xl font-bold text-white mb-4 reveal">Three programs. <span class="text-mint glow">One path to production.</span></h4>
+    <p class="text-gray-400 max-w-2xl leading-relaxed reveal">
+      Leadership, agentic AI and full game development — each one a system, not a talk.
+      Tap a banner to open the full program.
+    </p>
+
+    <div class="banner-carousel mt-12" data-banner="programs">
+      <div class="banner-track">
+        <div class="prog-banner" data-popup-open="popup-leadership" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open leadership program">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="prog-orb"><span class="ico-anim anim-bob" aria-hidden="true">🎓</span></span>
+              <span class="card-tag">leadership</span>
+            </div>
+            <h5 class="text-xl font-bold text-white mt-4 leading-snug">Leadership isn't a title. <span class="text-mint">It's a system.</span></h5>
+            <p class="text-sm text-gray-400 mt-3 leading-relaxed">A 6-week intensive that turns leadership into a measurable, repeatable playbook for founders &amp; small-team leaders.</p>
+          </div>
+          <span class="prog-go">open_program <span aria-hidden="true">↗</span></span>
+        </div>
+
+        <div class="prog-banner" data-popup-open="popup-agentic" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open agentic AI program">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="prog-orb"><span class="ico-anim anim-float" aria-hidden="true">🤖</span></span>
+              <span class="card-tag">agentic ai</span>
+            </div>
+            <h5 class="text-xl font-bold text-white mt-4 leading-snug">Agentic AI in <span class="text-mint">Production</span>.</h5>
+            <p class="text-sm text-gray-400 mt-3 leading-relaxed">Build a complete production agentic product with four open-source agentic projects. Free-tier LLMs.</p>
+          </div>
+          <span class="prog-go">open_program <span aria-hidden="true">↗</span></span>
+        </div>
+
+        <div class="prog-banner" data-popup-open="popup-game" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open game dev program">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="prog-orb"><span class="ico-anim anim-wiggle" aria-hidden="true">🎮</span></span>
+              <span class="card-tag">game dev</span>
+            </div>
+            <h5 class="text-xl font-bold text-white mt-4 leading-snug">Ship your video game with a <span class="text-mint">multi-agent</span> team.</h5>
+            <p class="text-sm text-gray-400 mt-3 leading-relaxed">Orchestrate multiple open-source AI agents to build &amp; ship a playable game — 14 sessions, free-tier LLMs.</p>
+          </div>
+          <span class="prog-go">open_program <span aria-hidden="true">↗</span></span>
+        </div>
+      </div>
+      <button class="banner-arrow prev" data-banner-prev="programs" aria-label="Previous program">‹</button>
+      <button class="banner-arrow next" data-banner-next="programs" aria-label="Next program">›</button>
+      <div class="banner-dots" data-banner-dots="programs"></div>
     </div>
   </div>
 </section>
